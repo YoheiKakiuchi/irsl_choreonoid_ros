@@ -1,0 +1,32 @@
+name: Dispatch
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    # runs-on: ubuntu-latest
+    steps:
+      - run: echo "🚩 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Dispatch
+        env:
+          GITHUB_TOKEN: ${{ secrets.IRSL_PAT_CLS }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.IRSL_PAT_CLS }}
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: 'IRSL-tut',
+              repo: 'irsl_docker_irsl_system',
+              ref: 'main',
+              workflow_id: 'build-irsl-system.yaml',
+              inputs: {
+                event_type: 'build_all',
+                source: 'irsl_choreonoid_ros',
+                hash: '${{ github.sha }}'
+              }
+            })
