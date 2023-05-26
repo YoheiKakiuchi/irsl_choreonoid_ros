@@ -1,0 +1,50 @@
+AssembleRobot:
+  joint_controller:
+    type: "position_controllers/JointTrajectoryController"
+    joints:
+      - LINK_1
+      - LINK_2
+      - LINK_3
+      - LINK_4
+    gains:
+      LINK_0:
+        p: 100
+        i: 10
+        d: 1
+      LINK_1:
+        p: 100
+        i: 10
+        d: 1
+      LINK_2:
+        p: 100
+        i: 10
+        d: 1
+      LINK_3:
+        p: 100
+        i: 10
+        d: 1
+  wheel_controller:
+    type: "position_controllers/JointTrajectoryController"
+    joints:
+    joints:
+      - LINK_0
+      - LINK_5
+      - LINK_6
+      - LINK_7
+    gains:
+      LINK_4:
+        p: 100
+        i: 10
+        d: 1
+      LINK_5:
+        p: 100
+        i: 10
+        d: 1
+      LINK_6:
+        p: 100
+        i: 10
+        d: 1
+      LINK_7:
+        p: 100
+        i: 10
+        d: 1
