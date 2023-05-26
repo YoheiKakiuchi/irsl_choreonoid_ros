@@ -1,4 +1,4 @@
-import argparse
+#!/usr/bin/env python3
 import numpy as np
 import os
 
@@ -20,7 +20,6 @@ class WheelController:
         self.present_wheel_angle = [0.0 for wheel in self.wheelconfig["wheels"]]
         self.send_length = 10
 
-        rospy.init_node("wheel_controller")
         self.publisher = rospy.Publisher('/{}/{}/command'.format(robotname, controllername), JointTrajectory, queue_size=1)
         rospy.Subscriber("/{}/cmd_vel".format(robotname), Twist , self.odom_callback)
         rospy.Subscriber("/{}/joint_states".format(robotname), JointState, self.joint_callback)
@@ -32,7 +31,6 @@ class WheelController:
                     self.present_wheel_angle[i] = data.position[j]
                     
     def odom_callback(self, data):
-        # print(data)
         w_list = []
         for wheel in self.wheelconfig["wheels"]:
             v = data.linear.x * np.dot([0,1], wheel["rot_axis"][0:2]) + data.linear.y * np.dot([-1,0], wheel["rot_axis"][0:2])
@@ -41,7 +39,6 @@ class WheelController:
             v -= norm_trans_xy*data.angular.z * np.dot(wheel["rot_axis"][0:2], trans_xy/norm_trans_xy)
             w = v/wheel["wheel_radius"]
             w_list.append(w)
-        # print(data.linear.x, data.linear.y, data.angular.z, w_list)
         pub_msg = JointTrajectory()
         for wheel in self.wheelconfig["wheels"]:
             pub_msg.joint_names.append(wheel["name"])
@@ -54,15 +51,8 @@ class WheelController:
         self.publisher.publish(pub_msg)     
 
 if __name__=='__main__':
-    parser = argparse.ArgumentParser(
-            prog='', # プログラム名
-            usage='', # プログラムの利用方法
-            add_help=True, # -h/–help オプションの追加
-            )
-    parser.add_argument('--wheelconfigfile', type=str, default="")
-
-    args = parser.parse_args()
-
-    wc = WheelController(args.wheelconfigfile)
+    rospy.init_node("wheel_controller")
+    wheelconfigfile = rospy.get_param('~wheelconfigfile')
+    wc = WheelController(wheelconfigfile)
 
     rospy.spin()
