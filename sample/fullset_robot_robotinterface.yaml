@@ -1,0 +1,31 @@
+robot_model:
+  name: fullset_robot
+  url: 'file:///userdir/irsl_choreonoid_ros/sample/fullset_robot.body'
+# package://<package_name>/
+# ros_param:///absolute
+# ros_param://~/
+# ros_param://in_namespace
+# file:///absolute
+# cnoid://share/
+# cnoid://binary/
+# cnoid://library/
+
+mobile_base:
+  type: geometry_msgs/Twist
+  topic: /fullset_robot/cmd_vel
+  baselink: Root
+
+joint_groups:
+  -
+    name: default
+    topic: /fullset_robot/joint_controller/command
+    # type: 'action' or 'command'
+    type: command
+    joint_names: ['JOINT0', 'JOINT1', 'JOINT2', 'JOINT3' ]
+
+devices:
+  -
+    topic: /fullset_robot/TOF_sensor0/value
+    type: std_msgs/Float64
+    name: TOF_sensor0
+    rate: 10
