@@ -17,7 +17,7 @@ items:
       children: 
         - 
           id: 2
-          name: "AssembleRobot"
+          name: "fullset_robot"
           plugin: Body
           class: BodyItem
           is_checked: true
@@ -62,7 +62,7 @@ items:
               plugin: ROS
               class: ROSControlItem
               data: 
-                name_space: AssembleRobot
+                name_space: fullset_robot
         - 
           id: 5
           name: "Floor"

@@ -350,4 +350,21 @@ parts-info:
 robot-info: 
   initial-coords: 
     translation: [ 0.000000000000, 0.000000000000, 0.000000000000 ]
-  name: AssembleRobot
+  name: fullset_robot
+actuator-info:
+  XL-430_213_19/horn:
+    name: JOINT0
+  XL-430_213_21/horn:
+    name: JOINT1
+  XL-430_213_24/horn:
+    name: JOINT2
+  XL-430_213_27/horn:
+    name: JOINT3
+  XL-430_213_5/horn:
+    name: WHEEL3
+  XL-430_213_6/horn:
+    name: WHEEL0
+  XL-430_213_7/horn:
+    name: WHEEL2
+  XL-430_213_8/horn:
+    name: WHEEL1

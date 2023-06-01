@@ -1,21 +1,30 @@
 <launch>
+  <!-- choreonoid -->
   <arg name="project_file" default="/userdir/fullset_robot.cnoid"/>
+  <arg name="robot_name" default="fullset_robot"/>
+  <!-- ros_control -->
   <arg name="model" default="/userdir/fullset_robot.urdf"/>
   <arg name="control_config" default="/userdir/fullset_robot_roscontrol.yaml"/>
-  <arg name="robot_name" default="AssembleRobot"/>
   <arg name="controllers" default="joint_controller wheel_controller" />
+  <!-- wheel -->
   <arg name="wheelconfigfile" default="/userdir/fullset_robot_wheel.yaml"/>
 
   <include file="$(find irsl_choreonoid_ros)/launch/sim_robot.launch">
     <arg name="project_file" value="$(arg project_file)" />
+    <arg name="robot_name" default="$(arg robot_name)"/>
     <arg name="model" value="$(arg model)" />
     <arg name="control_config" value="$(arg control_config)" />
     <arg name="controllers" value="$(arg controllers)" />
   </include>
-  <node name="tof_converter_node" pkg="irsl_choreonoid_ros" type="tof_converter_node.py" output="screen">
-  </node>
-  <node name="wheelcontroller_node" pkg="irsl_choreonoid_ros" type="wheelcontroller.py" output="screen">
-    <param name="wheelconfigfile" value="$(arg wheelconfigfile)" />
-  </node>
 
+  <group ns="$(arg robot_name)" >
+    <node name="tof_converter_node" pkg="irsl_choreonoid_ros" type="tof_converter_node.py" output="screen">
+      <remap from="input_points" to="TOF_Sensor0/point_cloud"/>
+      <remap from="output_sensor_data" to="TOF_Sensor0/value"/>
+    </node>
+
+    <node name="wheelcontroller_node" pkg="irsl_choreonoid_ros" type="wheelcontroller.py" output="screen">
+      <param name="wheelconfigfile" value="$(arg wheelconfigfile)" />
+    </node>
+  </group>
 </launch>
