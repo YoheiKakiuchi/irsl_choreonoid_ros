@@ -1,50 +1,52 @@
-fullset_robot: ## TODO remove namespace
-  joint_controller:
-    type: "position_controllers/JointTrajectoryController"
-    joints:
-      - JOINT0
-      - JOINT1
-      - JOINT2
-      - JOINT3
-    gains:
-      JOINT0:
-        p: 100
-        i: 10
-        d: 1
-      JOINT1:
-        p: 100
-        i: 10
-        d: 1
-      JOINT2:
-        p: 100
-        i: 10
-        d: 1
-      JOINT3:
-        p: 100
-        i: 10
-        d: 1
-  wheel_controller:
-    type: "position_controllers/JointTrajectoryController"
-    joints:
-    joints:
-      - WHEEL0
-      - WHEEL1
-      - WHEEL2
-      - WHEEL3
-    gains:
-      WHEEL0:
-        p: 100
-        i: 10
-        d: 1
-      WHEEL1:
-        p: 100
-        i: 10
-        d: 1
-      WHEEL2:
-        p: 100
-        i: 10
-        d: 1
-      WHEEL3:
-        p: 100
-        i: 10
-        d: 1
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+joint_controller:
+  type: "position_controllers/JointTrajectoryController"
+  joints:
+    - JOINT0
+    - JOINT1
+    - JOINT2
+    - JOINT3
+  gains:
+    JOINT0:
+      p: 100
+      i: 10
+      d: 1
+    JOINT1:
+      p: 100
+      i: 10
+      d: 1
+    JOINT2:
+      p: 100
+      i: 10
+      d: 1
+    JOINT3:
+      p: 100
+      i: 10
+      d: 1
+wheel_controller:
+  type: "position_controllers/JointTrajectoryController"
+  joints:
+  joints:
+    - WHEEL0
+    - WHEEL1
+    - WHEEL2
+    - WHEEL3
+  gains:
+    WHEEL0:
+      p: 100
+      i: 10
+      d: 1
+    WHEEL1:
+      p: 100
+      i: 10
+      d: 1
+    WHEEL2:
+      p: 100
+      i: 10
+      d: 1
+    WHEEL3:
+      p: 100
+      i: 10
+      d: 1

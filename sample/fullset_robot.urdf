@@ -48,123 +48,144 @@
       <inertia ixx="1.785610000000e-05" ixy="5.720000000000e-19" ixz="1.173000000000e-18" iyy="1.785610000000e-05" iyz="-1.392000000000e-19" izz="3.565130000000e-05"/>
     </inertial>
   </link>
-  <link name="FR12_S102_P_213_4" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_4_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_4_col.stl"/></geometry></collision>
+  <link name="block_1_3_213_29" >
+    <visual><origin xyz="0.000000000000e+00 -8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
+</visual>
+    <collision><origin xyz="0.000000000000e+00 -8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
+</collision>
+    <inertial>
+      <mass value="2.377730000000e-03"/>
+      <origin xyz="-3.469450000000e-18 -8.000000000000e-03 4.800000000000e-03"/>
+      <inertia ixx="1.323920000000e-07" ixy="0.000000000000e+00" ixz="0.000000000000e+00" iyy="3.094220000000e-08" iyz="0.000000000000e+00" izz="1.268120000000e-07"/>
+    </inertial>
+  </link>
+  <joint name="block_1_3_213_29" type="fixed">
+    <parent link="Root"/>
+    <child link="block_1_3_213_29"/>
+    <origin xyz="-4.800000000000e-02 8.000000000000e-03 3.200000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
+  </joint>
+  <link name="block_1_3_213_30" >
+    <visual><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
+</visual>
+    <collision><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
+</collision>
+    <inertial>
+      <mass value="2.377730000000e-03"/>
+      <origin xyz="-3.469450000000e-18 8.000000000000e-03 4.800000000000e-03"/>
+      <inertia ixx="1.323920000000e-07" ixy="0.000000000000e+00" ixz="0.000000000000e+00" iyy="3.094220000000e-08" iyz="0.000000000000e+00" izz="1.268120000000e-07"/>
+    </inertial>
+  </link>
+  <joint name="block_1_3_213_30" type="fixed">
+    <parent link="block_1_3_213_29"/>
+    <child link="block_1_3_213_30"/>
+    <origin xyz="0.000000000000e+00 -1.600000000000e-02 9.600000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
+  </joint>
+  <link name="block_1_3_213_31" >
+    <visual><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
+</visual>
+    <collision><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
+</collision>
+    <inertial>
+      <mass value="2.377730000000e-03"/>
+      <origin xyz="-3.469450000000e-18 8.000000000000e-03 4.800000000000e-03"/>
+      <inertia ixx="1.323920000000e-07" ixy="0.000000000000e+00" ixz="0.000000000000e+00" iyy="3.094220000000e-08" iyz="0.000000000000e+00" izz="1.268120000000e-07"/>
+    </inertial>
+  </link>
+  <joint name="block_1_3_213_31" type="fixed">
+    <parent link="block_1_3_213_30"/>
+    <child link="block_1_3_213_31"/>
+    <origin xyz="0.000000000000e+00 0.000000000000e+00 9.600000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
+  </joint>
+  <link name="block_1_3_213_32" >
+    <visual><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
+</visual>
+    <collision><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
+</collision>
+    <inertial>
+      <mass value="2.377730000000e-03"/>
+      <origin xyz="-3.469450000000e-18 8.000000000000e-03 4.800000000000e-03"/>
+      <inertia ixx="1.323920000000e-07" ixy="0.000000000000e+00" ixz="0.000000000000e+00" iyy="3.094220000000e-08" iyz="0.000000000000e+00" izz="1.268120000000e-07"/>
+    </inertial>
+  </link>
+  <joint name="block_1_3_213_32" type="fixed">
+    <parent link="block_1_3_213_31"/>
+    <child link="block_1_3_213_32"/>
+    <origin xyz="0.000000000000e+00 0.000000000000e+00 9.600000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
+  </joint>
+  <link name="block_1_3_213_33" >
+    <visual><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
+</visual>
+    <collision><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
+</collision>
+    <inertial>
+      <mass value="2.377730000000e-03"/>
+      <origin xyz="-3.469450000000e-18 8.000000000000e-03 4.800000000000e-03"/>
+      <inertia ixx="1.323920000000e-07" ixy="0.000000000000e+00" ixz="0.000000000000e+00" iyy="3.094220000000e-08" iyz="0.000000000000e+00" izz="1.268120000000e-07"/>
+    </inertial>
+  </link>
+  <joint name="block_1_3_213_33" type="fixed">
+    <parent link="block_1_3_213_32"/>
+    <child link="block_1_3_213_33"/>
+    <origin xyz="0.000000000000e+00 0.000000000000e+00 9.600000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
+  </joint>
+  <link name="FR12_S102_P_213_1" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_1_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_1_col.stl"/></geometry></collision>
     <inertial>
       <mass value="9.852000000000e-03"/>
-      <origin xyz="1.200000000000e-02 8.000000000000e-03 -4.616000000000e-03"/>
+      <origin xyz="-1.200000000000e-02 -8.000000000000e-03 -4.616000000000e-03"/>
       <inertia ixx="6.999420000000e-07" ixy="0.000000000000e+00" ixz="6.952000000000e-19" iyy="1.667410000000e-06" iyz="0.000000000000e+00" izz="2.086850000000e-06"/>
     </inertial>
   </link>
-  <joint name="FR12_S102_P_213_4" type="fixed">
+  <joint name="FR12_S102_P_213_1" type="fixed">
     <parent link="Root"/>
-    <child link="FR12_S102_P_213_4"/>
-    <origin xyz="8.000000000000e-03 -4.800000000000e-02 0.000000000000e+00" rpy="0.000000000000e+00 -0.000000000000e+00 1.570796326795e+00"/>
+    <child link="FR12_S102_P_213_1"/>
+    <origin xyz="4.800000000000e-02 8.000000000000e-03 0.000000000000e+00" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
   </joint>
-  <link name="XL-430_213_5" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_5_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_5_col.stl"/></geometry></collision>
+  <link name="XL-430_213_6" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_6_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_6_col.stl"/></geometry></collision>
     <inertial>
       <mass value="5.700000000000e-02"/>
       <origin xyz="1.661280000000e-02 -1.141970000000e-02 -1.547430000000e-02"/>
       <inertia ixx="8.252850000000e-06" ixy="1.751460000000e-07" ixz="-8.492440000000e-07" iyy="1.549380000000e-05" iyz="4.811160000000e-08" izz="1.374130000000e-05"/>
     </inertial>
   </link>
-  <joint name="XL-430_213_5" type="fixed">
-    <parent link="FR12_S102_P_213_4"/>
-    <child link="XL-430_213_5"/>
-    <origin xyz="-5.000000000000e-03 -3.000000000000e-03 -1.320000000000e-02" rpy="3.141592653585e+00 1.570776527811e+00 -4.373696624297e-12"/>
+  <joint name="XL-430_213_6" type="fixed">
+    <parent link="FR12_S102_P_213_1"/>
+    <child link="XL-430_213_6"/>
+    <origin xyz="5.000000000000e-03 3.000000000000e-03 -1.320000000000e-02" rpy="-0.000000000000e+00 1.570796326795e+00 0.000000000000e+00"/>
   </joint>
-  <link name="WHEEL3" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL3_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL3_col.stl"/></geometry></collision>
+  <link name="WHEEL0" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL0_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL0_col.stl"/></geometry></collision>
     <inertial>
       <mass value="5.733000000000e-03"/>
       <origin xyz="-1.800000000000e-05 1.700000000000e-05 1.291500000000e-02"/>
       <inertia ixx="5.924300000000e-07" ixy="4.360000000000e-10" ixz="6.570000000000e-10" iyy="5.924600000000e-07" iyz="-6.350000000000e-10" izz="1.839640000000e-07"/>
     </inertial>
   </link>
-  <joint name="WHEEL3" type="revolute">
-    <parent link="XL-430_213_5"/>
-    <child link="WHEEL3"/>
-    <origin xyz="3.200000000000e-02 -1.100000000000e-02 2.000000000000e-03" rpy="7.121209275474e-16 1.570090000000e-16 -1.570796326795e+00"/>
+  <joint name="WHEEL0" type="continuous">
+    <parent link="XL-430_213_6"/>
+    <child link="WHEEL0"/>
+    <origin xyz="3.200000000000e-02 -1.100000000000e-02 2.000000000000e-03" rpy="-3.140180000000e-16 -2.465190328816e-32 1.570796326795e+00"/>
     <axis xyz="0.000000000000e+00 0.000000000000e+00 1.000000000000e+00"/>
-    <limit lower="-3.141592653590e+00" upper="3.141592653590e+00" velocity="1.797693134862e+308" effort="1.797693134862e+308"/>
+    <limit lower="-1.797693134862e+308" upper="1.797693134862e+308" velocity="1.797693134862e+308" effort="1.797693134862e+308"/>
   </joint>
-  <xacro:gazebo_transmission joint_name="WHEEL3"/>
-  <link name="omni-wheel_213_17" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_17_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_17_col.stl"/></geometry></collision>
+  <xacro:gazebo_transmission joint_name="WHEEL0"/>
+  <link name="omni-wheel_213_14" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_14_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_14_col.stl"/></geometry></collision>
     <inertial>
       <mass value="5.479700000000e-02"/>
-      <origin xyz="2.725000000000e-12 1.387780000000e-17 -1.255000000000e-02"/>
+      <origin xyz="2.725000000000e-12 -6.938890000000e-18 -1.255000000000e-02"/>
       <inertia ixx="1.126680000000e-05" ixy="0.000000000000e+00" ixz="-1.582000000000e-18" iyy="1.126680000000e-05" iyz="0.000000000000e+00" izz="1.680300000000e-05"/>
     </inertial>
   </link>
-  <joint name="omni-wheel_213_17" type="fixed">
-    <parent link="WHEEL3"/>
-    <child link="omni-wheel_213_17"/>
-    <origin xyz="4.532141979482e-33 1.525739272065e-17 3.000000000000e-02" rpy="5.551115123126e-16 -1.232595164408e-31 -7.395570986447e-32"/>
-  </joint>
-  <link name="FR12_S102_P_213_3" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_3_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_3_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="9.852000000000e-03"/>
-      <origin xyz="1.200000000000e-02 8.000000000000e-03 -4.616000000000e-03"/>
-      <inertia ixx="6.999420000000e-07" ixy="0.000000000000e+00" ixz="6.952000000000e-19" iyy="1.667410000000e-06" iyz="0.000000000000e+00" izz="2.086850000000e-06"/>
-    </inertial>
-  </link>
-  <joint name="FR12_S102_P_213_3" type="fixed">
-    <parent link="Root"/>
-    <child link="FR12_S102_P_213_3"/>
-    <origin xyz="-4.800000000000e-02 -8.000000000000e-03 0.000000000000e+00" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
-  </joint>
-  <link name="XL-430_213_8" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_8_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_8_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="5.700000000000e-02"/>
-      <origin xyz="1.661280000000e-02 -1.141970000000e-02 -1.547430000000e-02"/>
-      <inertia ixx="8.252850000000e-06" ixy="1.751460000000e-07" ixz="-8.492440000000e-07" iyy="1.549380000000e-05" iyz="4.811160000000e-08" izz="1.374130000000e-05"/>
-    </inertial>
-  </link>
-  <joint name="XL-430_213_8" type="fixed">
-    <parent link="FR12_S102_P_213_3"/>
-    <child link="XL-430_213_8"/>
-    <origin xyz="-5.000000000000e-03 -3.000000000000e-03 -1.320000000000e-02" rpy="3.141592653585e+00 1.570776527811e+00 -4.373696624297e-12"/>
-  </joint>
-  <link name="WHEEL1" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL1_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL1_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="5.733000000000e-03"/>
-      <origin xyz="-1.800000000000e-05 1.700000000000e-05 1.291500000000e-02"/>
-      <inertia ixx="5.924300000000e-07" ixy="4.360000000000e-10" ixz="6.570000000000e-10" iyy="5.924600000000e-07" iyz="-6.350000000000e-10" izz="1.839640000000e-07"/>
-    </inertial>
-  </link>
-  <joint name="WHEEL1" type="revolute">
-    <parent link="XL-430_213_8"/>
-    <child link="WHEEL1"/>
-    <origin xyz="3.200000000000e-02 -1.100000000000e-02 2.000000000000e-03" rpy="3.981020970777e-16 7.850510000000e-17 -1.570796326795e+00"/>
-    <axis xyz="0.000000000000e+00 0.000000000000e+00 1.000000000000e+00"/>
-    <limit lower="-3.141592653590e+00" upper="3.141592653590e+00" velocity="1.797693134862e+308" effort="1.797693134862e+308"/>
-  </joint>
-  <xacro:gazebo_transmission joint_name="WHEEL1"/>
-  <link name="omni-wheel_213_16" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_16_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_16_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="5.479700000000e-02"/>
-      <origin xyz="2.725000000000e-12 0.000000000000e+00 -1.255000000000e-02"/>
-      <inertia ixx="1.126680000000e-05" ixy="0.000000000000e+00" ixz="-1.582000000000e-18" iyy="1.126680000000e-05" iyz="0.000000000000e+00" izz="1.680300000000e-05"/>
-    </inertial>
-  </link>
-  <joint name="omni-wheel_213_16" type="fixed">
-    <parent link="WHEEL1"/>
-    <child link="omni-wheel_213_16"/>
-    <origin xyz="2.427408861540e-19 1.971479772646e-17 3.000000000000e-02" rpy="5.551115123126e-16 -5.392603844284e-32 -4.930380657631e-32"/>
+  <joint name="omni-wheel_213_14" type="fixed">
+    <parent link="WHEEL0"/>
+    <child link="omni-wheel_213_14"/>
+    <origin xyz="2.269661440030e-36 2.620277609093e-18 3.000000000000e-02" rpy="0.000000000000e+00 -3.007574964758e-32 0.000000000000e+00"/>
   </joint>
   <link name="block_1_3_213_39" >
     <visual><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
@@ -468,204 +489,6 @@
     <limit lower="-3.141592653590e+00" upper="3.141592653590e+00" velocity="1.797693134862e+308" effort="1.797693134862e+308"/>
   </joint>
   <xacro:gazebo_transmission joint_name="JOINT3"/>
-  <link name="FR12_S102_P_213_2" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_2_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_2_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="9.852000000000e-03"/>
-      <origin xyz="-1.200000000000e-02 -8.000000000000e-03 -4.616000000000e-03"/>
-      <inertia ixx="6.999420000000e-07" ixy="0.000000000000e+00" ixz="6.952000000000e-19" iyy="1.667410000000e-06" iyz="0.000000000000e+00" izz="2.086850000000e-06"/>
-    </inertial>
-  </link>
-  <joint name="FR12_S102_P_213_2" type="fixed">
-    <parent link="Root"/>
-    <child link="FR12_S102_P_213_2"/>
-    <origin xyz="-8.000000000000e-03 4.800000000000e-02 0.000000000000e+00" rpy="0.000000000000e+00 -0.000000000000e+00 1.570796326795e+00"/>
-  </joint>
-  <link name="XL-430_213_7" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_7_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_7_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="5.700000000000e-02"/>
-      <origin xyz="1.661280000000e-02 -1.141970000000e-02 -1.547430000000e-02"/>
-      <inertia ixx="8.252850000000e-06" ixy="1.751460000000e-07" ixz="-8.492440000000e-07" iyy="1.549380000000e-05" iyz="4.811160000000e-08" izz="1.374130000000e-05"/>
-    </inertial>
-  </link>
-  <joint name="XL-430_213_7" type="fixed">
-    <parent link="FR12_S102_P_213_2"/>
-    <child link="XL-430_213_7"/>
-    <origin xyz="5.000000000000e-03 3.000000000000e-03 -1.320000000000e-02" rpy="-0.000000000000e+00 1.570796326795e+00 0.000000000000e+00"/>
-  </joint>
-  <link name="WHEEL2" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL2_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL2_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="5.733000000000e-03"/>
-      <origin xyz="-1.800000000000e-05 1.700000000000e-05 1.291500000000e-02"/>
-      <inertia ixx="5.924300000000e-07" ixy="4.360000000000e-10" ixz="6.570000000000e-10" iyy="5.924600000000e-07" iyz="-6.350000000000e-10" izz="1.839640000000e-07"/>
-    </inertial>
-  </link>
-  <joint name="WHEEL2" type="revolute">
-    <parent link="XL-430_213_7"/>
-    <child link="WHEEL2"/>
-    <origin xyz="3.200000000000e-02 -1.100000000000e-02 2.000000000000e-03" rpy="-1.648597000000e-15 7.850500000000e-17 -1.570796326795e+00"/>
-    <axis xyz="0.000000000000e+00 0.000000000000e+00 1.000000000000e+00"/>
-    <limit lower="-3.141592653590e+00" upper="3.141592653590e+00" velocity="1.797693134862e+308" effort="1.797693134862e+308"/>
-  </joint>
-  <xacro:gazebo_transmission joint_name="WHEEL2"/>
-  <link name="omni-wheel_213_15" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_15_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_15_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="5.479700000000e-02"/>
-      <origin xyz="2.725000000000e-12 1.387780000000e-17 -1.255000000000e-02"/>
-      <inertia ixx="1.126680000000e-05" ixy="-2.524350000000e-41" ixz="-1.582000000000e-18" iyy="1.126680000000e-05" iyz="-1.996760000000e-47" izz="1.680300000000e-05"/>
-    </inertial>
-  </link>
-  <joint name="omni-wheel_213_15" type="fixed">
-    <parent link="WHEEL2"/>
-    <child link="omni-wheel_213_15"/>
-    <origin xyz="-2.763898138422e-33 7.890211429979e-18 3.000000000000e-02" rpy="-1.554311692010e-15 -8.194292652983e-29 5.047477198250e-29"/>
-  </joint>
-  <link name="FR12_S102_P_213_1" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_1_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_1_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="9.852000000000e-03"/>
-      <origin xyz="-1.200000000000e-02 -8.000000000000e-03 -4.616000000000e-03"/>
-      <inertia ixx="6.999420000000e-07" ixy="0.000000000000e+00" ixz="6.952000000000e-19" iyy="1.667410000000e-06" iyz="0.000000000000e+00" izz="2.086850000000e-06"/>
-    </inertial>
-  </link>
-  <joint name="FR12_S102_P_213_1" type="fixed">
-    <parent link="Root"/>
-    <child link="FR12_S102_P_213_1"/>
-    <origin xyz="4.800000000000e-02 8.000000000000e-03 0.000000000000e+00" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
-  </joint>
-  <link name="XL-430_213_6" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_6_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_6_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="5.700000000000e-02"/>
-      <origin xyz="1.661280000000e-02 -1.141970000000e-02 -1.547430000000e-02"/>
-      <inertia ixx="8.252850000000e-06" ixy="1.751460000000e-07" ixz="-8.492440000000e-07" iyy="1.549380000000e-05" iyz="4.811160000000e-08" izz="1.374130000000e-05"/>
-    </inertial>
-  </link>
-  <joint name="XL-430_213_6" type="fixed">
-    <parent link="FR12_S102_P_213_1"/>
-    <child link="XL-430_213_6"/>
-    <origin xyz="5.000000000000e-03 3.000000000000e-03 -1.320000000000e-02" rpy="-0.000000000000e+00 1.570796326795e+00 0.000000000000e+00"/>
-  </joint>
-  <link name="WHEEL0" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL0_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL0_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="5.733000000000e-03"/>
-      <origin xyz="-1.800000000000e-05 1.700000000000e-05 1.291500000000e-02"/>
-      <inertia ixx="5.924300000000e-07" ixy="4.360000000000e-10" ixz="6.570000000000e-10" iyy="5.924600000000e-07" iyz="-6.350000000000e-10" izz="1.839640000000e-07"/>
-    </inertial>
-  </link>
-  <joint name="WHEEL0" type="revolute">
-    <parent link="XL-430_213_6"/>
-    <child link="WHEEL0"/>
-    <origin xyz="3.200000000000e-02 -1.100000000000e-02 2.000000000000e-03" rpy="-3.140180000000e-16 -2.465190328816e-32 1.570796326795e+00"/>
-    <axis xyz="0.000000000000e+00 0.000000000000e+00 1.000000000000e+00"/>
-    <limit lower="-3.141592653590e+00" upper="3.141592653590e+00" velocity="1.797693134862e+308" effort="1.797693134862e+308"/>
-  </joint>
-  <xacro:gazebo_transmission joint_name="WHEEL0"/>
-  <link name="omni-wheel_213_14" >
-    <visual><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_14_vis.dae"/></geometry></visual>
-    <collision><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_14_col.stl"/></geometry></collision>
-    <inertial>
-      <mass value="5.479700000000e-02"/>
-      <origin xyz="2.725000000000e-12 -6.938890000000e-18 -1.255000000000e-02"/>
-      <inertia ixx="1.126680000000e-05" ixy="0.000000000000e+00" ixz="-1.582000000000e-18" iyy="1.126680000000e-05" iyz="0.000000000000e+00" izz="1.680300000000e-05"/>
-    </inertial>
-  </link>
-  <joint name="omni-wheel_213_14" type="fixed">
-    <parent link="WHEEL0"/>
-    <child link="omni-wheel_213_14"/>
-    <origin xyz="2.269661440030e-36 2.620277609093e-18 3.000000000000e-02" rpy="0.000000000000e+00 -3.007574964758e-32 0.000000000000e+00"/>
-  </joint>
-  <link name="block_1_3_213_29" >
-    <visual><origin xyz="0.000000000000e+00 -8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
-</visual>
-    <collision><origin xyz="0.000000000000e+00 -8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
-</collision>
-    <inertial>
-      <mass value="2.377730000000e-03"/>
-      <origin xyz="-3.469450000000e-18 -8.000000000000e-03 4.800000000000e-03"/>
-      <inertia ixx="1.323920000000e-07" ixy="0.000000000000e+00" ixz="0.000000000000e+00" iyy="3.094220000000e-08" iyz="0.000000000000e+00" izz="1.268120000000e-07"/>
-    </inertial>
-  </link>
-  <joint name="block_1_3_213_29" type="fixed">
-    <parent link="Root"/>
-    <child link="block_1_3_213_29"/>
-    <origin xyz="-4.800000000000e-02 8.000000000000e-03 3.200000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
-  </joint>
-  <link name="block_1_3_213_30" >
-    <visual><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
-</visual>
-    <collision><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
-</collision>
-    <inertial>
-      <mass value="2.377730000000e-03"/>
-      <origin xyz="-3.469450000000e-18 8.000000000000e-03 4.800000000000e-03"/>
-      <inertia ixx="1.323920000000e-07" ixy="0.000000000000e+00" ixz="0.000000000000e+00" iyy="3.094220000000e-08" iyz="0.000000000000e+00" izz="1.268120000000e-07"/>
-    </inertial>
-  </link>
-  <joint name="block_1_3_213_30" type="fixed">
-    <parent link="block_1_3_213_29"/>
-    <child link="block_1_3_213_30"/>
-    <origin xyz="0.000000000000e+00 -1.600000000000e-02 9.600000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
-  </joint>
-  <link name="block_1_3_213_31" >
-    <visual><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
-</visual>
-    <collision><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
-</collision>
-    <inertial>
-      <mass value="2.377730000000e-03"/>
-      <origin xyz="-3.469450000000e-18 8.000000000000e-03 4.800000000000e-03"/>
-      <inertia ixx="1.323920000000e-07" ixy="0.000000000000e+00" ixz="0.000000000000e+00" iyy="3.094220000000e-08" iyz="0.000000000000e+00" izz="1.268120000000e-07"/>
-    </inertial>
-  </link>
-  <joint name="block_1_3_213_31" type="fixed">
-    <parent link="block_1_3_213_30"/>
-    <child link="block_1_3_213_31"/>
-    <origin xyz="0.000000000000e+00 0.000000000000e+00 9.600000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
-  </joint>
-  <link name="block_1_3_213_32" >
-    <visual><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
-</visual>
-    <collision><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
-</collision>
-    <inertial>
-      <mass value="2.377730000000e-03"/>
-      <origin xyz="-3.469450000000e-18 8.000000000000e-03 4.800000000000e-03"/>
-      <inertia ixx="1.323920000000e-07" ixy="0.000000000000e+00" ixz="0.000000000000e+00" iyy="3.094220000000e-08" iyz="0.000000000000e+00" izz="1.268120000000e-07"/>
-    </inertial>
-  </link>
-  <joint name="block_1_3_213_32" type="fixed">
-    <parent link="block_1_3_213_31"/>
-    <child link="block_1_3_213_32"/>
-    <origin xyz="0.000000000000e+00 0.000000000000e+00 9.600000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
-  </joint>
-  <link name="block_1_3_213_33" >
-    <visual><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
-</visual>
-    <collision><origin xyz="0.000000000000e+00 8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
-</collision>
-    <inertial>
-      <mass value="2.377730000000e-03"/>
-      <origin xyz="-3.469450000000e-18 8.000000000000e-03 4.800000000000e-03"/>
-      <inertia ixx="1.323920000000e-07" ixy="0.000000000000e+00" ixz="0.000000000000e+00" iyy="3.094220000000e-08" iyz="0.000000000000e+00" izz="1.268120000000e-07"/>
-    </inertial>
-  </link>
-  <joint name="block_1_3_213_33" type="fixed">
-    <parent link="block_1_3_213_32"/>
-    <child link="block_1_3_213_33"/>
-    <origin xyz="0.000000000000e+00 0.000000000000e+00 9.600000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
-  </joint>
   <link name="block_1_3_213_34" >
     <visual><origin xyz="0.000000000000e+00 -8.000000000000e-03 4.800000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/><geometry><box size="8.000000000000e-03 2.400000000000e-02 9.600000000000e-03"/></geometry>
 </visual>
@@ -745,5 +568,182 @@
     <parent link="block_1_3_213_37"/>
     <child link="block_1_3_213_38"/>
     <origin xyz="0.000000000000e+00 0.000000000000e+00 9.600000000000e-03" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
+  </joint>
+  <link name="FR12_S102_P_213_3" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_3_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_3_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="9.852000000000e-03"/>
+      <origin xyz="1.200000000000e-02 8.000000000000e-03 -4.616000000000e-03"/>
+      <inertia ixx="6.999420000000e-07" ixy="0.000000000000e+00" ixz="6.952000000000e-19" iyy="1.667410000000e-06" iyz="0.000000000000e+00" izz="2.086850000000e-06"/>
+    </inertial>
+  </link>
+  <joint name="FR12_S102_P_213_3" type="fixed">
+    <parent link="Root"/>
+    <child link="FR12_S102_P_213_3"/>
+    <origin xyz="-4.800000000000e-02 -8.000000000000e-03 0.000000000000e+00" rpy="0.000000000000e+00 -0.000000000000e+00 0.000000000000e+00"/>
+  </joint>
+  <link name="XL-430_213_8" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_8_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_8_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="5.700000000000e-02"/>
+      <origin xyz="1.661280000000e-02 -1.141970000000e-02 -1.547430000000e-02"/>
+      <inertia ixx="8.252850000000e-06" ixy="1.751460000000e-07" ixz="-8.492440000000e-07" iyy="1.549380000000e-05" iyz="4.811160000000e-08" izz="1.374130000000e-05"/>
+    </inertial>
+  </link>
+  <joint name="XL-430_213_8" type="fixed">
+    <parent link="FR12_S102_P_213_3"/>
+    <child link="XL-430_213_8"/>
+    <origin xyz="-5.000000000000e-03 -3.000000000000e-03 -1.320000000000e-02" rpy="3.141592653585e+00 1.570776527811e+00 -4.373696624297e-12"/>
+  </joint>
+  <link name="WHEEL1" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL1_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL1_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="5.733000000000e-03"/>
+      <origin xyz="-1.800000000000e-05 1.700000000000e-05 1.291500000000e-02"/>
+      <inertia ixx="5.924300000000e-07" ixy="4.360000000000e-10" ixz="6.570000000000e-10" iyy="5.924600000000e-07" iyz="-6.350000000000e-10" izz="1.839640000000e-07"/>
+    </inertial>
+  </link>
+  <joint name="WHEEL1" type="continuous">
+    <parent link="XL-430_213_8"/>
+    <child link="WHEEL1"/>
+    <origin xyz="3.200000000000e-02 -1.100000000000e-02 2.000000000000e-03" rpy="3.981020970777e-16 7.850510000000e-17 -1.570796326795e+00"/>
+    <axis xyz="0.000000000000e+00 0.000000000000e+00 1.000000000000e+00"/>
+    <limit lower="-1.797693134862e+308" upper="1.797693134862e+308" velocity="1.797693134862e+308" effort="1.797693134862e+308"/>
+  </joint>
+  <xacro:gazebo_transmission joint_name="WHEEL1"/>
+  <link name="omni-wheel_213_16" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_16_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_16_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="5.479700000000e-02"/>
+      <origin xyz="2.725000000000e-12 0.000000000000e+00 -1.255000000000e-02"/>
+      <inertia ixx="1.126680000000e-05" ixy="0.000000000000e+00" ixz="-1.582000000000e-18" iyy="1.126680000000e-05" iyz="0.000000000000e+00" izz="1.680300000000e-05"/>
+    </inertial>
+  </link>
+  <joint name="omni-wheel_213_16" type="fixed">
+    <parent link="WHEEL1"/>
+    <child link="omni-wheel_213_16"/>
+    <origin xyz="2.427408861540e-19 1.971479772646e-17 3.000000000000e-02" rpy="5.551115123126e-16 -5.392603844284e-32 -4.930380657631e-32"/>
+  </joint>
+  <link name="FR12_S102_P_213_2" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_2_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_2_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="9.852000000000e-03"/>
+      <origin xyz="-1.200000000000e-02 -8.000000000000e-03 -4.616000000000e-03"/>
+      <inertia ixx="6.999420000000e-07" ixy="0.000000000000e+00" ixz="6.952000000000e-19" iyy="1.667410000000e-06" iyz="0.000000000000e+00" izz="2.086850000000e-06"/>
+    </inertial>
+  </link>
+  <joint name="FR12_S102_P_213_2" type="fixed">
+    <parent link="Root"/>
+    <child link="FR12_S102_P_213_2"/>
+    <origin xyz="-8.000000000000e-03 4.800000000000e-02 0.000000000000e+00" rpy="0.000000000000e+00 -0.000000000000e+00 1.570796326795e+00"/>
+  </joint>
+  <link name="XL-430_213_7" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_7_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_7_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="5.700000000000e-02"/>
+      <origin xyz="1.661280000000e-02 -1.141970000000e-02 -1.547430000000e-02"/>
+      <inertia ixx="8.252850000000e-06" ixy="1.751460000000e-07" ixz="-8.492440000000e-07" iyy="1.549380000000e-05" iyz="4.811160000000e-08" izz="1.374130000000e-05"/>
+    </inertial>
+  </link>
+  <joint name="XL-430_213_7" type="fixed">
+    <parent link="FR12_S102_P_213_2"/>
+    <child link="XL-430_213_7"/>
+    <origin xyz="5.000000000000e-03 3.000000000000e-03 -1.320000000000e-02" rpy="-0.000000000000e+00 1.570796326795e+00 0.000000000000e+00"/>
+  </joint>
+  <link name="WHEEL2" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL2_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL2_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="5.733000000000e-03"/>
+      <origin xyz="-1.800000000000e-05 1.700000000000e-05 1.291500000000e-02"/>
+      <inertia ixx="5.924300000000e-07" ixy="4.360000000000e-10" ixz="6.570000000000e-10" iyy="5.924600000000e-07" iyz="-6.350000000000e-10" izz="1.839640000000e-07"/>
+    </inertial>
+  </link>
+  <joint name="WHEEL2" type="continuous">
+    <parent link="XL-430_213_7"/>
+    <child link="WHEEL2"/>
+    <origin xyz="3.200000000000e-02 -1.100000000000e-02 2.000000000000e-03" rpy="-1.648597000000e-15 7.850500000000e-17 -1.570796326795e+00"/>
+    <axis xyz="0.000000000000e+00 0.000000000000e+00 1.000000000000e+00"/>
+    <limit lower="-1.797693134862e+308" upper="1.797693134862e+308" velocity="1.797693134862e+308" effort="1.797693134862e+308"/>
+  </joint>
+  <xacro:gazebo_transmission joint_name="WHEEL2"/>
+  <link name="omni-wheel_213_15" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_15_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_15_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="5.479700000000e-02"/>
+      <origin xyz="2.725000000000e-12 1.387780000000e-17 -1.255000000000e-02"/>
+      <inertia ixx="1.126680000000e-05" ixy="-2.524350000000e-41" ixz="-1.582000000000e-18" iyy="1.126680000000e-05" iyz="-1.996760000000e-47" izz="1.680300000000e-05"/>
+    </inertial>
+  </link>
+  <joint name="omni-wheel_213_15" type="fixed">
+    <parent link="WHEEL2"/>
+    <child link="omni-wheel_213_15"/>
+    <origin xyz="-2.763898138422e-33 7.890211429979e-18 3.000000000000e-02" rpy="-1.554311692010e-15 -8.194292652983e-29 5.047477198250e-29"/>
+  </joint>
+  <link name="FR12_S102_P_213_4" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_4_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_FR12_S102_P_213_4_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="9.852000000000e-03"/>
+      <origin xyz="1.200000000000e-02 8.000000000000e-03 -4.616000000000e-03"/>
+      <inertia ixx="6.999420000000e-07" ixy="0.000000000000e+00" ixz="6.952000000000e-19" iyy="1.667410000000e-06" iyz="0.000000000000e+00" izz="2.086850000000e-06"/>
+    </inertial>
+  </link>
+  <joint name="FR12_S102_P_213_4" type="fixed">
+    <parent link="Root"/>
+    <child link="FR12_S102_P_213_4"/>
+    <origin xyz="8.000000000000e-03 -4.800000000000e-02 0.000000000000e+00" rpy="0.000000000000e+00 -0.000000000000e+00 1.570796326795e+00"/>
+  </joint>
+  <link name="XL-430_213_5" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_5_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_XL-430_213_5_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="5.700000000000e-02"/>
+      <origin xyz="1.661280000000e-02 -1.141970000000e-02 -1.547430000000e-02"/>
+      <inertia ixx="8.252850000000e-06" ixy="1.751460000000e-07" ixz="-8.492440000000e-07" iyy="1.549380000000e-05" iyz="4.811160000000e-08" izz="1.374130000000e-05"/>
+    </inertial>
+  </link>
+  <joint name="XL-430_213_5" type="fixed">
+    <parent link="FR12_S102_P_213_4"/>
+    <child link="XL-430_213_5"/>
+    <origin xyz="-5.000000000000e-03 -3.000000000000e-03 -1.320000000000e-02" rpy="3.141592653585e+00 1.570776527811e+00 -4.373696624297e-12"/>
+  </joint>
+  <link name="WHEEL3" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL3_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_WHEEL3_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="5.733000000000e-03"/>
+      <origin xyz="-1.800000000000e-05 1.700000000000e-05 1.291500000000e-02"/>
+      <inertia ixx="5.924300000000e-07" ixy="4.360000000000e-10" ixz="6.570000000000e-10" iyy="5.924600000000e-07" iyz="-6.350000000000e-10" izz="1.839640000000e-07"/>
+    </inertial>
+  </link>
+  <joint name="WHEEL3" type="continuous">
+    <parent link="XL-430_213_5"/>
+    <child link="WHEEL3"/>
+    <origin xyz="3.200000000000e-02 -1.100000000000e-02 2.000000000000e-03" rpy="7.121209275474e-16 1.570090000000e-16 -1.570796326795e+00"/>
+    <axis xyz="0.000000000000e+00 0.000000000000e+00 1.000000000000e+00"/>
+    <limit lower="-1.797693134862e+308" upper="1.797693134862e+308" velocity="1.797693134862e+308" effort="1.797693134862e+308"/>
+  </joint>
+  <xacro:gazebo_transmission joint_name="WHEEL3"/>
+  <link name="omni-wheel_213_17" >
+    <visual><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_17_vis.dae"/></geometry></visual>
+    <collision><geometry><mesh filename="file:///tmp/fullset_robot_omni-wheel_213_17_col.stl"/></geometry></collision>
+    <inertial>
+      <mass value="5.479700000000e-02"/>
+      <origin xyz="2.725000000000e-12 1.387780000000e-17 -1.255000000000e-02"/>
+      <inertia ixx="1.126680000000e-05" ixy="0.000000000000e+00" ixz="-1.582000000000e-18" iyy="1.126680000000e-05" iyz="0.000000000000e+00" izz="1.680300000000e-05"/>
+    </inertial>
+  </link>
+  <joint name="omni-wheel_213_17" type="fixed">
+    <parent link="WHEEL3"/>
+    <child link="omni-wheel_213_17"/>
+    <origin xyz="4.532141979482e-33 1.525739272065e-17 3.000000000000e-02" rpy="5.551115123126e-16 -1.232595164408e-31 -7.395570986447e-32"/>
   </joint>
 </robot>

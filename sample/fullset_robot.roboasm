@@ -376,9 +376,13 @@ actuator-info:
     name: JOINT3
   XL-430_213_5/horn:
     name: WHEEL3
+    limit: [-inf, inf]
   XL-430_213_6/horn:
     name: WHEEL0
+    limit: [-inf, inf]
   XL-430_213_7/horn:
     name: WHEEL2
+    limit: [-inf, inf]
   XL-430_213_8/horn:
     name: WHEEL1
+    limit: [-inf, inf]
