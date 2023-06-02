@@ -1,7 +1,7 @@
 controller_name: wheel_controller
-robot_name: AssembleRobot
+robot_name: fullset_robot
 wheels:
-- name: LINK_6
+- name: WHEEL0
   rot_axis:
   - 1.0
   - 0.0
@@ -11,7 +11,7 @@ wheels:
   - 0.0
   - -0.0452
   wheel_radius: 0.024
-- name: LINK_0
+- name: WHEEL3
   rot_axis:
   - 0.0
   - -1.0
@@ -21,7 +21,7 @@ wheels:
   - -0.055
   - -0.0452
   wheel_radius: 0.024
-- name: LINK_7
+- name: WHEEL1
   rot_axis:
   - -1.0
   - 0.0
@@ -31,7 +31,7 @@ wheels:
   - 0.0
   - -0.0452
   wheel_radius: 0.024
-- name: LINK_5
+- name: WHEEL2
   rot_axis:
   - 0.0
   - 1.0

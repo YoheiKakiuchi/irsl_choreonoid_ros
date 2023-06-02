@@ -7,8 +7,8 @@ import numpy as np
 class TOFConverter:
     def __init__(self):
         rospy.init_node('tof_converter', anonymous=True)
-        rospy.Subscriber("/AssembleRobot/TOF_Sensor0/point_cloud", PointCloud2, self.callback)
-        self.pub = rospy.Publisher('/AssembleRobot/TOF_Sensor0/value', Float64, queue_size=1)
+        self.sub = rospy.Subscriber('input_points', PointCloud2, self.callback)
+        self.pub = rospy.Publisher('output_sensor_data', Float64, queue_size=1)
     def callback(self, data):
         width = data.width
         height = data.height

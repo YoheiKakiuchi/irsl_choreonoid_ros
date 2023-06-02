@@ -296,7 +296,8 @@ parts-info:
     color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
   XL-430_213_21: 
     color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
-  XL-430_213_24: 
+  XL-430_213_24:
+    name: JOINT2
     color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
   XL-430_213_27: 
     color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
@@ -338,7 +339,6 @@ parts-info:
     color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
   block_1_3_213_43: 
     color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
-    name: block_1_3_213_43
   omni-wheel_213_14: 
     color: [ 0.100000000000, 0.100000000000, 0.100000000000 ]
   omni-wheel_213_15: 
@@ -347,7 +347,42 @@ parts-info:
     color: [ 0.100000000000, 0.100000000000, 0.100000000000 ]
   omni-wheel_213_17: 
     color: [ 0.100000000000, 0.100000000000, 0.100000000000 ]
+  FR12_S102_213_20:
+    name: JOINT0
+  FR12_H101_P_213_22:
+    name: JOINT1
+  Moveable_Finger_213_28:
+    name: JOINT3
+  omni-shaft-x_213_12:
+    name: WHEEL0
+  omni-shaft-x_213_10:
+    name: WHEEL1
+  omni-shaft-x_213_9:
+    name: WHEEL2
+  omni-shaft-x_213_11:
+    name: WHEEL3
 robot-info: 
   initial-coords: 
     translation: [ 0.000000000000, 0.000000000000, 0.000000000000 ]
-  name: AssembleRobot
+  name: fullset_robot
+actuator-info:
+  XL-430_213_19/horn:
+    name: JOINT0
+  XL-430_213_21/horn:
+    name: JOINT1
+  XL-430_213_24/horn:
+    name: JOINT2
+  XL-430_213_27/horn:
+    name: JOINT3
+  XL-430_213_5/horn:
+    name: WHEEL3
+    limit: [-inf, inf]
+  XL-430_213_6/horn:
+    name: WHEEL0
+    limit: [-inf, inf]
+  XL-430_213_7/horn:
+    name: WHEEL2
+    limit: [-inf, inf]
+  XL-430_213_8/horn:
+    name: WHEEL1
+    limit: [-inf, inf]

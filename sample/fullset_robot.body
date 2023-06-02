@@ -1,7 +1,7 @@
 format: ChoreonoidBody
 format_version: 2.0
 angle_unit: degree
-name: "AssembleRobot"
+name: "fullset_robot"
 root_link: "Root"
 links: 
   - 
@@ -45,7 +45,7 @@ links:
                         type: Resource
                         name: vehicle-base-ps_213_0/collision/geom
                         uri: "meshes/vehicle_base_ps_mm.obj"
-    translation: [ 0, 0, 0.07 ]
+    translation: [ 0, 0.1101, 0 ]
     joint_name: Root
     joint_type: free
     mass: 0.022869
@@ -55,66 +55,360 @@ links:
       5.72e-19, 1.78561e-05, -1.392e-19, 
       1.173e-18, -1.392e-19, 3.56513e-05 ]
   - 
-    name: "FR12_S102_P_213_4"
+    name: "block_1_3_213_29"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: FR12_S102_P_213_4/visual
-            translation: [ 0.012, 0.008, -0.0242 ]
+            name: block_1_3_213_29/visual
+            translation: [ -0.004, -0.02, 0.0096 ]
             elements: 
               - 
                 type: Transform
-                name: FR12_S102_P_213_4/visual/geom_postrans
+                name: block_1_3_213_29/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_29/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_29/collision
+            translation: [ -0.004, -0.02, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_29/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_29/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: Root
+    translation: [ -0.048, 0.008, 0.0032 ]
+    joint_name: block_1_3_213_29
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, -0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_30"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_30/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_30/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_30/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_30/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_30/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_30/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_29
+    translation: [ 0, -0.016, 0.0096 ]
+    joint_name: block_1_3_213_30
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_31"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_31/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_31/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_31/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_31/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_31/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_31/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_30
+    translation: [ 0, 0, 0.0096 ]
+    joint_name: block_1_3_213_31
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_32"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_32/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_32/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_32/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_32/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_32/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_32/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_31
+    translation: [ 0, 0, 0.0096 ]
+    joint_name: block_1_3_213_32
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_33"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_33/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_33/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_33/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_33/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_33/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_33/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_32
+    translation: [ 0, 0, 0.0096 ]
+    joint_name: block_1_3_213_33
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "FR12_S102_P_213_1"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: FR12_S102_P_213_1/visual
+            translation: [ -0.012, -0.008, -0.0242 ]
+            elements: 
+              - 
+                type: Transform
+                name: FR12_S102_P_213_1/visual/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: FR12_S102_P_213_4/visual/geom
+                    name: FR12_S102_P_213_1/visual/geom
                     uri: "meshes_xseries/fr12_s102_p_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: FR12_S102_P_213_4/collision
-            translation: [ 0.012, 0.008, -0.0242 ]
+            name: FR12_S102_P_213_1/collision
+            translation: [ -0.012, -0.008, -0.0242 ]
             elements: 
               - 
                 type: Transform
-                name: FR12_S102_P_213_4/collision/geom_postrans
+                name: FR12_S102_P_213_1/collision/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: FR12_S102_P_213_4/collision/geom
+                    name: FR12_S102_P_213_1/collision/geom
                     uri: "meshes_xseries/fr12_s102_p_m.obj"
     parent: Root
-    translation: [ 0.008, -0.048, 0 ]
-    rotation: [ 0, 0, 1, 90 ]
-    joint_name: FR12_S102_P_213_4
+    translation: [ 0.048, 0.008, 0 ]
+    joint_name: FR12_S102_P_213_1
     joint_type: fixed
     mass: 0.009852
-    center_of_mass: [ 0.012, 0.008, -0.004616 ]
+    center_of_mass: [ -0.012, -0.008, -0.004616 ]
     inertia: [ 
       6.99942e-07, 0, 6.952e-19, 
       0, 1.66741e-06, 0, 
       6.952e-19, 0, 2.08685e-06 ]
   - 
-    name: "XL-430_213_5"
+    name: "XL-430_213_6"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: XL-430_213_5/visual
-            rotation: [ 1.57009245868e-16, 0, -1, 90 ]
+            name: XL-430_213_6/visual
+            rotation: [ 0, 0, -1, 90 ]
             translation: [ 0.032, -0.011, 0.002 ]
             elements: 
               - 
                 type: Transform
-                name: XL-430_213_5/visual/geom_postrans
+                name: XL-430_213_6/visual/geom_postrans
                 elements: 
                   - 
                     type: Transform
@@ -122,20 +416,20 @@ links:
                     elements: 
                       - 
                         type: Resource
-                        name: XL-430_213_5/visual/geom
+                        name: XL-430_213_6/visual/geom
                         uri: "meshes_xseries/XL-430_mm.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: XL-430_213_5/collision
-            rotation: [ 1.57009245868e-16, 0, -1, 90 ]
+            name: XL-430_213_6/collision
+            rotation: [ 0, 0, -1, 90 ]
             translation: [ 0.032, -0.011, 0.002 ]
             elements: 
               - 
                 type: Transform
-                name: XL-430_213_5/collision/geom_postrans
+                name: XL-430_213_6/collision/geom_postrans
                 elements: 
                   - 
                     type: Transform
@@ -143,12 +437,12 @@ links:
                     elements: 
                       - 
                         type: Resource
-                        name: XL-430_213_5/collision/geom
+                        name: XL-430_213_6/collision/geom
                         uri: "meshes_xseries/XL-430_mm.obj"
-    parent: FR12_S102_P_213_4
-    translation: [ -0.005, -0.003, -0.0132 ]
-    rotation: [ 0.707114, 0, -0.7071, 180 ]
-    joint_name: XL-430_213_5
+    parent: FR12_S102_P_213_1
+    translation: [ 0.005, 0.003, -0.0132 ]
+    rotation: [ 0, 1, 0, 90 ]
+    joint_name: XL-430_213_6
     joint_type: fixed
     mass: 0.057
     center_of_mass: [ 0.0166128, -0.0114197, -0.0154743 ]
@@ -157,46 +451,45 @@ links:
       1.75146e-07, 1.54938e-05, 4.81116e-08, 
       -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
   - 
-    name: "LINK_0"
+    name: "WHEEL0"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: omni-shaft-x_213_11/visual
+            name: omni-shaft-x_213_12/visual
             elements: 
               - 
                 type: Transform
-                name: omni-shaft-x_213_11/visual/geom_postrans
+                name: omni-shaft-x_213_12/visual/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-shaft-x_213_11/visual/geom
+                    name: omni-shaft-x_213_12/visual/geom
                     uri: "meshes_xseries/omni_wheel_shaft_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: omni-shaft-x_213_11/collision
+            name: omni-shaft-x_213_12/collision
             elements: 
               - 
                 type: Transform
-                name: omni-shaft-x_213_11/collision/geom_postrans
+                name: omni-shaft-x_213_12/collision/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-shaft-x_213_11/collision/geom
+                    name: omni-shaft-x_213_12/collision/geom
                     uri: "meshes_xseries/omni_wheel_shaft_m.obj"
-    parent: XL-430_213_5
+    parent: XL-430_213_6
     translation: [ 0.032, -0.011, 0.002 ]
-    rotation: [ 1.57009e-16, 0, -1, 90 ]
-    joint_name: LINK_0
+    rotation: [ -1.57009e-16, -1.57009e-16, 1, 90 ]
+    joint_name: WHEEL0
     joint_type: revolute
     joint_axis: [ 0, 0, 1 ]
     joint_id: 0
-    joint_range: [ -inf, inf ]
     mass: 0.005733
     center_of_mass: [ -1.8e-05, 1.7e-05, 0.012915 ]
     inertia: [ 
@@ -204,46 +497,46 @@ links:
       4.36e-10, 5.9246e-07, -6.35e-10, 
       6.57e-10, -6.35e-10, 1.83964e-07 ]
   - 
-    name: "omni-wheel_213_17"
+    name: "omni-wheel_213_14"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: omni-wheel_213_17/visual
-            translation: [ -1.57772181044e-30, 3.46944695195e-18, -0.0251 ]
+            name: omni-wheel_213_14/visual
+            translation: [ 0, -6.93889390391e-18, -0.0251 ]
             elements: 
               - 
                 type: Transform
-                name: omni-wheel_213_17/visual/geom_postrans
+                name: omni-wheel_213_14/visual/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-wheel_213_17/visual/geom
+                    name: omni-wheel_213_14/visual/geom
                     uri: "meshes/omni_wheel_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: omni-wheel_213_17/collision
-            translation: [ -1.57772181044e-30, 3.46944695195e-18, -0.0251 ]
+            name: omni-wheel_213_14/collision
+            translation: [ 0, -6.93889390391e-18, -0.0251 ]
             elements: 
               - 
                 type: Transform
-                name: omni-wheel_213_17/collision/geom_postrans
+                name: omni-wheel_213_14/collision/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-wheel_213_17/collision/geom
+                    name: omni-wheel_213_14/collision/geom
                     uri: "meshes/omni_wheel_m.obj"
-    parent: LINK_0
-    translation: [ 0, 3.46945e-18, 0.03 ]
-    joint_name: omni-wheel_213_17
+    parent: WHEEL0
+    translation: [ 0, 0, 0.03 ]
+    joint_name: omni-wheel_213_14
     joint_type: fixed
     mass: 0.054797
-    center_of_mass: [ 2.725e-12, 3.46945e-18, -0.01255 ]
+    center_of_mass: [ 2.725e-12, -6.93889e-18, -0.01255 ]
     inertia: [ 
       1.12668e-05, 0, -1.582e-18, 
       0, 1.12668e-05, 0, 
@@ -599,595 +892,6 @@ links:
       5.72e-19, 1.78561e-05, -1.392e-19, 
       1.173e-18, -1.392e-19, 3.56513e-05 ]
   - 
-    name: "Bottom_mounter_213_18"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: Bottom_mounter_213_18/visual
-            translation: [ 0, 0.012, 0.0032 ]
-            elements: 
-              - 
-                type: Transform
-                name: Bottom_mounter_213_18/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: Bottom_mounter_213_18/visual/geom
-                        uri: "meshes_xseries/bottom_mounter_mm.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: Bottom_mounter_213_18/collision
-            translation: [ 0, 0.012, 0.0032 ]
-            elements: 
-              - 
-                type: Transform
-                name: Bottom_mounter_213_18/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: Bottom_mounter_213_18/collision/geom
-                        uri: "meshes_xseries/bottom_mounter_mm.obj"
-    parent: vehicle-base-ps_213_44
-    translation: [ -0.008, -0.016, 0.0032 ]
-    joint_name: Bottom_mounter_213_18
-    joint_type: fixed
-    mass: 0.006134
-    center_of_mass: [ -4.021e-12, -3.46945e-18, 0.004519 ]
-    inertia: [ 
-      1.10351e-06, 1.972e-16, 9.333e-17, 
-      1.972e-16, 4.426e-07, -6.734e-17, 
-      9.333e-17, -6.734e-17, 1.51745e-06 ]
-  - 
-    name: "XL-430_213_19"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: XL-430_213_19/visual
-            rotation: [ -0, -1, -0, 180 ]
-            translation: [ 0.011, -0.008, -0.036 ]
-            elements: 
-              - 
-                type: Transform
-                name: XL-430_213_19/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: XL-430_213_19/visual/geom
-                        uri: "meshes_xseries/XL-430_mm.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: XL-430_213_19/collision
-            rotation: [ -0, -1, -0, 180 ]
-            translation: [ 0.011, -0.008, -0.036 ]
-            elements: 
-              - 
-                type: Transform
-                name: XL-430_213_19/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: XL-430_213_19/collision/geom
-                        uri: "meshes_xseries/XL-430_mm.obj"
-    parent: Bottom_mounter_213_18
-    translation: [ 0.011, 0.02, 0.0062 ]
-    rotation: [ 0, 1, 0, 180 ]
-    joint_name: XL-430_213_19
-    joint_type: fixed
-    mass: 0.057
-    center_of_mass: [ 0.0105803, -0.0233872, -0.0185257 ]
-    inertia: [ 
-      1.54938e-05, 1.75146e-07, -4.81116e-08, 
-      1.75146e-07, 8.25285e-06, 8.49244e-07, 
-      -4.81116e-08, 8.49244e-07, 1.37413e-05 ]
-  - 
-    name: "LINK_1"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: FR12_S102_213_20/visual
-            rotation: [ -1, -0, -0, 180 ]
-            translation: [ 0, 0, 0.021 ]
-            elements: 
-              - 
-                type: Transform
-                name: FR12_S102_213_20/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: FR12_S102_213_20/visual/geom
-                    uri: "meshes_xseries/fr12_s102_m.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: FR12_S102_213_20/collision
-            rotation: [ -1, -0, -0, 180 ]
-            translation: [ 0, 0, 0.021 ]
-            elements: 
-              - 
-                type: Transform
-                name: FR12_S102_213_20/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: FR12_S102_213_20/collision/geom
-                    uri: "meshes_xseries/fr12_s102_m.obj"
-    parent: XL-430_213_19
-    translation: [ 0.011, -0.008, -0.036 ]
-    rotation: [ -0, -1, -0, 180 ]
-    joint_name: LINK_1
-    joint_type: revolute
-    joint_axis: [ 0, 0, 1 ]
-    joint_id: 1
-    joint_range: [ -inf, inf ]
-    mass: 0.005695
-    center_of_mass: [ -6.586e-08, 2.1364e-18, 0.003555 ]
-    inertia: [ 
-      4.43252e-07, 2.374e-19, 2.90731e-35, 
-      2.374e-19, 1.26832e-06, -3.78129e-23, 
-      2.90731e-35, -3.78129e-23, 1.57709e-06 ]
-  - 
-    name: "XL-430_213_21"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: XL-430_213_21/visual
-            rotation: [ 3.92523114671e-17, -3.92523114671e-17, -1, 90 ]
-            translation: [ 0.032, -0.011, 0.002 ]
-            elements: 
-              - 
-                type: Transform
-                name: XL-430_213_21/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: XL-430_213_21/visual/geom
-                        uri: "meshes_xseries/XL-430_mm.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: XL-430_213_21/collision
-            rotation: [ 3.92523114671e-17, -3.92523114671e-17, -1, 90 ]
-            translation: [ 0.032, -0.011, 0.002 ]
-            elements: 
-              - 
-                type: Transform
-                name: XL-430_213_21/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: XL-430_213_21/collision/geom
-                        uri: "meshes_xseries/XL-430_mm.obj"
-    parent: LINK_1
-    translation: [ 0.017, -0.011, 0.01 ]
-    rotation: [ -0.707107, 1.11022e-16, -0.707107, 180 ]
-    joint_name: XL-430_213_21
-    joint_type: fixed
-    mass: 0.057
-    center_of_mass: [ 0.0166128, -0.0114197, -0.0154743 ]
-    inertia: [ 
-      8.25285e-06, 1.75146e-07, -8.49244e-07, 
-      1.75146e-07, 1.54938e-05, 4.81116e-08, 
-      -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
-  - 
-    name: "LINK_2"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: FR12_H101_P_213_22/visual
-            rotation: [ 1.57009245868e-16, -1, 0, 90 ]
-            translation: [ 0, 0, -0.019 ]
-            elements: 
-              - 
-                type: Transform
-                name: FR12_H101_P_213_22/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: FR12_H101_P_213_22/visual/geom
-                    uri: "meshes_xseries/fr12_h101_plug_m.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: FR12_H101_P_213_22/collision
-            rotation: [ 1.57009245868e-16, -1, 0, 90 ]
-            translation: [ 0, 0, -0.019 ]
-            elements: 
-              - 
-                type: Transform
-                name: FR12_H101_P_213_22/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: FR12_H101_P_213_22/collision/geom
-                    uri: "meshes_xseries/fr12_h101_plug_m.obj"
-    parent: XL-430_213_21
-    translation: [ 0.032, -0.011, 0.002 ]
-    rotation: [ 1.96262e-16, -1.17757e-16, -1, 90 ]
-    joint_name: LINK_2
-    joint_type: revolute
-    joint_axis: [ 0, 0, 1 ]
-    joint_id: 2
-    joint_range: [ -inf, inf ]
-    mass: 0.014395
-    center_of_mass: [ -3.61639e-18, 0.023033, -0.019 ]
-    inertia: [ 
-      4.83938e-06, -7.40194e-18, -6.33782e-18, 
-      -7.40194e-18, 4.45794e-06, 3.347e-14, 
-      -6.33782e-18, 3.347e-14, 2.18798e-06 ]
-  - 
-    name: "FR12_H103_S_213_23"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: FR12_H103_S_213_23/visual
-            rotation: [ -1, 3.48630559684e-32, 1.74315279842e-32, 90 ]
-            translation: [ -0.012, 0.008, 0.0592 ]
-            elements: 
-              - 
-                type: Transform
-                name: FR12_H103_S_213_23/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: FR12_H103_S_213_23/visual/geom
-                    uri: "meshes_xseries/fr12_h103_socket_m.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: FR12_H103_S_213_23/collision
-            rotation: [ -1, 3.48630559684e-32, 1.74315279842e-32, 90 ]
-            translation: [ -0.012, 0.008, 0.0592 ]
-            elements: 
-              - 
-                type: Transform
-                name: FR12_H103_S_213_23/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: FR12_H103_S_213_23/collision/geom
-                    uri: "meshes_xseries/fr12_h103_socket_m.obj"
-    parent: LINK_2
-    translation: [ -0.008, 0.0327, -0.007 ]
-    rotation: [ -0.57735, -0.57735, -0.57735, 120 ]
-    joint_name: FR12_H103_S_213_23
-    joint_type: fixed
-    mass: 0.017609
-    center_of_mass: [ -0.012, 0.008, 0.023111 ]
-    inertia: [ 
-      7.21864e-06, 7.969e-18, 1.76946e-33, 
-      7.969e-18, 1.18942e-05, -7.555e-15, 
-      1.76946e-33, -7.555e-15, 7.02074e-06 ]
-  - 
-    name: "LINK_3"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: XL-430_213_24/visual
-            rotation: [ 0.707106781187, -0.707106781187, 0, 8.99596713279e-15 ]
-            elements: 
-              - 
-                type: Transform
-                name: XL-430_213_24/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: XL-430_213_24/visual/geom
-                        uri: "meshes_xseries/XL-430_mm.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: XL-430_213_24/collision
-            rotation: [ 0.707106781187, -0.707106781187, 0, 8.99596713279e-15 ]
-            elements: 
-              - 
-                type: Transform
-                name: XL-430_213_24/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: XL-430_213_24/collision/geom
-                        uri: "meshes_xseries/XL-430_mm.obj"
-    parent: FR12_H103_S_213_23
-    translation: [ 0.007, 0.008, 0.0592 ]
-    rotation: [ -0.57735, 0.57735, -0.57735, 120 ]
-    joint_name: LINK_3
-    joint_type: revolute
-    joint_axis: [ -0, -0, -1 ]
-    joint_id: 3
-    joint_range: [ -inf, inf ]
-    mass: 0.057
-    center_of_mass: [ 0.000419661, -0.0153872, -0.0174743 ]
-    inertia: [ 
-      1.54938e-05, -1.75146e-07, -4.81116e-08, 
-      -1.75146e-07, 8.25285e-06, -8.49244e-07, 
-      -4.81116e-08, -8.49244e-07, 1.37413e-05 ]
-  - 
-    name: "FR12_S102_P_213_25"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: FR12_S102_P_213_25/visual
-            rotation: [ 0, -1, -3.48630559684e-32, 90 ]
-            translation: [ 0.011, -0.011, -0.017 ]
-            elements: 
-              - 
-                type: Transform
-                name: FR12_S102_P_213_25/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: FR12_S102_P_213_25/visual/geom
-                    uri: "meshes_xseries/fr12_s102_p_m.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: FR12_S102_P_213_25/collision
-            rotation: [ 0, -1, -3.48630559684e-32, 90 ]
-            translation: [ 0.011, -0.011, -0.017 ]
-            elements: 
-              - 
-                type: Transform
-                name: FR12_S102_P_213_25/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: FR12_S102_P_213_25/collision/geom
-                    uri: "meshes_xseries/fr12_s102_p_m.obj"
-    parent: LINK_3
-    translation: [ -0.011, -0.032, -0.002 ]
-    rotation: [ -3.92523e-17, -3.92523e-17, 1, 90 ]
-    joint_name: FR12_S102_P_213_25
-    joint_type: fixed
-    mass: 0.009852
-    center_of_mass: [ -0.008584, -0.011, -0.017 ]
-    inertia: [ 
-      2.08685e-06, -1.46229e-38, -6.95508e-19, 
-      -1.46229e-38, 1.66741e-06, 3.37288e-38, 
-      -6.95508e-19, 3.37288e-38, 6.99942e-07 ]
-  - 
-    name: "Fixed_Finger_213_26"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: Fixed_Finger_213_26/visual
-            translation: [ -0.012, -0.01325, 0.0242 ]
-            elements: 
-              - 
-                type: Transform
-                name: Fixed_Finger_213_26/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: Fixed_Finger_213_26/visual/geom
-                        uri: "meshes_xseries/fixed_finger.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: Fixed_Finger_213_26/collision
-            translation: [ -0.012, -0.01325, 0.0242 ]
-            elements: 
-              - 
-                type: Transform
-                name: Fixed_Finger_213_26/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: Fixed_Finger_213_26/collision/geom
-                        uri: "meshes_xseries/fixed_finger.obj"
-    parent: FR12_S102_P_213_25
-    translation: [ -0.0132, -0.019, -0.029 ]
-    rotation: [ 0.57735, -0.57735, -0.57735, 120 ]
-    joint_name: Fixed_Finger_213_26
-    joint_type: fixed
-    mass: 0.026872
-    center_of_mass: [ -0.012, -0.004479, 0.031306 ]
-    inertia: [ 
-      2.61176e-05, 2.44e-10, -3.1e-10, 
-      2.44e-10, 2.42533e-05, 5.83677e-06, 
-      -3.1e-10, 5.83677e-06, 1.04119e-05 ]
-  - 
-    name: "XL-430_213_27"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: XL-430_213_27/visual
-            rotation: [ -7.85046229342e-17, -2.35513868803e-16, -1, 90 ]
-            translation: [ 0.032, -0.011, 0.002 ]
-            elements: 
-              - 
-                type: Transform
-                name: XL-430_213_27/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: XL-430_213_27/visual/geom
-                        uri: "meshes_xseries/XL-430_mm.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: XL-430_213_27/collision
-            rotation: [ -7.85046229342e-17, -2.35513868803e-16, -1, 90 ]
-            translation: [ 0.032, -0.011, 0.002 ]
-            elements: 
-              - 
-                type: Transform
-                name: XL-430_213_27/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: XL-430_213_27/collision/geom
-                        uri: "meshes_xseries/XL-430_mm.obj"
-    parent: Fixed_Finger_213_26
-    translation: [ 0.005, -0.004, 0.0352 ]
-    rotation: [ 0.577351, 0.57735, 0.57735, 120 ]
-    joint_name: XL-430_213_27
-    joint_type: fixed
-    mass: 0.057
-    center_of_mass: [ 0.0166128, -0.0114197, -0.0154743 ]
-    inertia: [ 
-      8.25285e-06, 1.75146e-07, -8.49244e-07, 
-      1.75146e-07, 1.54938e-05, 4.81116e-08, 
-      -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
-  - 
-    name: "LINK_4"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: Moveable_Finger_213_28/visual
-            rotation: [ -0.707106781187, 1.11022302463e-16, 0.707106781187, 180 ]
-            translation: [ -1.30000000002e-05, 0.019017, -0.019 ]
-            elements: 
-              - 
-                type: Transform
-                name: Moveable_Finger_213_28/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: Moveable_Finger_213_28/visual/geom
-                        uri: "meshes_xseries/moveable_finger.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: Moveable_Finger_213_28/collision
-            rotation: [ -0.707106781187, 1.11022302463e-16, 0.707106781187, 180 ]
-            translation: [ -1.30000000002e-05, 0.019017, -0.019 ]
-            elements: 
-              - 
-                type: Transform
-                name: Moveable_Finger_213_28/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: Moveable_Finger_213_28/collision/geom
-                        uri: "meshes_xseries/moveable_finger.obj"
-    parent: XL-430_213_27
-    translation: [ 0.032, -0.011, 0.002 ]
-    rotation: [ -7.85046e-17, -2.35514e-16, -1, 90 ]
-    joint_name: LINK_4
-    joint_type: revolute
-    joint_axis: [ 0, 0, 1 ]
-    joint_id: 4
-    joint_range: [ -inf, inf ]
-    mass: 0.023959
-    center_of_mass: [ -0.037741, 0.007046, -0.018999 ]
-    inertia: [ 
-      1.10196e-05, -6.01487e-06, -1.217e-09, 
-      -6.01487e-06, 2.39356e-05, 9e-11, 
-      -1.217e-09, 9e-11, 2.09236e-05 ]
-  - 
     name: "angle_2_2_5635_0"
     elements: 
       - 
@@ -1341,66 +1045,73 @@ links:
       0, 1e-09, 0, 
       0, 0, 1e-09 ]
   - 
-    name: "FR12_S102_P_213_2"
+    name: "Bottom_mounter_213_18"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: FR12_S102_P_213_2/visual
-            translation: [ -0.012, -0.008, -0.0242 ]
+            name: Bottom_mounter_213_18/visual
+            translation: [ 0, 0.012, 0.0032 ]
             elements: 
               - 
                 type: Transform
-                name: FR12_S102_P_213_2/visual/geom_postrans
+                name: Bottom_mounter_213_18/visual/geom_postrans
                 elements: 
                   - 
-                    type: Resource
-                    name: FR12_S102_P_213_2/visual/geom
-                    uri: "meshes_xseries/fr12_s102_p_m.obj"
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: Bottom_mounter_213_18/visual/geom
+                        uri: "meshes_xseries/bottom_mounter_mm.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: FR12_S102_P_213_2/collision
-            translation: [ -0.012, -0.008, -0.0242 ]
+            name: Bottom_mounter_213_18/collision
+            translation: [ 0, 0.012, 0.0032 ]
             elements: 
               - 
                 type: Transform
-                name: FR12_S102_P_213_2/collision/geom_postrans
+                name: Bottom_mounter_213_18/collision/geom_postrans
                 elements: 
                   - 
-                    type: Resource
-                    name: FR12_S102_P_213_2/collision/geom
-                    uri: "meshes_xseries/fr12_s102_p_m.obj"
-    parent: Root
-    translation: [ -0.008, 0.048, 0 ]
-    rotation: [ 0, 0, 1, 90 ]
-    joint_name: FR12_S102_P_213_2
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: Bottom_mounter_213_18/collision/geom
+                        uri: "meshes_xseries/bottom_mounter_mm.obj"
+    parent: vehicle-base-ps_213_44
+    translation: [ -0.008, -0.016, 0.0032 ]
+    joint_name: Bottom_mounter_213_18
     joint_type: fixed
-    mass: 0.009852
-    center_of_mass: [ -0.012, -0.008, -0.004616 ]
+    mass: 0.006134
+    center_of_mass: [ -4.021e-12, 1.04083e-17, 0.004519 ]
     inertia: [ 
-      6.99942e-07, 0, 6.952e-19, 
-      0, 1.66741e-06, 0, 
-      6.952e-19, 0, 2.08685e-06 ]
+      1.10351e-06, 1.972e-16, 9.333e-17, 
+      1.972e-16, 4.426e-07, -6.734e-17, 
+      9.333e-17, -6.734e-17, 1.51745e-06 ]
   - 
-    name: "XL-430_213_7"
+    name: "XL-430_213_19"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: XL-430_213_7/visual
-            rotation: [ 0, 7.85046229342e-17, -1, 90 ]
-            translation: [ 0.032, -0.011, 0.002 ]
+            name: XL-430_213_19/visual
+            rotation: [ -0, -1, -0, 180 ]
+            translation: [ 0.011, -0.008, -0.036 ]
             elements: 
               - 
                 type: Transform
-                name: XL-430_213_7/visual/geom_postrans
+                name: XL-430_213_19/visual/geom_postrans
                 elements: 
                   - 
                     type: Transform
@@ -1408,20 +1119,20 @@ links:
                     elements: 
                       - 
                         type: Resource
-                        name: XL-430_213_7/visual/geom
+                        name: XL-430_213_19/visual/geom
                         uri: "meshes_xseries/XL-430_mm.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: XL-430_213_7/collision
-            rotation: [ 0, 7.85046229342e-17, -1, 90 ]
-            translation: [ 0.032, -0.011, 0.002 ]
+            name: XL-430_213_19/collision
+            rotation: [ -0, -1, -0, 180 ]
+            translation: [ 0.011, -0.008, -0.036 ]
             elements: 
               - 
                 type: Transform
-                name: XL-430_213_7/collision/geom_postrans
+                name: XL-430_213_19/collision/geom_postrans
                 elements: 
                   - 
                     type: Transform
@@ -1429,12 +1140,119 @@ links:
                     elements: 
                       - 
                         type: Resource
-                        name: XL-430_213_7/collision/geom
+                        name: XL-430_213_19/collision/geom
                         uri: "meshes_xseries/XL-430_mm.obj"
-    parent: FR12_S102_P_213_2
-    translation: [ 0.005, 0.003, -0.0132 ]
-    rotation: [ -0, 1, -0, 90 ]
-    joint_name: XL-430_213_7
+    parent: Bottom_mounter_213_18
+    translation: [ 0.011, 0.02, 0.0062 ]
+    rotation: [ 0, 1, 0, 180 ]
+    joint_name: XL-430_213_19
+    joint_type: fixed
+    mass: 0.057
+    center_of_mass: [ 0.0105803, -0.0233872, -0.0185257 ]
+    inertia: [ 
+      1.54938e-05, 1.75146e-07, -4.81116e-08, 
+      1.75146e-07, 8.25285e-06, 8.49244e-07, 
+      -4.81116e-08, 8.49244e-07, 1.37413e-05 ]
+  - 
+    name: "JOINT0"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: FR12_S102_213_20/visual
+            rotation: [ -1, -0, -0, 180 ]
+            translation: [ 0, 0, 0.021 ]
+            elements: 
+              - 
+                type: Transform
+                name: FR12_S102_213_20/visual/geom_postrans
+                elements: 
+                  - 
+                    type: Resource
+                    name: FR12_S102_213_20/visual/geom
+                    uri: "meshes_xseries/fr12_s102_m.obj"
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: FR12_S102_213_20/collision
+            rotation: [ -1, -0, -0, 180 ]
+            translation: [ 0, 0, 0.021 ]
+            elements: 
+              - 
+                type: Transform
+                name: FR12_S102_213_20/collision/geom_postrans
+                elements: 
+                  - 
+                    type: Resource
+                    name: FR12_S102_213_20/collision/geom
+                    uri: "meshes_xseries/fr12_s102_m.obj"
+    parent: XL-430_213_19
+    translation: [ 0.011, -0.008, -0.036 ]
+    rotation: [ -0, -1, -0, 180 ]
+    joint_name: JOINT0
+    joint_type: revolute
+    joint_axis: [ 0, 0, 1 ]
+    joint_id: 1
+    joint_range: [ -180, 180 ]
+    mass: 0.005695
+    center_of_mass: [ -6.586e-08, 2.1364e-18, 0.003555 ]
+    inertia: [ 
+      4.43252e-07, 2.374e-19, 2.90731e-35, 
+      2.374e-19, 1.26832e-06, -3.78129e-23, 
+      2.90731e-35, -3.78129e-23, 1.57709e-06 ]
+  - 
+    name: "XL-430_213_21"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: XL-430_213_21/visual
+            rotation: [ 3.92523114671e-17, -3.92523114671e-17, -1, 90 ]
+            translation: [ 0.032, -0.011, 0.002 ]
+            elements: 
+              - 
+                type: Transform
+                name: XL-430_213_21/visual/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: XL-430_213_21/visual/geom
+                        uri: "meshes_xseries/XL-430_mm.obj"
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: XL-430_213_21/collision
+            rotation: [ 3.92523114671e-17, -3.92523114671e-17, -1, 90 ]
+            translation: [ 0.032, -0.011, 0.002 ]
+            elements: 
+              - 
+                type: Transform
+                name: XL-430_213_21/collision/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: XL-430_213_21/collision/geom
+                        uri: "meshes_xseries/XL-430_mm.obj"
+    parent: JOINT0
+    translation: [ 0.017, -0.011, 0.01 ]
+    rotation: [ -0.707107, 1.11022e-16, -0.707107, 180 ]
+    joint_name: XL-430_213_21
     joint_type: fixed
     mass: 0.057
     center_of_mass: [ 0.0166128, -0.0114197, -0.0154743 ]
@@ -1443,102 +1261,378 @@ links:
       1.75146e-07, 1.54938e-05, 4.81116e-08, 
       -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
   - 
-    name: "LINK_5"
+    name: "JOINT1"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: omni-shaft-x_213_9/visual
-            rotation: [ 0, -0.832050294338, -0.554700196225, 1.30372120434e-27 ]
+            name: FR12_H101_P_213_22/visual
+            rotation: [ 1.57009245868e-16, -1, 0, 90 ]
+            translation: [ 0, 2.77555756156e-17, -0.019 ]
             elements: 
               - 
                 type: Transform
-                name: omni-shaft-x_213_9/visual/geom_postrans
+                name: FR12_H101_P_213_22/visual/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-shaft-x_213_9/visual/geom
-                    uri: "meshes_xseries/omni_wheel_shaft_m.obj"
+                    name: FR12_H101_P_213_22/visual/geom
+                    uri: "meshes_xseries/fr12_h101_plug_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: omni-shaft-x_213_9/collision
-            rotation: [ 0, -0.832050294338, -0.554700196225, 1.30372120434e-27 ]
+            name: FR12_H101_P_213_22/collision
+            rotation: [ 1.57009245868e-16, -1, 0, 90 ]
+            translation: [ 0, 2.77555756156e-17, -0.019 ]
             elements: 
               - 
                 type: Transform
-                name: omni-shaft-x_213_9/collision/geom_postrans
+                name: FR12_H101_P_213_22/collision/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-shaft-x_213_9/collision/geom
-                    uri: "meshes_xseries/omni_wheel_shaft_m.obj"
-    parent: XL-430_213_7
+                    name: FR12_H101_P_213_22/collision/geom
+                    uri: "meshes_xseries/fr12_h101_plug_m.obj"
+    parent: XL-430_213_21
     translation: [ 0.032, -0.011, 0.002 ]
-    rotation: [ -7.85046e-16, 8.63551e-16, -1, 90 ]
-    joint_name: LINK_5
+    rotation: [ 1.96262e-16, -1.17757e-16, -1, 90 ]
+    joint_name: JOINT1
     joint_type: revolute
     joint_axis: [ 0, 0, 1 ]
-    joint_id: 5
-    joint_range: [ -inf, inf ]
-    mass: 0.005733
-    center_of_mass: [ -1.8e-05, 1.7e-05, 0.012915 ]
+    joint_id: 2
+    joint_range: [ -180, 180 ]
+    mass: 0.014395
+    center_of_mass: [ -3.61639e-18, 0.023033, -0.019 ]
     inertia: [ 
-      5.9243e-07, 4.36e-10, 6.57e-10, 
-      4.36e-10, 5.9246e-07, -6.35e-10, 
-      6.57e-10, -6.35e-10, 1.83964e-07 ]
+      4.83938e-06, -7.40194e-18, -6.33782e-18, 
+      -7.40194e-18, 4.45794e-06, 3.347e-14, 
+      -6.33782e-18, 3.347e-14, 2.18798e-06 ]
   - 
-    name: "omni-wheel_213_15"
+    name: "FR12_H103_S_213_23"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: omni-wheel_213_15/visual
-            rotation: [ 0, 0, 1, 7.23174407873e-28 ]
-            translation: [ -1.57772181044e-30, 1.38777878078e-17, -0.0251 ]
+            name: FR12_H103_S_213_23/visual
+            rotation: [ -1, 3.48630559684e-32, 1.74315279842e-32, 90 ]
+            translation: [ -0.012, 0.008, 0.0592 ]
             elements: 
               - 
                 type: Transform
-                name: omni-wheel_213_15/visual/geom_postrans
+                name: FR12_H103_S_213_23/visual/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-wheel_213_15/visual/geom
-                    uri: "meshes/omni_wheel_m.obj"
+                    name: FR12_H103_S_213_23/visual/geom
+                    uri: "meshes_xseries/fr12_h103_socket_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: omni-wheel_213_15/collision
-            rotation: [ 0, 0, 1, 7.23174407873e-28 ]
-            translation: [ -1.57772181044e-30, 1.38777878078e-17, -0.0251 ]
+            name: FR12_H103_S_213_23/collision
+            rotation: [ -1, 3.48630559684e-32, 1.74315279842e-32, 90 ]
+            translation: [ -0.012, 0.008, 0.0592 ]
             elements: 
               - 
                 type: Transform
-                name: omni-wheel_213_15/collision/geom_postrans
+                name: FR12_H103_S_213_23/collision/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-wheel_213_15/collision/geom
-                    uri: "meshes/omni_wheel_m.obj"
-    parent: LINK_5
-    translation: [ 0, 0, 0.03 ]
-    rotation: [ -1, -5.27832e-14, 3.2482e-14, 8.90555e-14 ]
-    joint_name: omni-wheel_213_15
+                    name: FR12_H103_S_213_23/collision/geom
+                    uri: "meshes_xseries/fr12_h103_socket_m.obj"
+    parent: JOINT1
+    translation: [ -0.008, 0.0327, -0.007 ]
+    rotation: [ -0.57735, -0.57735, -0.57735, 120 ]
+    joint_name: FR12_H103_S_213_23
     joint_type: fixed
-    mass: 0.054797
-    center_of_mass: [ 2.725e-12, 1.38778e-17, -0.01255 ]
+    mass: 0.017609
+    center_of_mass: [ -0.012, 0.008, 0.023111 ]
     inertia: [ 
-      1.12668e-05, -2.52435e-41, -1.582e-18, 
-      -2.52435e-41, 1.12668e-05, -1.99676e-47, 
-      -1.582e-18, -1.99676e-47, 1.6803e-05 ]
+      7.21864e-06, 7.969e-18, 1.76946e-33, 
+      7.969e-18, 1.18942e-05, -7.555e-15, 
+      1.76946e-33, -7.555e-15, 7.02074e-06 ]
+  - 
+    name: "JOINT2"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: XL-430_213_24/visual
+            rotation: [ 0.707106781187, -0.707106781187, 0, 8.99596713279e-15 ]
+            elements: 
+              - 
+                type: Transform
+                name: XL-430_213_24/visual/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: XL-430_213_24/visual/geom
+                        uri: "meshes_xseries/XL-430_mm.obj"
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: XL-430_213_24/collision
+            rotation: [ 0.707106781187, -0.707106781187, 0, 8.99596713279e-15 ]
+            elements: 
+              - 
+                type: Transform
+                name: XL-430_213_24/collision/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: XL-430_213_24/collision/geom
+                        uri: "meshes_xseries/XL-430_mm.obj"
+    parent: FR12_H103_S_213_23
+    translation: [ 0.007, 0.008, 0.0592 ]
+    rotation: [ -0.57735, 0.57735, -0.57735, 120 ]
+    joint_name: JOINT2
+    joint_type: revolute
+    joint_axis: [ -0, -0, -1 ]
+    joint_id: 3
+    joint_range: [ -180, 180 ]
+    mass: 0.057
+    center_of_mass: [ 0.000419661, -0.0153872, -0.0174743 ]
+    inertia: [ 
+      1.54938e-05, -1.75146e-07, -4.81116e-08, 
+      -1.75146e-07, 8.25285e-06, -8.49244e-07, 
+      -4.81116e-08, -8.49244e-07, 1.37413e-05 ]
+  - 
+    name: "FR12_S102_P_213_25"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: FR12_S102_P_213_25/visual
+            rotation: [ 0, -1, -3.48630559684e-32, 90 ]
+            translation: [ 0.011, -0.011, -0.017 ]
+            elements: 
+              - 
+                type: Transform
+                name: FR12_S102_P_213_25/visual/geom_postrans
+                elements: 
+                  - 
+                    type: Resource
+                    name: FR12_S102_P_213_25/visual/geom
+                    uri: "meshes_xseries/fr12_s102_p_m.obj"
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: FR12_S102_P_213_25/collision
+            rotation: [ 0, -1, -3.48630559684e-32, 90 ]
+            translation: [ 0.011, -0.011, -0.017 ]
+            elements: 
+              - 
+                type: Transform
+                name: FR12_S102_P_213_25/collision/geom_postrans
+                elements: 
+                  - 
+                    type: Resource
+                    name: FR12_S102_P_213_25/collision/geom
+                    uri: "meshes_xseries/fr12_s102_p_m.obj"
+    parent: JOINT2
+    translation: [ -0.011, -0.032, -0.002 ]
+    rotation: [ -3.92523e-17, -3.92523e-17, 1, 90 ]
+    joint_name: FR12_S102_P_213_25
+    joint_type: fixed
+    mass: 0.009852
+    center_of_mass: [ -0.008584, -0.011, -0.017 ]
+    inertia: [ 
+      2.08685e-06, -1.46229e-38, -6.95508e-19, 
+      -1.46229e-38, 1.66741e-06, 3.37288e-38, 
+      -6.95508e-19, 3.37288e-38, 6.99942e-07 ]
+  - 
+    name: "Fixed_Finger_213_26"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: Fixed_Finger_213_26/visual
+            translation: [ -0.012, -0.01325, 0.0242 ]
+            elements: 
+              - 
+                type: Transform
+                name: Fixed_Finger_213_26/visual/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: Fixed_Finger_213_26/visual/geom
+                        uri: "meshes_xseries/fixed_finger.obj"
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: Fixed_Finger_213_26/collision
+            translation: [ -0.012, -0.01325, 0.0242 ]
+            elements: 
+              - 
+                type: Transform
+                name: Fixed_Finger_213_26/collision/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: Fixed_Finger_213_26/collision/geom
+                        uri: "meshes_xseries/fixed_finger.obj"
+    parent: FR12_S102_P_213_25
+    translation: [ -0.0132, -0.019, -0.029 ]
+    rotation: [ 0.57735, -0.57735, -0.57735, 120 ]
+    joint_name: Fixed_Finger_213_26
+    joint_type: fixed
+    mass: 0.026872
+    center_of_mass: [ -0.012, -0.004479, 0.031306 ]
+    inertia: [ 
+      2.61176e-05, 2.44e-10, -3.1e-10, 
+      2.44e-10, 2.42533e-05, 5.83677e-06, 
+      -3.1e-10, 5.83677e-06, 1.04119e-05 ]
+  - 
+    name: "XL-430_213_27"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: XL-430_213_27/visual
+            rotation: [ -7.85046229342e-17, -2.35513868803e-16, -1, 90 ]
+            translation: [ 0.032, -0.011, 0.002 ]
+            elements: 
+              - 
+                type: Transform
+                name: XL-430_213_27/visual/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: XL-430_213_27/visual/geom
+                        uri: "meshes_xseries/XL-430_mm.obj"
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: XL-430_213_27/collision
+            rotation: [ -7.85046229342e-17, -2.35513868803e-16, -1, 90 ]
+            translation: [ 0.032, -0.011, 0.002 ]
+            elements: 
+              - 
+                type: Transform
+                name: XL-430_213_27/collision/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: XL-430_213_27/collision/geom
+                        uri: "meshes_xseries/XL-430_mm.obj"
+    parent: Fixed_Finger_213_26
+    translation: [ 0.005, -0.004, 0.0352 ]
+    rotation: [ 0.577351, 0.57735, 0.57735, 120 ]
+    joint_name: XL-430_213_27
+    joint_type: fixed
+    mass: 0.057
+    center_of_mass: [ 0.0166128, -0.0114197, -0.0154743 ]
+    inertia: [ 
+      8.25285e-06, 1.75146e-07, -8.49244e-07, 
+      1.75146e-07, 1.54938e-05, 4.81116e-08, 
+      -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
+  - 
+    name: "JOINT3"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: Moveable_Finger_213_28/visual
+            rotation: [ -0.707106781187, 1.11022302463e-16, 0.707106781187, 180 ]
+            translation: [ -1.30000000002e-05, 0.019017, -0.019 ]
+            elements: 
+              - 
+                type: Transform
+                name: Moveable_Finger_213_28/visual/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: Moveable_Finger_213_28/visual/geom
+                        uri: "meshes_xseries/moveable_finger.obj"
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: Moveable_Finger_213_28/collision
+            rotation: [ -0.707106781187, 1.11022302463e-16, 0.707106781187, 180 ]
+            translation: [ -1.30000000002e-05, 0.019017, -0.019 ]
+            elements: 
+              - 
+                type: Transform
+                name: Moveable_Finger_213_28/collision/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: Moveable_Finger_213_28/collision/geom
+                        uri: "meshes_xseries/moveable_finger.obj"
+    parent: XL-430_213_27
+    translation: [ 0.032, -0.011, 0.002 ]
+    rotation: [ -7.85046e-17, -2.35514e-16, -1, 90 ]
+    joint_name: JOINT3
+    joint_type: revolute
+    joint_axis: [ 0, 0, 1 ]
+    joint_id: 4
+    joint_range: [ -180, 180 ]
+    mass: 0.023959
+    center_of_mass: [ -0.037741, 0.007046, -0.018999 ]
+    inertia: [ 
+      1.10196e-05, -6.01487e-06, -1.217e-09, 
+      -6.01487e-06, 2.39356e-05, 9e-11, 
+      -1.217e-09, 9e-11, 2.09236e-05 ]
   - 
     name: "block_1_3_213_34"
     elements: 
@@ -1835,199 +1929,6 @@ links:
       0, 3.09422e-08, 0, 
       0, 0, 1.26812e-07 ]
   - 
-    name: "FR12_S102_P_213_1"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: FR12_S102_P_213_1/visual
-            translation: [ -0.012, -0.008, -0.0242 ]
-            elements: 
-              - 
-                type: Transform
-                name: FR12_S102_P_213_1/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: FR12_S102_P_213_1/visual/geom
-                    uri: "meshes_xseries/fr12_s102_p_m.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: FR12_S102_P_213_1/collision
-            translation: [ -0.012, -0.008, -0.0242 ]
-            elements: 
-              - 
-                type: Transform
-                name: FR12_S102_P_213_1/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: FR12_S102_P_213_1/collision/geom
-                    uri: "meshes_xseries/fr12_s102_p_m.obj"
-    parent: Root
-    translation: [ 0.048, 0.008, 0 ]
-    joint_name: FR12_S102_P_213_1
-    joint_type: fixed
-    mass: 0.009852
-    center_of_mass: [ -0.012, -0.008, -0.004616 ]
-    inertia: [ 
-      6.99942e-07, 0, 6.952e-19, 
-      0, 1.66741e-06, 0, 
-      6.952e-19, 0, 2.08685e-06 ]
-  - 
-    name: "XL-430_213_6"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: XL-430_213_6/visual
-            rotation: [ 0, 0, -1, 90 ]
-            translation: [ 0.032, -0.011, 0.002 ]
-            elements: 
-              - 
-                type: Transform
-                name: XL-430_213_6/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: XL-430_213_6/visual/geom
-                        uri: "meshes_xseries/XL-430_mm.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: XL-430_213_6/collision
-            rotation: [ 0, 0, -1, 90 ]
-            translation: [ 0.032, -0.011, 0.002 ]
-            elements: 
-              - 
-                type: Transform
-                name: XL-430_213_6/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Transform
-                    scale: [ 0.001, 0.001, 0.001 ]
-                    elements: 
-                      - 
-                        type: Resource
-                        name: XL-430_213_6/collision/geom
-                        uri: "meshes_xseries/XL-430_mm.obj"
-    parent: FR12_S102_P_213_1
-    translation: [ 0.005, 0.003, -0.0132 ]
-    rotation: [ 0, 1, 0, 90 ]
-    joint_name: XL-430_213_6
-    joint_type: fixed
-    mass: 0.057
-    center_of_mass: [ 0.0166128, -0.0114197, -0.0154743 ]
-    inertia: [ 
-      8.25285e-06, 1.75146e-07, -8.49244e-07, 
-      1.75146e-07, 1.54938e-05, 4.81116e-08, 
-      -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
-  - 
-    name: "LINK_6"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: omni-shaft-x_213_12/visual
-            elements: 
-              - 
-                type: Transform
-                name: omni-shaft-x_213_12/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: omni-shaft-x_213_12/visual/geom
-                    uri: "meshes_xseries/omni_wheel_shaft_m.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: omni-shaft-x_213_12/collision
-            elements: 
-              - 
-                type: Transform
-                name: omni-shaft-x_213_12/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: omni-shaft-x_213_12/collision/geom
-                    uri: "meshes_xseries/omni_wheel_shaft_m.obj"
-    parent: XL-430_213_6
-    translation: [ 0.032, -0.011, 0.002 ]
-    rotation: [ -1.57009e-16, -1.57009e-16, 1, 90 ]
-    joint_name: LINK_6
-    joint_type: revolute
-    joint_axis: [ 0, 0, 1 ]
-    joint_id: 6
-    joint_range: [ -inf, inf ]
-    mass: 0.005733
-    center_of_mass: [ -1.8e-05, 1.7e-05, 0.012915 ]
-    inertia: [ 
-      5.9243e-07, 4.36e-10, 6.57e-10, 
-      4.36e-10, 5.9246e-07, -6.35e-10, 
-      6.57e-10, -6.35e-10, 1.83964e-07 ]
-  - 
-    name: "omni-wheel_213_14"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: omni-wheel_213_14/visual
-            translation: [ -4.73316543133e-30, -6.93889390391e-18, -0.0251 ]
-            elements: 
-              - 
-                type: Transform
-                name: omni-wheel_213_14/visual/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: omni-wheel_213_14/visual/geom
-                    uri: "meshes/omni_wheel_m.obj"
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: omni-wheel_213_14/collision
-            translation: [ -4.73316543133e-30, -6.93889390391e-18, -0.0251 ]
-            elements: 
-              - 
-                type: Transform
-                name: omni-wheel_213_14/collision/geom_postrans
-                elements: 
-                  - 
-                    type: Resource
-                    name: omni-wheel_213_14/collision/geom
-                    uri: "meshes/omni_wheel_m.obj"
-    parent: LINK_6
-    translation: [ 2.36658e-30, 0, 0.03 ]
-    joint_name: omni-wheel_213_14
-    joint_type: fixed
-    mass: 0.054797
-    center_of_mass: [ 2.725e-12, -6.93889e-18, -0.01255 ]
-    inertia: [ 
-      1.12668e-05, 0, -1.582e-18, 
-      0, 1.12668e-05, 0, 
-      -1.582e-18, 0, 1.6803e-05 ]
-  - 
     name: "FR12_S102_P_213_3"
     elements: 
       - 
@@ -2129,7 +2030,7 @@ links:
       1.75146e-07, 1.54938e-05, 4.81116e-08, 
       -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
   - 
-    name: "LINK_7"
+    name: "WHEEL1"
     elements: 
       - 
         type: Visual
@@ -2164,11 +2065,10 @@ links:
     parent: XL-430_213_8
     translation: [ 0.032, -0.011, 0.002 ]
     rotation: [ -3.92519e-17, 1.17757e-16, -1, 90 ]
-    joint_name: LINK_7
+    joint_name: WHEEL1
     joint_type: revolute
     joint_axis: [ 0, 0, 1 ]
-    joint_id: 7
-    joint_range: [ -inf, inf ]
+    joint_id: 5
     mass: 0.005733
     center_of_mass: [ -1.8e-05, 1.7e-05, 0.012915 ]
     inertia: [ 
@@ -2184,7 +2084,7 @@ links:
           - 
             type: Transform
             name: omni-wheel_213_16/visual
-            translation: [ -1.11468529598e-17, -3.46944695195e-18, -0.0251 ]
+            translation: [ 0, 0, -0.0251 ]
             elements: 
               - 
                 type: Transform
@@ -2200,7 +2100,7 @@ links:
           - 
             type: Transform
             name: omni-wheel_213_16/collision
-            translation: [ -1.11468529598e-17, -3.46944695195e-18, -0.0251 ]
+            translation: [ 0, 0, -0.0251 ]
             elements: 
               - 
                 type: Transform
@@ -2210,308 +2110,404 @@ links:
                     type: Resource
                     name: omni-wheel_213_16/collision/geom
                     uri: "meshes/omni_wheel_m.obj"
-    parent: LINK_7
-    translation: [ 6.66147e-18, 3.46945e-18, 0.03 ]
+    parent: WHEEL1
+    translation: [ 0, 0, 0.03 ]
     joint_name: omni-wheel_213_16
     joint_type: fixed
     mass: 0.054797
-    center_of_mass: [ 2.72499e-12, -3.46945e-18, -0.01255 ]
+    center_of_mass: [ 2.725e-12, 0, -0.01255 ]
     inertia: [ 
       1.12668e-05, 0, -1.582e-18, 
       0, 1.12668e-05, 0, 
       -1.582e-18, 0, 1.6803e-05 ]
   - 
-    name: "block_1_3_213_29"
+    name: "FR12_S102_P_213_2"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: block_1_3_213_29/visual
-            translation: [ -0.004, -0.02, 0.0096 ]
+            name: FR12_S102_P_213_2/visual
+            translation: [ -0.012, -0.008, -0.0242 ]
             elements: 
               - 
                 type: Transform
-                name: block_1_3_213_29/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
+                name: FR12_S102_P_213_2/visual/geom_postrans
                 elements: 
                   - 
-                    type: Shape
-                    name: block_1_3_213_29/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
+                    type: Resource
+                    name: FR12_S102_P_213_2/visual/geom
+                    uri: "meshes_xseries/fr12_s102_p_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: block_1_3_213_29/collision
-            translation: [ -0.004, -0.02, 0.0096 ]
+            name: FR12_S102_P_213_2/collision
+            translation: [ -0.012, -0.008, -0.0242 ]
             elements: 
               - 
                 type: Transform
-                name: block_1_3_213_29/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
+                name: FR12_S102_P_213_2/collision/geom_postrans
                 elements: 
                   - 
-                    type: Shape
-                    name: block_1_3_213_29/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
+                    type: Resource
+                    name: FR12_S102_P_213_2/collision/geom
+                    uri: "meshes_xseries/fr12_s102_p_m.obj"
     parent: Root
-    translation: [ -0.048, 0.008, 0.0032 ]
-    joint_name: block_1_3_213_29
+    translation: [ -0.008, 0.048, 0 ]
+    rotation: [ 0, 0, 1, 90 ]
+    joint_name: FR12_S102_P_213_2
     joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, -0.008, 0.0048 ]
+    mass: 0.009852
+    center_of_mass: [ -0.012, -0.008, -0.004616 ]
     inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
+      6.99942e-07, 0, 6.952e-19, 
+      0, 1.66741e-06, 0, 
+      6.952e-19, 0, 2.08685e-06 ]
   - 
-    name: "block_1_3_213_30"
+    name: "XL-430_213_7"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: block_1_3_213_30/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
+            name: XL-430_213_7/visual
+            rotation: [ 0, 7.85046229342e-17, -1, 90 ]
+            translation: [ 0.032, -0.011, 0.002 ]
             elements: 
               - 
                 type: Transform
-                name: block_1_3_213_30/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
+                name: XL-430_213_7/visual/geom_postrans
                 elements: 
                   - 
-                    type: Shape
-                    name: block_1_3_213_30/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: XL-430_213_7/visual/geom
+                        uri: "meshes_xseries/XL-430_mm.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: block_1_3_213_30/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
+            name: XL-430_213_7/collision
+            rotation: [ 0, 7.85046229342e-17, -1, 90 ]
+            translation: [ 0.032, -0.011, 0.002 ]
             elements: 
               - 
                 type: Transform
-                name: block_1_3_213_30/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
+                name: XL-430_213_7/collision/geom_postrans
                 elements: 
                   - 
-                    type: Shape
-                    name: block_1_3_213_30/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_29
-    translation: [ 0, -0.016, 0.0096 ]
-    joint_name: block_1_3_213_30
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: XL-430_213_7/collision/geom
+                        uri: "meshes_xseries/XL-430_mm.obj"
+    parent: FR12_S102_P_213_2
+    translation: [ 0.005, 0.003, -0.0132 ]
+    rotation: [ -0, 1, -0, 90 ]
+    joint_name: XL-430_213_7
     joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    mass: 0.057
+    center_of_mass: [ 0.0166128, -0.0114197, -0.0154743 ]
     inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
+      8.25285e-06, 1.75146e-07, -8.49244e-07, 
+      1.75146e-07, 1.54938e-05, 4.81116e-08, 
+      -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
   - 
-    name: "block_1_3_213_31"
+    name: "WHEEL2"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: block_1_3_213_31/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
+            name: omni-shaft-x_213_9/visual
+            rotation: [ 0, -0.832050294338, -0.554700196225, 1.30372120434e-27 ]
             elements: 
               - 
                 type: Transform
-                name: block_1_3_213_31/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
+                name: omni-shaft-x_213_9/visual/geom_postrans
                 elements: 
                   - 
-                    type: Shape
-                    name: block_1_3_213_31/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
+                    type: Resource
+                    name: omni-shaft-x_213_9/visual/geom
+                    uri: "meshes_xseries/omni_wheel_shaft_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: block_1_3_213_31/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
+            name: omni-shaft-x_213_9/collision
+            rotation: [ 0, -0.832050294338, -0.554700196225, 1.30372120434e-27 ]
             elements: 
               - 
                 type: Transform
-                name: block_1_3_213_31/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
+                name: omni-shaft-x_213_9/collision/geom_postrans
                 elements: 
                   - 
-                    type: Shape
-                    name: block_1_3_213_31/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_30
-    translation: [ 0, 0, 0.0096 ]
-    joint_name: block_1_3_213_31
-    joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+                    type: Resource
+                    name: omni-shaft-x_213_9/collision/geom
+                    uri: "meshes_xseries/omni_wheel_shaft_m.obj"
+    parent: XL-430_213_7
+    translation: [ 0.032, -0.011, 0.002 ]
+    rotation: [ -7.85046e-16, 8.63551e-16, -1, 90 ]
+    joint_name: WHEEL2
+    joint_type: revolute
+    joint_axis: [ 0, 0, 1 ]
+    joint_id: 6
+    mass: 0.005733
+    center_of_mass: [ -1.8e-05, 1.7e-05, 0.012915 ]
     inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
+      5.9243e-07, 4.36e-10, 6.57e-10, 
+      4.36e-10, 5.9246e-07, -6.35e-10, 
+      6.57e-10, -6.35e-10, 1.83964e-07 ]
   - 
-    name: "block_1_3_213_32"
+    name: "omni-wheel_213_15"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: block_1_3_213_32/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
+            name: omni-wheel_213_15/visual
+            rotation: [ 0, 0, 1, 7.23174407873e-28 ]
+            translation: [ 0, 1.38777878078e-17, -0.0251 ]
             elements: 
               - 
                 type: Transform
-                name: block_1_3_213_32/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
+                name: omni-wheel_213_15/visual/geom_postrans
                 elements: 
                   - 
-                    type: Shape
-                    name: block_1_3_213_32/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
+                    type: Resource
+                    name: omni-wheel_213_15/visual/geom
+                    uri: "meshes/omni_wheel_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: block_1_3_213_32/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
+            name: omni-wheel_213_15/collision
+            rotation: [ 0, 0, 1, 7.23174407873e-28 ]
+            translation: [ 0, 1.38777878078e-17, -0.0251 ]
             elements: 
               - 
                 type: Transform
-                name: block_1_3_213_32/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
+                name: omni-wheel_213_15/collision/geom_postrans
                 elements: 
                   - 
-                    type: Shape
-                    name: block_1_3_213_32/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_31
-    translation: [ 0, 0, 0.0096 ]
-    joint_name: block_1_3_213_32
+                    type: Resource
+                    name: omni-wheel_213_15/collision/geom
+                    uri: "meshes/omni_wheel_m.obj"
+    parent: WHEEL2
+    translation: [ 0, 6.93889e-18, 0.03 ]
+    rotation: [ -1, -5.27832e-14, 3.2482e-14, 8.90555e-14 ]
+    joint_name: omni-wheel_213_15
     joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    mass: 0.054797
+    center_of_mass: [ 2.725e-12, 1.38778e-17, -0.01255 ]
     inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
+      1.12668e-05, -2.52435e-41, -1.582e-18, 
+      -2.52435e-41, 1.12668e-05, -1.99676e-47, 
+      -1.582e-18, -1.99676e-47, 1.6803e-05 ]
   - 
-    name: "block_1_3_213_33"
+    name: "FR12_S102_P_213_4"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: block_1_3_213_33/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
+            name: FR12_S102_P_213_4/visual
+            translation: [ 0.012, 0.008, -0.0242 ]
             elements: 
               - 
                 type: Transform
-                name: block_1_3_213_33/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
+                name: FR12_S102_P_213_4/visual/geom_postrans
                 elements: 
                   - 
-                    type: Shape
-                    name: block_1_3_213_33/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
+                    type: Resource
+                    name: FR12_S102_P_213_4/visual/geom
+                    uri: "meshes_xseries/fr12_s102_p_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: block_1_3_213_33/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
+            name: FR12_S102_P_213_4/collision
+            translation: [ 0.012, 0.008, -0.0242 ]
             elements: 
               - 
                 type: Transform
-                name: block_1_3_213_33/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
+                name: FR12_S102_P_213_4/collision/geom_postrans
                 elements: 
                   - 
-                    type: Shape
-                    name: block_1_3_213_33/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_32
-    translation: [ 0, 0, 0.0096 ]
-    joint_name: block_1_3_213_33
+                    type: Resource
+                    name: FR12_S102_P_213_4/collision/geom
+                    uri: "meshes_xseries/fr12_s102_p_m.obj"
+    parent: Root
+    translation: [ 0.008, -0.048, 0 ]
+    rotation: [ 0, 0, 1, 90 ]
+    joint_name: FR12_S102_P_213_4
     joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    mass: 0.009852
+    center_of_mass: [ 0.012, 0.008, -0.004616 ]
     inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
+      6.99942e-07, 0, 6.952e-19, 
+      0, 1.66741e-06, 0, 
+      6.952e-19, 0, 2.08685e-06 ]
+  - 
+    name: "XL-430_213_5"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: XL-430_213_5/visual
+            rotation: [ 1.57009245868e-16, 0, -1, 90 ]
+            translation: [ 0.032, -0.011, 0.002 ]
+            elements: 
+              - 
+                type: Transform
+                name: XL-430_213_5/visual/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: XL-430_213_5/visual/geom
+                        uri: "meshes_xseries/XL-430_mm.obj"
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: XL-430_213_5/collision
+            rotation: [ 1.57009245868e-16, 0, -1, 90 ]
+            translation: [ 0.032, -0.011, 0.002 ]
+            elements: 
+              - 
+                type: Transform
+                name: XL-430_213_5/collision/geom_postrans
+                elements: 
+                  - 
+                    type: Transform
+                    scale: [ 0.001, 0.001, 0.001 ]
+                    elements: 
+                      - 
+                        type: Resource
+                        name: XL-430_213_5/collision/geom
+                        uri: "meshes_xseries/XL-430_mm.obj"
+    parent: FR12_S102_P_213_4
+    translation: [ -0.005, -0.003, -0.0132 ]
+    rotation: [ 0.707114, 0, -0.7071, 180 ]
+    joint_name: XL-430_213_5
+    joint_type: fixed
+    mass: 0.057
+    center_of_mass: [ 0.0166128, -0.0114197, -0.0154743 ]
+    inertia: [ 
+      8.25285e-06, 1.75146e-07, -8.49244e-07, 
+      1.75146e-07, 1.54938e-05, 4.81116e-08, 
+      -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
+  - 
+    name: "WHEEL3"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: omni-shaft-x_213_11/visual
+            elements: 
+              - 
+                type: Transform
+                name: omni-shaft-x_213_11/visual/geom_postrans
+                elements: 
+                  - 
+                    type: Resource
+                    name: omni-shaft-x_213_11/visual/geom
+                    uri: "meshes_xseries/omni_wheel_shaft_m.obj"
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: omni-shaft-x_213_11/collision
+            elements: 
+              - 
+                type: Transform
+                name: omni-shaft-x_213_11/collision/geom_postrans
+                elements: 
+                  - 
+                    type: Resource
+                    name: omni-shaft-x_213_11/collision/geom
+                    uri: "meshes_xseries/omni_wheel_shaft_m.obj"
+    parent: XL-430_213_5
+    translation: [ 0.032, -0.011, 0.002 ]
+    rotation: [ 1.57009e-16, 0, -1, 90 ]
+    joint_name: WHEEL3
+    joint_type: revolute
+    joint_axis: [ 0, 0, 1 ]
+    joint_id: 7
+    mass: 0.005733
+    center_of_mass: [ -1.8e-05, 1.7e-05, 0.012915 ]
+    inertia: [ 
+      5.9243e-07, 4.36e-10, 6.57e-10, 
+      4.36e-10, 5.9246e-07, -6.35e-10, 
+      6.57e-10, -6.35e-10, 1.83964e-07 ]
+  - 
+    name: "omni-wheel_213_17"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: omni-wheel_213_17/visual
+            translation: [ -7.88860905221e-31, 1.38777878078e-17, -0.0251 ]
+            elements: 
+              - 
+                type: Transform
+                name: omni-wheel_213_17/visual/geom_postrans
+                elements: 
+                  - 
+                    type: Resource
+                    name: omni-wheel_213_17/visual/geom
+                    uri: "meshes/omni_wheel_m.obj"
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: omni-wheel_213_17/collision
+            translation: [ -7.88860905221e-31, 1.38777878078e-17, -0.0251 ]
+            elements: 
+              - 
+                type: Transform
+                name: omni-wheel_213_17/collision/geom_postrans
+                elements: 
+                  - 
+                    type: Resource
+                    name: omni-wheel_213_17/collision/geom
+                    uri: "meshes/omni_wheel_m.obj"
+    parent: WHEEL3
+    translation: [ 0, 0, 0.03 ]
+    joint_name: omni-wheel_213_17
+    joint_type: fixed
+    mass: 0.054797
+    center_of_mass: [ 2.725e-12, 1.38778e-17, -0.01255 ]
+    inertia: [ 
+      1.12668e-05, 0, -1.582e-18, 
+      0, 1.12668e-05, 0, 
+      -1.582e-18, 0, 1.6803e-05 ]
