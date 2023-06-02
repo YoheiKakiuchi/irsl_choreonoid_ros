@@ -55,360 +55,66 @@ links:
       5.72e-19, 1.78561e-05, -1.392e-19, 
       1.173e-18, -1.392e-19, 3.56513e-05 ]
   - 
-    name: "block_1_3_213_29"
+    name: "FR12_S102_P_213_4"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: block_1_3_213_29/visual
-            translation: [ -0.004, -0.02, 0.0096 ]
+            name: FR12_S102_P_213_4/visual
+            translation: [ 0.012, 0.008, -0.0242 ]
             elements: 
               - 
                 type: Transform
-                name: block_1_3_213_29/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_29/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_29/collision
-            translation: [ -0.004, -0.02, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_29/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_29/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: Root
-    translation: [ -0.048, 0.008, 0.0032 ]
-    joint_name: block_1_3_213_29
-    joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, -0.008, 0.0048 ]
-    inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
-  - 
-    name: "block_1_3_213_30"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_30/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_30/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_30/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_30/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_30/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_30/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_29
-    translation: [ 0, -0.016, 0.0096 ]
-    joint_name: block_1_3_213_30
-    joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
-    inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
-  - 
-    name: "block_1_3_213_31"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_31/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_31/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_31/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_31/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_31/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_31/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_30
-    translation: [ 0, 0, 0.0096 ]
-    joint_name: block_1_3_213_31
-    joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
-    inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
-  - 
-    name: "block_1_3_213_32"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_32/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_32/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_32/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_32/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_32/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_32/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_31
-    translation: [ 0, 0, 0.0096 ]
-    joint_name: block_1_3_213_32
-    joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
-    inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
-  - 
-    name: "block_1_3_213_33"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_33/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_33/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_33/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_33/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_33/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_33/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_32
-    translation: [ 0, 0, 0.0096 ]
-    joint_name: block_1_3_213_33
-    joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
-    inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
-  - 
-    name: "FR12_S102_P_213_1"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: FR12_S102_P_213_1/visual
-            translation: [ -0.012, -0.008, -0.0242 ]
-            elements: 
-              - 
-                type: Transform
-                name: FR12_S102_P_213_1/visual/geom_postrans
+                name: FR12_S102_P_213_4/visual/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: FR12_S102_P_213_1/visual/geom
+                    name: FR12_S102_P_213_4/visual/geom
                     uri: "meshes_xseries/fr12_s102_p_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: FR12_S102_P_213_1/collision
-            translation: [ -0.012, -0.008, -0.0242 ]
+            name: FR12_S102_P_213_4/collision
+            translation: [ 0.012, 0.008, -0.0242 ]
             elements: 
               - 
                 type: Transform
-                name: FR12_S102_P_213_1/collision/geom_postrans
+                name: FR12_S102_P_213_4/collision/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: FR12_S102_P_213_1/collision/geom
+                    name: FR12_S102_P_213_4/collision/geom
                     uri: "meshes_xseries/fr12_s102_p_m.obj"
     parent: Root
-    translation: [ 0.048, 0.008, 0 ]
-    joint_name: FR12_S102_P_213_1
+    translation: [ 0.008, -0.048, 0 ]
+    rotation: [ 0, 0, 1, 90 ]
+    joint_name: FR12_S102_P_213_4
     joint_type: fixed
     mass: 0.009852
-    center_of_mass: [ -0.012, -0.008, -0.004616 ]
+    center_of_mass: [ 0.012, 0.008, -0.004616 ]
     inertia: [ 
       6.99942e-07, 0, 6.952e-19, 
       0, 1.66741e-06, 0, 
       6.952e-19, 0, 2.08685e-06 ]
   - 
-    name: "XL-430_213_6"
+    name: "XL-430_213_5"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: XL-430_213_6/visual
-            rotation: [ 0, 0, -1, 90 ]
+            name: XL-430_213_5/visual
+            rotation: [ 1.57009245868e-16, 0, -1, 90 ]
             translation: [ 0.032, -0.011, 0.002 ]
             elements: 
               - 
                 type: Transform
-                name: XL-430_213_6/visual/geom_postrans
+                name: XL-430_213_5/visual/geom_postrans
                 elements: 
                   - 
                     type: Transform
@@ -416,20 +122,20 @@ links:
                     elements: 
                       - 
                         type: Resource
-                        name: XL-430_213_6/visual/geom
+                        name: XL-430_213_5/visual/geom
                         uri: "meshes_xseries/XL-430_mm.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: XL-430_213_6/collision
-            rotation: [ 0, 0, -1, 90 ]
+            name: XL-430_213_5/collision
+            rotation: [ 1.57009245868e-16, 0, -1, 90 ]
             translation: [ 0.032, -0.011, 0.002 ]
             elements: 
               - 
                 type: Transform
-                name: XL-430_213_6/collision/geom_postrans
+                name: XL-430_213_5/collision/geom_postrans
                 elements: 
                   - 
                     type: Transform
@@ -437,12 +143,12 @@ links:
                     elements: 
                       - 
                         type: Resource
-                        name: XL-430_213_6/collision/geom
+                        name: XL-430_213_5/collision/geom
                         uri: "meshes_xseries/XL-430_mm.obj"
-    parent: FR12_S102_P_213_1
-    translation: [ 0.005, 0.003, -0.0132 ]
-    rotation: [ 0, 1, 0, 90 ]
-    joint_name: XL-430_213_6
+    parent: FR12_S102_P_213_4
+    translation: [ -0.005, -0.003, -0.0132 ]
+    rotation: [ 0.707114, 0, -0.7071, 180 ]
+    joint_name: XL-430_213_5
     joint_type: fixed
     mass: 0.057
     center_of_mass: [ 0.0166128, -0.0114197, -0.0154743 ]
@@ -451,42 +157,42 @@ links:
       1.75146e-07, 1.54938e-05, 4.81116e-08, 
       -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
   - 
-    name: "LINK_0"
+    name: "WHEEL3"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: omni-shaft-x_213_12/visual
+            name: omni-shaft-x_213_11/visual
             elements: 
               - 
                 type: Transform
-                name: omni-shaft-x_213_12/visual/geom_postrans
+                name: omni-shaft-x_213_11/visual/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-shaft-x_213_12/visual/geom
+                    name: omni-shaft-x_213_11/visual/geom
                     uri: "meshes_xseries/omni_wheel_shaft_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: omni-shaft-x_213_12/collision
+            name: omni-shaft-x_213_11/collision
             elements: 
               - 
                 type: Transform
-                name: omni-shaft-x_213_12/collision/geom_postrans
+                name: omni-shaft-x_213_11/collision/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-shaft-x_213_12/collision/geom
+                    name: omni-shaft-x_213_11/collision/geom
                     uri: "meshes_xseries/omni_wheel_shaft_m.obj"
-    parent: XL-430_213_6
+    parent: XL-430_213_5
     translation: [ 0.032, -0.011, 0.002 ]
-    rotation: [ -1.57009e-16, -1.57009e-16, 1, 90 ]
-    joint_name: WHEEL0
+    rotation: [ 1.57009e-16, 0, -1, 90 ]
+    joint_name: WHEEL3
     joint_type: revolute
     joint_axis: [ 0, 0, 1 ]
     joint_id: 0
@@ -498,345 +204,50 @@ links:
       4.36e-10, 5.9246e-07, -6.35e-10, 
       6.57e-10, -6.35e-10, 1.83964e-07 ]
   - 
-    name: "omni-wheel_213_14"
+    name: "omni-wheel_213_17"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: omni-wheel_213_14/visual
-            translation: [ 0, -6.93889390391e-18, -0.0251 ]
+            name: omni-wheel_213_17/visual
+            translation: [ -7.88860905221e-31, 1.38777878078e-17, -0.0251 ]
             elements: 
               - 
                 type: Transform
-                name: omni-wheel_213_14/visual/geom_postrans
+                name: omni-wheel_213_17/visual/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-wheel_213_14/visual/geom
+                    name: omni-wheel_213_17/visual/geom
                     uri: "meshes/omni_wheel_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: omni-wheel_213_14/collision
-            translation: [ 0, -6.93889390391e-18, -0.0251 ]
+            name: omni-wheel_213_17/collision
+            translation: [ -7.88860905221e-31, 1.38777878078e-17, -0.0251 ]
             elements: 
               - 
                 type: Transform
-                name: omni-wheel_213_14/collision/geom_postrans
+                name: omni-wheel_213_17/collision/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-wheel_213_14/collision/geom
+                    name: omni-wheel_213_17/collision/geom
                     uri: "meshes/omni_wheel_m.obj"
-    parent: LINK_0
+    parent: WHEEL3
     translation: [ 0, 0, 0.03 ]
-    joint_name: omni-wheel_213_14
+    joint_name: omni-wheel_213_17
     joint_type: fixed
     mass: 0.054797
-    center_of_mass: [ 2.725e-12, -6.93889e-18, -0.01255 ]
+    center_of_mass: [ 2.725e-12, 1.38778e-17, -0.01255 ]
     inertia: [ 
       1.12668e-05, 0, -1.582e-18, 
       0, 1.12668e-05, 0, 
       -1.582e-18, 0, 1.6803e-05 ]
-  - 
-    name: "block_1_3_213_34"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_34/visual
-            translation: [ -0.004, -0.02, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_34/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_34/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_34/collision
-            translation: [ -0.004, -0.02, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_34/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_34/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: Root
-    translation: [ 0.048, 0.008, 0.0032 ]
-    joint_name: block_1_3_213_34
-    joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, -0.008, 0.0048 ]
-    inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
-  - 
-    name: "block_1_3_213_35"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_35/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_35/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_35/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_35/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_35/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_35/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_34
-    translation: [ 0, -0.016, 0.0096 ]
-    joint_name: block_1_3_213_35
-    joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
-    inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
-  - 
-    name: "block_1_3_213_36"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_36/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_36/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_36/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_36/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_36/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_36/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_35
-    translation: [ 0, 0, 0.0096 ]
-    joint_name: block_1_3_213_36
-    joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
-    inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
-  - 
-    name: "block_1_3_213_37"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_37/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_37/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_37/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_37/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_37/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_37/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_36
-    translation: [ 0, 0, 0.0096 ]
-    joint_name: block_1_3_213_37
-    joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
-    inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
-  - 
-    name: "block_1_3_213_38"
-    elements: 
-      - 
-        type: Visual
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_38/visual
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_38/visual/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_38/visual/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-      - 
-        type: Collision
-        elements: 
-          - 
-            type: Transform
-            name: block_1_3_213_38/collision
-            translation: [ -0.004, -0.004, 0.0096 ]
-            elements: 
-              - 
-                type: Transform
-                name: block_1_3_213_38/collision/geom_postrans
-                translation: [ 0.004, 0.012, -0.0048 ]
-                elements: 
-                  - 
-                    type: Shape
-                    name: block_1_3_213_38/collision/box
-                    appearance: 
-                      material: 
-                        ambient: 0.7
-                        diffuse: [ 0.95, 0.95, 0.95 ]
-                    geometry: 
-                      type: Box
-                      size: [ 0.008, 0.024, 0.0096 ]
-    parent: block_1_3_213_37
-    translation: [ 0, 0, 0.0096 ]
-    joint_name: block_1_3_213_38
-    joint_type: fixed
-    mass: 0.00237773
-    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
-    inertia: [ 
-      1.32392e-07, 0, 0, 
-      0, 3.09422e-08, 0, 
-      0, 0, 1.26812e-07 ]
   - 
     name: "FR12_S102_P_213_3"
     elements: 
@@ -939,7 +350,7 @@ links:
       1.75146e-07, 1.54938e-05, 4.81116e-08, 
       -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
   - 
-    name: "LINK_1"
+    name: "WHEEL1"
     elements: 
       - 
         type: Visual
@@ -1020,7 +431,7 @@ links:
                     type: Resource
                     name: omni-wheel_213_16/collision/geom
                     uri: "meshes/omni_wheel_m.obj"
-    parent: LINK_1
+    parent: WHEEL1
     translation: [ 0, 0, 0.03 ]
     joint_name: omni-wheel_213_16
     joint_type: fixed
@@ -1643,7 +1054,7 @@ links:
       1.75146e-07, 8.25285e-06, 8.49244e-07, 
       -4.81116e-08, 8.49244e-07, 1.37413e-05 ]
   - 
-    name: "LINK_2"
+    name: "JOINT0"
     elements: 
       - 
         type: Visual
@@ -1738,7 +1149,7 @@ links:
                         type: Resource
                         name: XL-430_213_21/collision/geom
                         uri: "meshes_xseries/XL-430_mm.obj"
-    parent: LINK_2
+    parent: JOINT0
     translation: [ 0.017, -0.011, 0.01 ]
     rotation: [ -0.707107, 1.11022e-16, -0.707107, 180 ]
     joint_name: XL-430_213_21
@@ -1750,7 +1161,7 @@ links:
       1.75146e-07, 1.54938e-05, 4.81116e-08, 
       -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
   - 
-    name: "LINK_3"
+    name: "JOINT1"
     elements: 
       - 
         type: Visual
@@ -1837,7 +1248,7 @@ links:
                     type: Resource
                     name: FR12_H103_S_213_23/collision/geom
                     uri: "meshes_xseries/fr12_h103_socket_m.obj"
-    parent: LINK_3
+    parent: JOINT1
     translation: [ -0.008, 0.0327, -0.007 ]
     rotation: [ -0.57735, -0.57735, -0.57735, 120 ]
     joint_name: FR12_H103_S_213_23
@@ -1849,7 +1260,7 @@ links:
       7.969e-18, 1.18942e-05, -7.555e-15, 
       1.76946e-33, -7.555e-15, 7.02074e-06 ]
   - 
-    name: "LINK_4"
+    name: "JOINT2"
     elements: 
       - 
         type: Visual
@@ -1942,7 +1353,7 @@ links:
                     type: Resource
                     name: FR12_S102_P_213_25/collision/geom
                     uri: "meshes_xseries/fr12_s102_p_m.obj"
-    parent: LINK_4
+    parent: JOINT2
     translation: [ -0.011, -0.032, -0.002 ]
     rotation: [ -3.92523e-17, -3.92523e-17, 1, 90 ]
     joint_name: FR12_S102_P_213_25
@@ -2064,7 +1475,7 @@ links:
       1.75146e-07, 1.54938e-05, 4.81116e-08, 
       -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
   - 
-    name: "LINK_5"
+    name: "JOINT3"
     elements: 
       - 
         type: Visual
@@ -2225,7 +1636,7 @@ links:
       1.75146e-07, 1.54938e-05, 4.81116e-08, 
       -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
   - 
-    name: "LINK_6"
+    name: "WHEEL2"
     elements: 
       - 
         type: Visual
@@ -2310,7 +1721,7 @@ links:
                     type: Resource
                     name: omni-wheel_213_15/collision/geom
                     uri: "meshes/omni_wheel_m.obj"
-    parent: LINK_6
+    parent: WHEEL2
     translation: [ 0, 6.93889e-18, 0.03 ]
     rotation: [ -1, -5.27832e-14, 3.2482e-14, 8.90555e-14 ]
     joint_name: omni-wheel_213_15
@@ -2322,66 +1733,65 @@ links:
       -2.52435e-41, 1.12668e-05, -1.99676e-47, 
       -1.582e-18, -1.99676e-47, 1.6803e-05 ]
   - 
-    name: "FR12_S102_P_213_4"
+    name: "FR12_S102_P_213_1"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: FR12_S102_P_213_4/visual
-            translation: [ 0.012, 0.008, -0.0242 ]
+            name: FR12_S102_P_213_1/visual
+            translation: [ -0.012, -0.008, -0.0242 ]
             elements: 
               - 
                 type: Transform
-                name: FR12_S102_P_213_4/visual/geom_postrans
+                name: FR12_S102_P_213_1/visual/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: FR12_S102_P_213_4/visual/geom
+                    name: FR12_S102_P_213_1/visual/geom
                     uri: "meshes_xseries/fr12_s102_p_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: FR12_S102_P_213_4/collision
-            translation: [ 0.012, 0.008, -0.0242 ]
+            name: FR12_S102_P_213_1/collision
+            translation: [ -0.012, -0.008, -0.0242 ]
             elements: 
               - 
                 type: Transform
-                name: FR12_S102_P_213_4/collision/geom_postrans
+                name: FR12_S102_P_213_1/collision/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: FR12_S102_P_213_4/collision/geom
+                    name: FR12_S102_P_213_1/collision/geom
                     uri: "meshes_xseries/fr12_s102_p_m.obj"
     parent: Root
-    translation: [ 0.008, -0.048, 0 ]
-    rotation: [ 0, 0, 1, 90 ]
-    joint_name: FR12_S102_P_213_4
+    translation: [ 0.048, 0.008, 0 ]
+    joint_name: FR12_S102_P_213_1
     joint_type: fixed
     mass: 0.009852
-    center_of_mass: [ 0.012, 0.008, -0.004616 ]
+    center_of_mass: [ -0.012, -0.008, -0.004616 ]
     inertia: [ 
       6.99942e-07, 0, 6.952e-19, 
       0, 1.66741e-06, 0, 
       6.952e-19, 0, 2.08685e-06 ]
   - 
-    name: "XL-430_213_5"
+    name: "XL-430_213_6"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: XL-430_213_5/visual
-            rotation: [ 1.57009245868e-16, 0, -1, 90 ]
+            name: XL-430_213_6/visual
+            rotation: [ 0, 0, -1, 90 ]
             translation: [ 0.032, -0.011, 0.002 ]
             elements: 
               - 
                 type: Transform
-                name: XL-430_213_5/visual/geom_postrans
+                name: XL-430_213_6/visual/geom_postrans
                 elements: 
                   - 
                     type: Transform
@@ -2389,20 +1799,20 @@ links:
                     elements: 
                       - 
                         type: Resource
-                        name: XL-430_213_5/visual/geom
+                        name: XL-430_213_6/visual/geom
                         uri: "meshes_xseries/XL-430_mm.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: XL-430_213_5/collision
-            rotation: [ 1.57009245868e-16, 0, -1, 90 ]
+            name: XL-430_213_6/collision
+            rotation: [ 0, 0, -1, 90 ]
             translation: [ 0.032, -0.011, 0.002 ]
             elements: 
               - 
                 type: Transform
-                name: XL-430_213_5/collision/geom_postrans
+                name: XL-430_213_6/collision/geom_postrans
                 elements: 
                   - 
                     type: Transform
@@ -2410,12 +1820,12 @@ links:
                     elements: 
                       - 
                         type: Resource
-                        name: XL-430_213_5/collision/geom
+                        name: XL-430_213_6/collision/geom
                         uri: "meshes_xseries/XL-430_mm.obj"
-    parent: FR12_S102_P_213_4
-    translation: [ -0.005, -0.003, -0.0132 ]
-    rotation: [ 0.707114, 0, -0.7071, 180 ]
-    joint_name: XL-430_213_5
+    parent: FR12_S102_P_213_1
+    translation: [ 0.005, 0.003, -0.0132 ]
+    rotation: [ 0, 1, 0, 90 ]
+    joint_name: XL-430_213_6
     joint_type: fixed
     mass: 0.057
     center_of_mass: [ 0.0166128, -0.0114197, -0.0154743 ]
@@ -2424,42 +1834,42 @@ links:
       1.75146e-07, 1.54938e-05, 4.81116e-08, 
       -8.49244e-07, 4.81116e-08, 1.37413e-05 ]
   - 
-    name: "LINK_7"
+    name: "WHEEL0"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: omni-shaft-x_213_11/visual
+            name: omni-shaft-x_213_12/visual
             elements: 
               - 
                 type: Transform
-                name: omni-shaft-x_213_11/visual/geom_postrans
+                name: omni-shaft-x_213_12/visual/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-shaft-x_213_11/visual/geom
+                    name: omni-shaft-x_213_12/visual/geom
                     uri: "meshes_xseries/omni_wheel_shaft_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: omni-shaft-x_213_11/collision
+            name: omni-shaft-x_213_12/collision
             elements: 
               - 
                 type: Transform
-                name: omni-shaft-x_213_11/collision/geom_postrans
+                name: omni-shaft-x_213_12/collision/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-shaft-x_213_11/collision/geom
+                    name: omni-shaft-x_213_12/collision/geom
                     uri: "meshes_xseries/omni_wheel_shaft_m.obj"
-    parent: XL-430_213_5
+    parent: XL-430_213_6
     translation: [ 0.032, -0.011, 0.002 ]
-    rotation: [ 1.57009e-16, 0, -1, 90 ]
-    joint_name: WHEEL3
+    rotation: [ -1.57009e-16, -1.57009e-16, 1, 90 ]
+    joint_name: WHEEL0
     joint_type: revolute
     joint_axis: [ 0, 0, 1 ]
     joint_id: 7
@@ -2471,47 +1881,637 @@ links:
       4.36e-10, 5.9246e-07, -6.35e-10, 
       6.57e-10, -6.35e-10, 1.83964e-07 ]
   - 
-    name: "omni-wheel_213_17"
+    name: "omni-wheel_213_14"
     elements: 
       - 
         type: Visual
         elements: 
           - 
             type: Transform
-            name: omni-wheel_213_17/visual
-            translation: [ -7.88860905221e-31, 1.38777878078e-17, -0.0251 ]
+            name: omni-wheel_213_14/visual
+            translation: [ 0, -6.93889390391e-18, -0.0251 ]
             elements: 
               - 
                 type: Transform
-                name: omni-wheel_213_17/visual/geom_postrans
+                name: omni-wheel_213_14/visual/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-wheel_213_17/visual/geom
+                    name: omni-wheel_213_14/visual/geom
                     uri: "meshes/omni_wheel_m.obj"
       - 
         type: Collision
         elements: 
           - 
             type: Transform
-            name: omni-wheel_213_17/collision
-            translation: [ -7.88860905221e-31, 1.38777878078e-17, -0.0251 ]
+            name: omni-wheel_213_14/collision
+            translation: [ 0, -6.93889390391e-18, -0.0251 ]
             elements: 
               - 
                 type: Transform
-                name: omni-wheel_213_17/collision/geom_postrans
+                name: omni-wheel_213_14/collision/geom_postrans
                 elements: 
                   - 
                     type: Resource
-                    name: omni-wheel_213_17/collision/geom
+                    name: omni-wheel_213_14/collision/geom
                     uri: "meshes/omni_wheel_m.obj"
-    parent: LINK_7
+    parent: WHEEL0
     translation: [ 0, 0, 0.03 ]
-    joint_name: omni-wheel_213_17
+    joint_name: omni-wheel_213_14
     joint_type: fixed
     mass: 0.054797
-    center_of_mass: [ 2.725e-12, 1.38778e-17, -0.01255 ]
+    center_of_mass: [ 2.725e-12, -6.93889e-18, -0.01255 ]
     inertia: [ 
       1.12668e-05, 0, -1.582e-18, 
       0, 1.12668e-05, 0, 
       -1.582e-18, 0, 1.6803e-05 ]
+  - 
+    name: "block_1_3_213_29"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_29/visual
+            translation: [ -0.004, -0.02, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_29/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_29/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_29/collision
+            translation: [ -0.004, -0.02, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_29/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_29/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: Root
+    translation: [ -0.048, 0.008, 0.0032 ]
+    joint_name: block_1_3_213_29
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, -0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_30"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_30/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_30/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_30/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_30/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_30/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_30/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_29
+    translation: [ 0, -0.016, 0.0096 ]
+    joint_name: block_1_3_213_30
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_31"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_31/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_31/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_31/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_31/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_31/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_31/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_30
+    translation: [ 0, 0, 0.0096 ]
+    joint_name: block_1_3_213_31
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_32"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_32/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_32/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_32/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_32/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_32/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_32/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_31
+    translation: [ 0, 0, 0.0096 ]
+    joint_name: block_1_3_213_32
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_33"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_33/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_33/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_33/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_33/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_33/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_33/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_32
+    translation: [ 0, 0, 0.0096 ]
+    joint_name: block_1_3_213_33
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_34"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_34/visual
+            translation: [ -0.004, -0.02, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_34/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_34/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_34/collision
+            translation: [ -0.004, -0.02, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_34/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_34/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: Root
+    translation: [ 0.048, 0.008, 0.0032 ]
+    joint_name: block_1_3_213_34
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, -0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_35"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_35/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_35/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_35/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_35/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_35/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_35/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_34
+    translation: [ 0, -0.016, 0.0096 ]
+    joint_name: block_1_3_213_35
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_36"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_36/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_36/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_36/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_36/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_36/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_36/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_35
+    translation: [ 0, 0, 0.0096 ]
+    joint_name: block_1_3_213_36
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_37"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_37/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_37/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_37/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_37/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_37/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_37/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_36
+    translation: [ 0, 0, 0.0096 ]
+    joint_name: block_1_3_213_37
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
+  - 
+    name: "block_1_3_213_38"
+    elements: 
+      - 
+        type: Visual
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_38/visual
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_38/visual/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_38/visual/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+      - 
+        type: Collision
+        elements: 
+          - 
+            type: Transform
+            name: block_1_3_213_38/collision
+            translation: [ -0.004, -0.004, 0.0096 ]
+            elements: 
+              - 
+                type: Transform
+                name: block_1_3_213_38/collision/geom_postrans
+                translation: [ 0.004, 0.012, -0.0048 ]
+                elements: 
+                  - 
+                    type: Shape
+                    name: block_1_3_213_38/collision/box
+                    appearance: 
+                      material: 
+                        ambient: 0.7
+                        diffuse: [ 0.95, 0.95, 0.95 ]
+                    geometry: 
+                      type: Box
+                      size: [ 0.008, 0.024, 0.0096 ]
+    parent: block_1_3_213_37
+    translation: [ 0, 0, 0.0096 ]
+    joint_name: block_1_3_213_38
+    joint_type: fixed
+    mass: 0.00237773
+    center_of_mass: [ -3.46945e-18, 0.008, 0.0048 ]
+    inertia: [ 
+      1.32392e-07, 0, 0, 
+      0, 3.09422e-08, 0, 
+      0, 0, 1.26812e-07 ]
