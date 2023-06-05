@@ -1019,7 +1019,7 @@ links:
                     uri: "meshes/tof-sensor.obj"
       - 
         type: Camera
-        name: "TOF_Sensor0"
+        name: "TOFSensor"
         translation: [ -0.0119, -0.0119, 0 ]
         rotation: [ 0, 0, 1, 180 ]
         frame_rate: 30

@@ -386,3 +386,6 @@ actuator-info:
   XL-430_213_8/horn:
     name: WHEEL1
     limit: [-inf, inf]
+device-info:
+  tof-sensor_5635_2/TOF_Sensor:
+    name: TOFSensor
