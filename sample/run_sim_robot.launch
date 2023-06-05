@@ -19,8 +19,8 @@
 
   <group ns="$(arg robot_name)" >
     <node name="tof_converter_node" pkg="irsl_choreonoid_ros" type="tof_converter_node.py" output="screen">
-      <remap from="input_points" to="TOF_Sensor0/point_cloud"/>
-      <remap from="output_sensor_data" to="TOF_Sensor0/value"/>
+      <remap from="input_points" to="TOFSensor/point_cloud"/>
+      <remap from="output_sensor_data" to="TOFSensor/value"/>
     </node>
 
     <node name="wheelcontroller_node" pkg="irsl_choreonoid_ros" type="wheelcontroller.py" output="screen">
