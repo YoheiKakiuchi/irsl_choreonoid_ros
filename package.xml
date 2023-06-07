@@ -17,4 +17,8 @@
   <exec_depend>ros_controllers</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
   <!--exec_depend>cv_bridge_python3</exec_depend-->
+
+  <exec_depend>smach_ros</exec_depend>
+  <exec_depend>smach_viewer</exec_depend>
+  <exec_depend>python3-pygraphviz</exec_depend>
 </package>
