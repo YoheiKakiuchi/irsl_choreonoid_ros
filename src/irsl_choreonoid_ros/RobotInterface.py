@@ -38,6 +38,9 @@ class MobileBaseInterface(object):
 
     def move_velocity(self, vel_x, vel_y, vel_th):
         msg = self.msg()
+        msg.linear.x = vel_x
+        msg.linear.y = vel_y
+        msg.angular.y = vel_th
         self.pub.publish(msg)
 
     def move_position(self):
@@ -69,9 +72,9 @@ class JointGroupTopic(object):
         msg.joint_names = self.joint_names
         point = JointTrajectoryPoint()
         point.positions = [j.q for j in self.joints]
-        point.time_from_start = rospy.Duration(duration)
+        point.time_from_start = rospy.Duration(tm)
         msg.points.append(point)
-        self.finish_time = rospy.get_rostime() + rospy.Duration(duration)
+        self.finish_time = rospy.get_rostime() + rospy.Duration(tm)
         self.pub.publish(msg)
 
     def isFinished(self):

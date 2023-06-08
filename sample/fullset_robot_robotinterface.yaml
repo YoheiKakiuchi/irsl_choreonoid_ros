@@ -25,7 +25,7 @@ joint_groups:
 
 devices:
   -
-    topic: /fullset_robot/TOF_sensor0/value
+    topic: /fullset_robot/TOF_Sensor0/value
     type: std_msgs/Float64
     name: TOF_sensor0
     rate: 10
