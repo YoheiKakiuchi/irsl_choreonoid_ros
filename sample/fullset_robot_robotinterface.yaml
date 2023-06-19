@@ -25,7 +25,11 @@ joint_groups:
 
 devices:
   -
-    topic: /fullset_robot/TOF_Sensor0/value
+    topic: /fullset_robot/joint_states
+    class: JointState
+    name: joint_state
+  -
+    topic: /fullset_robot/TOFSensor/value
     type: std_msgs/Float64
-    name: TOF_sensor0
+    name: TOFsensor
     rate: 10
