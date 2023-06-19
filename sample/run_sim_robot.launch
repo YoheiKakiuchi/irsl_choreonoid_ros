@@ -1,13 +1,14 @@
 <launch>
+  <arg name="demo_base_dir" default="/userdir/"/>
   <!-- choreonoid -->
-  <arg name="project_file" default="/userdir/fullset_robot.cnoid"/>
+  <arg name="project_file" default="$(arg demo_base_dir)fullset_robot.cnoid"/>
   <arg name="robot_name" default="fullset_robot"/>
   <!-- ros_control -->
-  <arg name="model" default="/userdir/fullset_robot.urdf"/>
-  <arg name="control_config" default="/userdir/fullset_robot_roscontrol.yaml"/>
+  <arg name="model" default="$(arg demo_base_dir)fullset_robot.urdf"/>
+  <arg name="control_config" default="$(arg demo_base_dir)fullset_robot_roscontrol.yaml"/>
   <arg name="controllers" default="joint_controller wheel_controller joint_state_controller" />
   <!-- wheel -->
-  <arg name="wheelconfigfile" default="/userdir/fullset_robot_wheel.yaml"/>
+  <arg name="wheelconfigfile" default="$(arg demo_base_dir)fullset_robot_wheel.yaml"/>
 
   <include file="$(find irsl_choreonoid_ros)/launch/sim_robot.launch">
     <arg name="project_file" value="$(arg project_file)" />
