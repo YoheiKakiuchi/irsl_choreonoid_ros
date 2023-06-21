@@ -1,0 +1,13 @@
+strict digraph {
+    stop [ shape=ellipse ]
+    forward [ shape=ellipse ]
+    back [ shape=ellipse ]
+    end [ shape=box]
+    stop -> forward
+    stop -> back
+    forward -> stop
+    forward -> back
+    back -> forward
+    back -> stop
+    stop -> end
+}
