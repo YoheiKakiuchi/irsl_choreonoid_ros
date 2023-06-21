@@ -1,0 +1,13 @@
+Transform {
+   translation 0 0 0.09
+   children Shape {
+      geometry Box {
+         size 0.12 0.12 0.18
+      }
+      appearance Appearance {
+         material Material {
+            diffuseColor 1.0 0.0 0.0
+         }
+      }
+   }
+}
