@@ -33,8 +33,8 @@ class MotionLib(object):
       self.ri.move_velocity(0, 0.05, 0)
       rospy.sleep(0.2)
       tm, tof_data = self.ri.waitNextData('TOFsensor', timeout=1.0, clear=True)
-      if tof_data.data > 0.25:
-        return "back_stop"
       if tof_data.data > 0.5:
         return "back_forward"
+      if tof_data.data > 0.25:
+        return "back_stop"
     return "fail"
