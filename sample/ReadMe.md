@@ -6,14 +6,13 @@ Terminal 1 (ロボット実機)
 ```
 ./run_sim_local.sh
 source /choreonoid_ws/install/setup.bash
-roslaunch run_sim_robot.launch 
+roslaunch run_sim_robot.launch demo_base_dir:=/choreonoid_ws/src/irsl_choreonoid_ros/sample/
 ```
 
 Terminal 2 (ユーザプログラム)
 ```
 docker exec -it docker_irsl_system bash
 source /opt/ros/noetic/setup.bash
-source /choreonoid_ws/install/setup.bash
 python3 stop_robot.py TOFsensor:=/fullset_robot/TOFSensor/value cmd_vel:=/fullset_robot/cmd_vel
 ```
 
@@ -21,15 +20,14 @@ python3 stop_robot.py TOFsensor:=/fullset_robot/TOFSensor/value cmd_vel:=/fullse
 # サンプル動作方法（RI)
 Terminal 1 (ロボット実機)
 ```
-./run_sim_local.sh demo_base_dir:=/choreonoid_ws/src/irsl_choreonoid_ros/sample/
+./run_sim_local.sh
 source /choreonoid_ws/install/setup.bash
-roslaunch run_sim_robot.launch 
+roslaunch run_sim_robot.launch demo_base_dir:=/choreonoid_ws/src/irsl_choreonoid_ros/sample/
 ```
 
 Terminal 2 (ユーザプログラム)
 ```
 docker exec -it docker_irsl_system bash
-source /opt/ros/noetic/setup.bash
 source /choreonoid_ws/install/setup.bash
 PYTHONPATH=$PYTHONPATH:$(dirname $(which choreonoid))/../lib/choreonoid-1.8/python python3 stop_robot_ri.py
 ```
@@ -43,15 +41,14 @@ python3 smach_gen_sample.py
 # サンプル動作方法 (smach)
 Terminal 1 (ロボット実機)
 ```
-./run_sim_local.sh demo_base_dir:=/choreonoid_ws/src/irsl_choreonoid_ros/sample/
+./run_sim_local.sh
 source /choreonoid_ws/install/setup.bash
-roslaunch run_sim_robot.launch 
+roslaunch run_sim_robot.launch demo_base_dir:=/choreonoid_ws/src/irsl_choreonoid_ros/sample/
 ```
 
 Terminal 2 (ユーザプログラム)
 ```
 docker exec -it docker_irsl_system bash
-source /opt/ros/noetic/setup.bash
 source /choreonoid_ws/install/setup.bash
 PYTHONPATH=$PYTHONPATH:$(dirname $(which choreonoid))/../lib/choreonoid-1.8/python python3 stop_robot_smach.py
 ```
