@@ -91,13 +91,39 @@ items:
             zmp: [ 0, 0, 0 ]
         - 
           id: 6
+          name: "block"
+          plugin: Body
+          class: BodyItem
+          is_checked: true
+          data: 
+            file: "block.body"
+            format: CHOREONOID-BODY
+            rootPosition: [ 0, -1.0, -0 ]
+            rootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0, -1.0, 0 ]
+            initialRootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            fix_root: true
+            collisionDetection: true
+            selfCollisionDetection: false
+            location_editable: true
+            scene_sensitive: true
+            zmp: [ 0, 0, 0 ]
+        - 
+          id: 7
           name: "WorldROS"
           plugin: ROS
           class: WorldROSItem
           data: 
             max_clock_publishing_rate: 100
         - 
-          id: 7
+          id: 8
           name: "AISTSimulator"
           plugin: Body
           class: AISTSimulatorItem
@@ -130,7 +156,7 @@ items:
             oldAccelSensorMode: false
           children: 
             - 
-              id: 8
+              id: 9
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -147,20 +173,6 @@ items:
                 enable_head_light: true
                 enable_additional_lights: true
                 antialiasing: false
-        - 
-          id: 9
-          name: "block"
-          plugin: Base
-          class: SceneItem
-          is_selected: true
-          is_checked: true
-          data: 
-            file: "block.wrl"
-            format: GENERAL-3D-MODEL
-            translation: [ 0, -1, 0 ]
-            rotation: [ 1, 0, 0, 0 ]
-            angle_unit: degree
-            lightweight_rendering: false
 views: 
   - 
     id: 0

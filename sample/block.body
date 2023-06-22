@@ -1,0 +1,24 @@
+format: ChoreonoidBody
+formatVersion: 1.0
+name: block
+links:
+  -
+    name: block
+    jointType: fixed
+    #material: Ground
+    #AMOR: true
+    elements:
+      - 
+        type: Transform
+        translation: [ 0, 0, 0.09 ]
+        elements: 
+          - 
+            type: Shape
+            appearance: 
+              material: 
+                ambient: 0.2
+                diffuse: [ 1, 0, 0 ]
+                specular_exponent: 26.4
+            geometry: 
+              type: Box
+              size: [ 0.12, 0.12, 0.18 ]    
