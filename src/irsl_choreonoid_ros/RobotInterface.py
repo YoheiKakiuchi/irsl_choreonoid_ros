@@ -27,7 +27,7 @@ class MobileBaseInterface(object):
     def mobile_init(self, mobile_dict, body):
         print('mobile: {}'.format(mobile_dict))
         if body is not None:
-            self.body = body
+            self.__body = body
         if not 'type' in mobile_dict:
             from geometry_msgs.msg import Twist
             self.msg = Twist
@@ -41,7 +41,8 @@ class MobileBaseInterface(object):
         self.baselink = None
         if 'baselink' in mobile_dict:
             self.baselink = mobile_dict['baselink']
-            ## TODO check baselink in self.body
+            ## TODO check baselink in self.__body
+
     def stop(self):
         self.move_velocity(0.0, 0.0, 0.0)
 
@@ -71,7 +72,7 @@ class JointInterface(object):
     def joint_init(self, group_list, body):
         print('joint: {}'.format(group_list))
         if body is not None:
-            self.body = body
+            self.__body = body
         self.joint_groups = {}
         self.default_group = None
         for group in group_list:
@@ -80,9 +81,9 @@ class JointInterface(object):
             else:
                 name = group['name']
             if ('type' in group) and (group['type'] == 'action'):
-                jg = JointGroupAction(group, self.body)
+                jg = JointGroupAction(group, self.__body)
             else:
-                jg = JointGroupTopic(group, self.body)
+                jg = JointGroupTopic(group, self.__body)
             self.joint_groups[name] = jg
             if self.default_group is None:
                 self.default_group = jg
@@ -95,12 +96,12 @@ class JointInterface(object):
         gp.sendAngles(tm)
 
     def sendAngleVector(self, av, tm=None, group=None):
-        self.body.angleVector(av)
+        self.__body.angleVector(av)
         self.sendAngles(tm=tm,group=group)
 
     def sendAngleDict(self, angle_dict, tm):
         for name, angle in angle_dict.items():
-            self.body.joint(name).q = angle
+            self.__body.joint(name).q = angle
         self.sendAngles(tm=tm,group=group)
 
     def isFinished(self, group = None):
@@ -113,14 +114,13 @@ class JointInterface(object):
 class JointGroupTopic(object):
     def __init__(self, group, body=None):
         super().__init__()
-        self.body = body
+        self.__body = body
         self.pub = rospy.Publisher(group['topic'], JointTrajectory, queue_size=1)
         self.joint_names = group['joint_names']
         self.joints  = []
         for j in self.joint_names:
             j = body.joint(j)
             self.joints.append(j)
-
         self.finish_time = rospy.get_rostime()
 
     def sendAngles(self, tm = None):
@@ -146,7 +146,7 @@ class JointGroupTopic(object):
 class JointGroupAction(object):
     def __init__(self, group, body=None):
         super().__init__()
-        self.body = body
+        self.__body = body
         print('JointGroupAction not implemented', file=sys.stderr)
         raise Exception
     def sendAngles(self, tm = None):
@@ -164,35 +164,40 @@ class DeviceInterface(object):
     def device_init(self, device_list, body):
         print('devices: {}'.format(device_list))
         if body is not None:
-            self.body = body
+            self.__body = body
         self.devices = {}
 
         for dev in device_list:
             if 'class' in dev:
                 cls = eval('{}'.format(dev['class']))
-                self.devices[dev['name']] = cls(dev, body=self.body)
+                self.devices[dev['name']] = cls(dev, body=self.__body)
             else:
-                self.devices[dev['name']] = RosDevice(dev, body=self.body)
+                self.devices[dev['name']] = RosDevice(dev, body=self.__body)
 
     def data(self, name, clear=False):
         '''Get data from the device'''
         dev = self.devices[name]
         return dev.data(clear)
+
     def waitData(self, name, timeout=None, clear=False):
         '''Wait if there is no current data'''
         dev = self.devices[name]
         return dev.waitData(timeout, clear=clear)
+
     def waitNextData(self, name, timeout=None, clear=False):
         '''Wait until subscribing new data'''
         dev = self.devices[name]
         return dev.waitNextData(timeout, clear=clear)
+
     def dataArray(self, names, clear=False):
         '''Get data array from devices'''
         return [ self.devices[name].data(clear) for name in names ]
+
     def waitDataArray(self, names, timeout=None, clear=False):
         for name in names:
             self.devices[name]._pre_wait(timeout)
         return [ self.devices[name]._fetch_data(clear) for name in names ]
+
     def waitNextDataArray(self, names, timeout=None, clear=False):
         for name in names:
             self.devices[name]._pre_wait_next(timeout)
@@ -202,7 +207,7 @@ class RosDeviceBase(object):
     def __init__(self, dev_dict, body=None):
         super().__init__()
         self.robot_callback = None
-        self.body = body
+        self.__body = body
         self.topic = dev_dict['topic']
         self.name  = dev_dict['name']
         ## TODO: implement rate
@@ -214,10 +219,12 @@ class RosDeviceBase(object):
         self.msg_time = None
         self.current_msg = None
         self.timeout = None
+
     def parseType(self, type_str):
         tp = type_str.split('/')
         exec('from {}.msg import {}'.format(tp[0], tp[1]), locals(), globals())
         self.msg = eval('{}'.format(tp[1]))
+
     def subscribe(self):
         self.sub = rospy.Subscriber(self.topic, self.msg, self.callback)
 
@@ -229,8 +236,10 @@ class RosDeviceBase(object):
         if self.robot_callback is not None:
             self.robot_callback(self.msg_time, msg)
         self.current_msg = msg
+
     def returnData(self):
         return (self.msg_time, self.current_msg)
+
     def data(self, clear=False):
         res = self.returnData()
         if clear:
@@ -259,16 +268,25 @@ class RosDeviceBase(object):
     def waitData(self, timeout=None, clear=False):
         self._pre_wait(timeout)
         return self._fetch_data(clear)
+
     def waitNextData(self, timeout=None, clear=False):
         self._pre_wait_next(timeout)
         return self._fetch_data(clear)
-## generic device (using type: tag in robotinterface.yaml)
+    ##
+    @property
+    def body(self):
+        return self.__body
+#    @body.setter
+#    def body(self, in_body):
+#        self.__body = in_body
+
+# generic device (using type: tag in robotinterface.yaml)
 class RosDevice(RosDeviceBase):
     def __init__(self, dev_dict, body=None):
         super().__init__(dev_dict, body)
         self.parseType(dev_dict['type'])
         self.subscribe()
-## specific device (using class: tag in robotinterface.yaml)
+# specific device (using class: tag in robotinterface.yaml)
 class StringDevice(RosDeviceBase):
     def __init__(self, dev_dict, body=None):
         super().__init__(dev_dict, body)
@@ -287,14 +305,17 @@ class JointState(RosDeviceBase):
         self.msg = sensor_msgs.msg.JointState
         self.robot_callback = self.joint_callback
         self.subscribe()
+
     def joint_msg_to_body(self, msg):
         for idx, nm in zip(range(len(msg.name)), msg.name):
-            lk = self.body.joint(nm)
+            lk = self.__body.joint(nm)
             if lk:
                 lk.q = msg.position[idx]
+
     def joint_callback(self, rtime, msg):
         #print('js: {} {}'.format(rtime, msg))
         self.joint_msg_to_body(msg)
+
 #
 # RobotInterface
 #
@@ -322,23 +343,21 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
                 raise Exception('file: {} does not exist'.format(self.model_file))
 
             bl = cnoid.Body.BodyLoader()
-            self.body = bl.load(self.model_file)
-            if self.body is None:
+            self.__body = bl.load(self.model_file)
+            if self.__body is None:
                 raise Exception('body can not be loaded by file: {}'.format(self.model_file))
             ## RobotModel??
 
     def copyRobotModel(self):
         bl = cnoid.Body.BodyLoader()
         return bl.load(self.model_file)
-#    def setup_modele_base(self):
-#        if 'mobile_base' in self.info:
-#            self.mobile_base = MobileBaseInterface(self.info['mobile_base'], body=self.body)
-#    def setup_joint_groups(self):
-#        if 'joint_groups' in self.info:
-#            self.joint_groups = JointInterface(self.info['joint_groups'], body=self.body)
-#    def setup_devices(self):
-#        if 'devices' in self.info:
-#            self.devices = DeviceInterface(self.info['devices'], body=self.body)
+
+    @property
+    def body(self):
+        return self.__body
+#    @body.setter
+#    def body(self, in_body):
+#        self.__body = in_body
 
 ##
 ## sample usage
