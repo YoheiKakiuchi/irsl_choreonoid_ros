@@ -1,8 +1,164 @@
+actuator-info: 
+  XL-430_213_19/horn: 
+    name: JOINT0
+  XL-430_213_21/horn: 
+    name: JOINT1
+  XL-430_213_24/horn: 
+    name: JOINT2
+  XL-430_213_27/horn: 
+    name: JOINT3
+  XL-430_213_5/horn: 
+    limit: [ -inf, inf ]
+    name: WHEEL3
+  XL-430_213_6/horn: 
+    limit: [ -inf, inf ]
+    name: WHEEL0
+  XL-430_213_7/horn: 
+    limit: [ -inf, inf ]
+    name: WHEEL2
+  XL-430_213_8/horn: 
+    limit: [ -inf, inf ]
+    name: WHEEL1
+device-info: 
+  tof-sensor_5635_2/TOF_Sensor: 
+    name: TOFSensor
 history: 
   - 
     initial-parts: true
     parts-name: vehicle-base-ps_213_0
     parts-type: vehicle-base-ps
+  - 
+    parent: vehicle-base-ps_213_0
+    parent-point: s1_10_10_2
+    parts-name: plate_2_2_pp_245_0
+    parts-point: p_3_1
+    parts-type: plate_2_2_pp
+  - 
+    parent: plate_2_2_pp_245_0
+    parent-point: p_1_0
+    parts-name: block_1_1_3_285_1
+    parts-point: SK1_0_0
+    parts-type: block_1_1_3
+  - 
+    parent: block_1_1_3_285_1
+    parent-point: PL1_0_0
+    parts-name: grove-sensor-mounter_285_2
+    parts-point: s1_1_1
+    parts-type: grove-sensor-mounter
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 3.141592653590 ]
+    parent: grove-sensor-mounter_285_2
+    parent-point: sensor_pos
+    parts-name: grove-color-sensor_285_4
+    parts-point: mount_pos
+    parts-type: grove-color-sensor
+  - 
+    parent: vehicle-base-ps_213_0
+    parent-point: s1_12_7_2
+    parts-name: FR12_S102_P_213_1
+    parts-point: p1_2_3
+    parts-type: FR12_S102_P
+  - 
+    parent: FR12_S102_P_213_1
+    parent-point: side_connetct_point
+    parts-name: XL-430_213_6
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 3.141592653590 ]
+    parent: XL-430_213_6
+    parent-point: horn
+    parts-name: omni-shaft-x_213_12
+    parts-point: connetct_point
+    parts-type: omni-shaft-x
+  - 
+    parent: omni-shaft-x_213_12
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_213_14
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    parent: vehicle-base-ps_213_0
+    parent-point: p1_12_7_1
+    parts-name: block_1_3_213_34
+    parts-point: SK1_0_2
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_34
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_35
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_35
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_36
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_36
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_37
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_37
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_38
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: vehicle-base-ps_213_0
+    parent-point: s1_5_12_2
+    parts-name: FR12_S102_P_213_2
+    parts-point: p1_2_3
+    parts-type: FR12_S102_P
+  - 
+    parent: FR12_S102_P_213_2
+    parent-point: side_connetct_point
+    parts-name: XL-430_213_7
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    parent: XL-430_213_7
+    parent-point: horn
+    parts-name: omni-shaft-x_213_9
+    parts-point: connetct_point
+    parts-type: omni-shaft-x
+  - 
+    parent: omni-shaft-x_213_9
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_213_15
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    parent: vehicle-base-ps_213_0
+    parent-point: s1_0_5_2
+    parts-name: FR12_S102_P_213_3
+    parts-point: p1_0_0
+    parts-type: FR12_S102_P
+  - 
+    parent: FR12_S102_P_213_3
+    parent-point: side_connetct_point2
+    parts-name: XL-430_213_8
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    parent: XL-430_213_8
+    parent-point: horn
+    parts-name: omni-shaft-x_213_10
+    parts-point: connetct_point
+    parts-type: omni-shaft-x
+  - 
+    parent: omni-shaft-x_213_10
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_213_16
+    parts-point: omni_wheel
+    parts-type: omni-wheel
   - 
     connecting-offset: 
       rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
@@ -43,6 +199,24 @@ history:
     parts-name: vehicle-base-ps_213_44
     parts-point: s1_7_12_2
     parts-type: vehicle-base-ps
+  - 
+    parent: vehicle-base-ps_213_44
+    parent-point: p1_6_0_1
+    parts-name: angle_2_2_5635_0
+    parts-point: s_0_0
+    parts-type: angle_2_2
+  - 
+    parent: angle_2_2_5635_0
+    parent-point: p_0_0
+    parts-name: sensor-mounter_5635_1
+    parts-point: s1_0_0
+    parts-type: sensor-mounter
+  - 
+    parent: sensor-mounter_5635_1
+    parent-point: lego-2p
+    parts-name: tof-sensor_5635_2
+    parts-point: lego-2s
+    parts-type: tof-sensor
   - 
     parent: vehicle-base-ps_213_44
     parent-point: p1_6_10_1
@@ -112,24 +286,6 @@ history:
     parts-point: horn
     parts-type: Moveable_Finger
   - 
-    parent: vehicle-base-ps_213_44
-    parent-point: p1_6_0_1
-    parts-name: angle_2_2_5635_0
-    parts-point: s_0_0
-    parts-type: angle_2_2
-  - 
-    parent: angle_2_2_5635_0
-    parent-point: p_0_0
-    parts-name: sensor-mounter_5635_1
-    parts-point: s1_0_0
-    parts-type: sensor-mounter
-  - 
-    parent: sensor-mounter_5635_1
-    parent-point: lego-2p
-    parts-name: tof-sensor_5635_2
-    parts-point: lego-2s
-    parts-type: tof-sensor
-  - 
     connecting-offset: 
       rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
     parent: vehicle-base-ps_213_0
@@ -153,58 +309,6 @@ history:
     parent: omni-shaft-x_213_11
     parent-point: wheel-shaft
     parts-name: omni-wheel_213_17
-    parts-point: omni_wheel
-    parts-type: omni-wheel
-  - 
-    connecting-offset: 
-      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
-    parent: vehicle-base-ps_213_0
-    parent-point: s1_5_12_2
-    parts-name: FR12_S102_P_213_2
-    parts-point: p1_2_3
-    parts-type: FR12_S102_P
-  - 
-    parent: FR12_S102_P_213_2
-    parent-point: side_connetct_point
-    parts-name: XL-430_213_7
-    parts-point: bottom-side1
-    parts-type: XL-430
-  - 
-    parent: XL-430_213_7
-    parent-point: horn
-    parts-name: omni-shaft-x_213_9
-    parts-point: connetct_point
-    parts-type: omni-shaft-x
-  - 
-    parent: omni-shaft-x_213_9
-    parent-point: wheel-shaft
-    parts-name: omni-wheel_213_15
-    parts-point: omni_wheel
-    parts-type: omni-wheel
-  - 
-    parent: vehicle-base-ps_213_0
-    parent-point: s1_12_7_2
-    parts-name: FR12_S102_P_213_1
-    parts-point: p1_2_3
-    parts-type: FR12_S102_P
-  - 
-    parent: FR12_S102_P_213_1
-    parent-point: side_connetct_point
-    parts-name: XL-430_213_6
-    parts-point: bottom-side1
-    parts-type: XL-430
-  - 
-    connecting-offset: 
-      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 3.141592653590 ]
-    parent: XL-430_213_6
-    parent-point: horn
-    parts-name: omni-shaft-x_213_12
-    parts-point: connetct_point
-    parts-type: omni-shaft-x
-  - 
-    parent: omni-shaft-x_213_12
-    parent-point: wheel-shaft
-    parts-name: omni-wheel_213_14
     parts-point: omni_wheel
     parts-type: omni-wheel
   - 
@@ -237,68 +341,20 @@ history:
     parts-name: block_1_3_213_33
     parts-point: SK1_0_0
     parts-type: block_1_3
-  - 
-    parent: vehicle-base-ps_213_0
-    parent-point: s1_0_5_2
-    parts-name: FR12_S102_P_213_3
-    parts-point: p1_0_0
-    parts-type: FR12_S102_P
-  - 
-    parent: FR12_S102_P_213_3
-    parent-point: side_connetct_point2
-    parts-name: XL-430_213_8
-    parts-point: bottom-side1
-    parts-type: XL-430
-  - 
-    parent: XL-430_213_8
-    parent-point: horn
-    parts-name: omni-shaft-x_213_10
-    parts-point: connetct_point
-    parts-type: omni-shaft-x
-  - 
-    parent: omni-shaft-x_213_10
-    parent-point: wheel-shaft
-    parts-name: omni-wheel_213_16
-    parts-point: omni_wheel
-    parts-type: omni-wheel
-  - 
-    parent: vehicle-base-ps_213_0
-    parent-point: p1_12_7_1
-    parts-name: block_1_3_213_34
-    parts-point: SK1_0_2
-    parts-type: block_1_3
-  - 
-    parent: block_1_3_213_34
-    parent-point: PL1_0_0
-    parts-name: block_1_3_213_35
-    parts-point: SK1_0_0
-    parts-type: block_1_3
-  - 
-    parent: block_1_3_213_35
-    parent-point: PL1_0_0
-    parts-name: block_1_3_213_36
-    parts-point: SK1_0_0
-    parts-type: block_1_3
-  - 
-    parent: block_1_3_213_36
-    parent-point: PL1_0_0
-    parts-name: block_1_3_213_37
-    parts-point: SK1_0_0
-    parts-type: block_1_3
-  - 
-    parent: block_1_3_213_37
-    parent-point: PL1_0_0
-    parts-name: block_1_3_213_38
-    parts-point: SK1_0_0
-    parts-type: block_1_3
 parts-info: 
+  FR12_H101_P_213_22: 
+    name: JOINT1
+  FR12_S102_213_20: 
+    name: JOINT0
+  Moveable_Finger_213_28: 
+    name: JOINT3
   XL-430_213_19: 
     color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
   XL-430_213_21: 
     color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
-  XL-430_213_24:
-    name: JOINT2
+  XL-430_213_24: 
     color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+    name: JOINT2
   XL-430_213_27: 
     color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
   XL-430_213_5: 
@@ -339,6 +395,14 @@ parts-info:
     color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
   block_1_3_213_43: 
     color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  omni-shaft-x_213_10: 
+    name: WHEEL1
+  omni-shaft-x_213_11: 
+    name: WHEEL3
+  omni-shaft-x_213_12: 
+    name: WHEEL0
+  omni-shaft-x_213_9: 
+    name: WHEEL2
   omni-wheel_213_14: 
     color: [ 0.100000000000, 0.100000000000, 0.100000000000 ]
   omni-wheel_213_15: 
@@ -347,45 +411,7 @@ parts-info:
     color: [ 0.100000000000, 0.100000000000, 0.100000000000 ]
   omni-wheel_213_17: 
     color: [ 0.100000000000, 0.100000000000, 0.100000000000 ]
-  FR12_S102_213_20:
-    name: JOINT0
-  FR12_H101_P_213_22:
-    name: JOINT1
-  Moveable_Finger_213_28:
-    name: JOINT3
-  omni-shaft-x_213_12:
-    name: WHEEL0
-  omni-shaft-x_213_10:
-    name: WHEEL1
-  omni-shaft-x_213_9:
-    name: WHEEL2
-  omni-shaft-x_213_11:
-    name: WHEEL3
 robot-info: 
   initial-coords: 
     translation: [ 0.000000000000, 0.000000000000, 0.000000000000 ]
   name: fullset_robot
-actuator-info:
-  XL-430_213_19/horn:
-    name: JOINT0
-  XL-430_213_21/horn:
-    name: JOINT1
-  XL-430_213_24/horn:
-    name: JOINT2
-  XL-430_213_27/horn:
-    name: JOINT3
-  XL-430_213_5/horn:
-    name: WHEEL3
-    limit: [-inf, inf]
-  XL-430_213_6/horn:
-    name: WHEEL0
-    limit: [-inf, inf]
-  XL-430_213_7/horn:
-    name: WHEEL2
-    limit: [-inf, inf]
-  XL-430_213_8/horn:
-    name: WHEEL1
-    limit: [-inf, inf]
-device-info:
-  tof-sensor_5635_2/TOF_Sensor:
-    name: TOFSensor

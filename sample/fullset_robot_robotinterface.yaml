@@ -33,3 +33,8 @@ devices:
     type: std_msgs/Float64
     name: TOFsensor
     rate: 10
+  -
+    topic: /fullset_robot/COLOR_Sensor1/value
+    type: std_msgs/ColorRGBA
+    name: COLORSensor
+    rate: 10

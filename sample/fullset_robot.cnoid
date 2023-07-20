@@ -43,7 +43,7 @@ items:
             location_editable: true
             scene_sensitive: true
             link_kinematics: 
-              "LINK_4": 
+              "tof-sensor_5635_2": 
                 base_frame: 0
                 offset_frame: 0
             zmp: [ 0, 0, 0 ]
@@ -68,9 +68,10 @@ items:
           name: "Floor"
           plugin: Body
           class: BodyItem
+          is_selected: true
           is_checked: true
           data: 
-            file: "${SHARE}/model/misc/floor.body"
+            file: "floor_field.body"
             format: CHOREONOID-BODY
             rootPosition: [ 0, 0, -0.1 ]
             rootAttitude: [ 
@@ -152,7 +153,6 @@ items:
           name: "block"
           plugin: Base
           class: SceneItem
-          is_selected: true
           is_checked: true
           data: 
             file: "block.wrl"
@@ -205,9 +205,9 @@ views:
         - 
           camera: [ System, Perspective ]
           isCurrent: true
-          eye: [ 2.36192, 1.39383, 0.665014 ]
-          direction: [ -0.858886, -0.473287, -0.195741 ]
-          up: [ -0.171436, -0.0944688, 0.980656 ]
+          eye: [ 22.5988, -2.9948, 11.566 ]
+          direction: [ -0.899104, 0.141735, -0.414154 ]
+          up: [ -0.409102, 0.0644907, 0.910207 ]
         - 
           camera: [ System, Orthographic ]
           orthoHeight: 20
