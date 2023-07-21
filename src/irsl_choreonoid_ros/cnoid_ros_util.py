@@ -5,6 +5,20 @@ from urllib.parse import urlparse
 from irsl_choreonoid.cnoid_util import parseURL
 
 def parseURLROS(url):
+    """parseURLROS
+
+    Refere parseURL in irsl_choreonoid.cnoid_util
+
+    Args:
+        url (str): url
+
+    Returns:
+        str: absolute path
+
+    Examples:
+        >>> parseURLROS('package://ros_package_name/dir/file')
+        /catkin_ws/install/share/ros_package_name/dir/file
+    """
     try:
         return parseURL(url)
     except Exception as e:
