@@ -46,9 +46,13 @@ class MobileBaseInterface(object):
             ## TODO check baselink in self.instanceOfBody
 
     def stop(self):
+        """Stop moving of MobileBase
+        """
         self.move_velocity(0.0, 0.0, 0.0)
 
     def move_velocity(self, vel_x, vel_y, vel_th):
+        """Add moving velocity of MobileBase
+        """
         msg = self.msg()
         msg.linear.x = vel_x
         msg.linear.y = vel_y
@@ -56,17 +60,25 @@ class MobileBaseInterface(object):
         self.pub.publish(msg)
 
     def move_position(self, coords):
+        """Set target position(relative) for MobileBase
+        """
         pass
 
     def move_on_map(self, coords):
+        """Set target position on map for MobileBase
+        """
         pass
 
     def move_trajectory(self, traj, relative = False):
+        """Set target trajectory for MobileBase
+        """
         pass
 #
 # JointInterface
 #
 class JointInterface(object):
+    """Interface for controlling joints of robot
+    """
     def __init__(self, info, robot=None, **kwargs):
         if 'joint_groups' in info:
             self.__joint_init(info['joint_groups'], robot)
@@ -159,6 +171,8 @@ class JointGroupAction(object):
 # DeviceInterface
 #
 class DeviceInterface(object):
+    """Interface for receiving data from sensors on robot
+    """
     def __init__(self, info, robot=None, **kwargs):
         if 'devices' in info:
             self.__device_init(info['devices'], robot)
@@ -176,22 +190,26 @@ class DeviceInterface(object):
                 self.devices[dev['name']] = RosDevice(dev, robot=self.robot)
 
     def data(self, name, clear=False):
-        '''Get data from the device'''
+        """Get data from the device
+        """
         dev = self.devices[name]
         return dev.data(clear)
 
     def waitData(self, name, timeout=None, clear=False):
-        '''Wait if there is no current data'''
+        """Wait if there is no current data
+        """
         dev = self.devices[name]
         return dev.waitData(timeout, clear=clear)
 
     def waitNextData(self, name, timeout=None, clear=False):
-        '''Wait until subscribing new data'''
+        """Wait until subscribing new data
+        """
         dev = self.devices[name]
         return dev.waitNextData(timeout, clear=clear)
 
     def dataArray(self, names, clear=False):
-        '''Get data array from devices'''
+        """Get data array from devices
+        """
         return [ self.devices[name].data(clear) for name in names ]
 
     def waitDataArray(self, names, timeout=None, clear=False):
@@ -321,6 +339,8 @@ class JointState(RosDeviceBase):
 # RobotInterface
 #
 class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
+    """Interface for controllring robot (inheriting classes JointInterface, DeviceInterface and MobileBaseInterface)
+    """
     def __init__(self, fname, name='robot_interface', anonymous=False):
         rospy.init_node(name, anonymous=anonymous)
 
@@ -350,11 +370,15 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             ## RobotModel??
 
     def copyRobotModel(self):
+        """Return other instance of the robot model
+        """
         bl = cnoid.Body.BodyLoader()
         return bl.load(self.model_file)
 
     @property
     def robot(self):
+        """Return instance of the robot model
+        """
         return self.instanceOfBody
 #    @body.setter
 #    def body(self, in_body):
