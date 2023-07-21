@@ -21,13 +21,15 @@ from .cnoid_ros_util import parseURLROS
 # MobileBaseInterface
 #
 class MobileBaseInterface(object):
-    def __init__(self, info, body=None, **kwargs):
+    """Interface for controlling locomotion of robot
+    """
+    def __init__(self, info, robot=None, **kwargs):
         if 'mobile_base' in info:
-            self.mobile_init(info['mobile_base'], body)
-    def mobile_init(self, mobile_dict, body):
+            self.__mobile_init(info['mobile_base'], robot)
+    def __mobile_init(self, mobile_dict, robot):
         print('mobile: {}'.format(mobile_dict))
-        if body is not None:
-            self.__body = body
+        if robot is not None:
+            self.instanceOfBody = robot
         if not 'type' in mobile_dict:
             from geometry_msgs.msg import Twist
             self.msg = Twist
@@ -41,7 +43,7 @@ class MobileBaseInterface(object):
         self.baselink = None
         if 'baselink' in mobile_dict:
             self.baselink = mobile_dict['baselink']
-            ## TODO check baselink in self.__body
+            ## TODO check baselink in self.instanceOfBody
 
     def stop(self):
         self.move_velocity(0.0, 0.0, 0.0)
@@ -53,26 +55,25 @@ class MobileBaseInterface(object):
         msg.angular.y = vel_th
         self.pub.publish(msg)
 
-    def move_position(self):
+    def move_position(self, coords):
         pass
 
-    def move_on_map(self, pos):
+    def move_on_map(self, coords):
         pass
 
-    def move_trajectory(self, traj):
+    def move_trajectory(self, traj, relative = False):
         pass
-
 #
 # JointInterface
 #
 class JointInterface(object):
-    def __init__(self, info, body=None, **kwargs):
+    def __init__(self, info, robot=None, **kwargs):
         if 'joint_groups' in info:
-            self.joint_init(info['joint_groups'], body)
-    def joint_init(self, group_list, body):
+            self.__joint_init(info['joint_groups'], robot)
+    def __joint_init(self, group_list, robot):
         print('joint: {}'.format(group_list))
-        if body is not None:
-            self.__body = body
+        if robot is not None:
+            self.instanceOfBody = robot
         self.joint_groups = {}
         self.default_group = None
         for group in group_list:
@@ -81,9 +82,9 @@ class JointInterface(object):
             else:
                 name = group['name']
             if ('type' in group) and (group['type'] == 'action'):
-                jg = JointGroupAction(group, self.__body)
+                jg = JointGroupAction(group, self.robot)
             else:
-                jg = JointGroupTopic(group, self.__body)
+                jg = JointGroupTopic(group, self.robot)
             self.joint_groups[name] = jg
             if self.default_group is None:
                 self.default_group = jg
@@ -96,12 +97,12 @@ class JointInterface(object):
         gp.sendAngles(tm)
 
     def sendAngleVector(self, av, tm=None, group=None):
-        self.__body.angleVector(av)
+        self.robot.angleVector(av)
         self.sendAngles(tm=tm,group=group)
 
     def sendAngleDict(self, angle_dict, tm):
         for name, angle in angle_dict.items():
-            self.__body.joint(name).q = angle
+            self.robot.joint(name).q = angle
         self.sendAngles(tm=tm,group=group)
 
     def isFinished(self, group = None):
@@ -112,14 +113,14 @@ class JointInterface(object):
         return gp.isFinished()
 
 class JointGroupTopic(object):
-    def __init__(self, group, body=None):
+    def __init__(self, group, robot=None):
         super().__init__()
-        self.__body = body
+        self.__robot = robot
         self.pub = rospy.Publisher(group['topic'], JointTrajectory, queue_size=1)
         self.joint_names = group['joint_names']
         self.joints  = []
         for j in self.joint_names:
-            j = body.joint(j)
+            j = robot.joint(j)
             self.joints.append(j)
         self.finish_time = rospy.get_rostime()
 
@@ -144,9 +145,9 @@ class JointGroupTopic(object):
             return False
 
 class JointGroupAction(object):
-    def __init__(self, group, body=None):
+    def __init__(self, group, robot=None):
         super().__init__()
-        self.__body = body
+        self.__robot = robot
         print('JointGroupAction not implemented', file=sys.stderr)
         raise Exception
     def sendAngles(self, tm = None):
@@ -158,21 +159,21 @@ class JointGroupAction(object):
 # DeviceInterface
 #
 class DeviceInterface(object):
-    def __init__(self, info, body=None, **kwargs):
+    def __init__(self, info, robot=None, **kwargs):
         if 'devices' in info:
-            self.device_init(info['devices'], body)
-    def device_init(self, device_list, body):
+            self.__device_init(info['devices'], robot)
+    def __device_init(self, device_list, robot):
         print('devices: {}'.format(device_list))
-        if body is not None:
-            self.__body = body
+        if robot is not None:
+            self.instanceOfBody = robot
         self.devices = {}
 
         for dev in device_list:
             if 'class' in dev:
                 cls = eval('{}'.format(dev['class']))
-                self.devices[dev['name']] = cls(dev, body=self.__body)
+                self.devices[dev['name']] = cls(dev, robot=self.robot)
             else:
-                self.devices[dev['name']] = RosDevice(dev, body=self.__body)
+                self.devices[dev['name']] = RosDevice(dev, robot=self.robot)
 
     def data(self, name, clear=False):
         '''Get data from the device'''
@@ -204,10 +205,10 @@ class DeviceInterface(object):
         return [ self.devices[name]._fetch_data(clear) for name in names ]
 
 class RosDeviceBase(object):
-    def __init__(self, dev_dict, body=None):
+    def __init__(self, dev_dict, robot=None):
         super().__init__()
         self.robot_callback = None
-        self.__body = body
+        self.__robot = robot
         self.topic = dev_dict['topic']
         self.name  = dev_dict['name']
         ## TODO: implement rate
@@ -215,7 +216,7 @@ class RosDeviceBase(object):
             self.rate = dev_dict['rate']
         else:
             self.rate = None
-        ## TODO: search device in body
+        ## TODO: search device in robot
         self.msg_time = None
         self.current_msg = None
         self.timeout = None
@@ -274,22 +275,22 @@ class RosDeviceBase(object):
         return self._fetch_data(clear)
     ##
     @property
-    def body(self):
-        return self.__body
-#    @body.setter
-#    def body(self, in_body):
-#        self.__body = in_body
+    def robot(self):
+        return self.__robot
+#    @robot.setter
+#    def robot(self, in_robot):
+#        self.__robot = in_robot
 
 # generic device (using type: tag in robotinterface.yaml)
 class RosDevice(RosDeviceBase):
-    def __init__(self, dev_dict, body=None):
-        super().__init__(dev_dict, body)
+    def __init__(self, dev_dict, robot=None):
+        super().__init__(dev_dict, robot)
         self.parseType(dev_dict['type'])
         self.subscribe()
 # specific device (using class: tag in robotinterface.yaml)
 class StringDevice(RosDeviceBase):
-    def __init__(self, dev_dict, body=None):
-        super().__init__(dev_dict, body)
+    def __init__(self, dev_dict, robot=None):
+        super().__init__(dev_dict, robot)
         import std_msgs.msg
         self.msg = std_msgs.msg.String
         self.subscribe()
@@ -299,22 +300,22 @@ class StringDevice(RosDeviceBase):
         else:
             return (self.msg_time, self.current_msg.data)
 class JointState(RosDeviceBase):
-    def __init__(self, dev_dict, body=None):
-        super().__init__(dev_dict, body)
+    def __init__(self, dev_dict, robot=None):
+        super().__init__(dev_dict, robot)
         import sensor_msgs.msg
         self.msg = sensor_msgs.msg.JointState
         self.robot_callback = self.joint_callback
         self.subscribe()
 
-    def joint_msg_to_body(self, msg):
+    def joint_msg_to_robot(self, msg):
         for idx, nm in zip(range(len(msg.name)), msg.name):
-            lk = self.__body.joint(nm)
+            lk = self.robot.joint(nm)
             if lk:
                 lk.q = msg.position[idx]
 
     def joint_callback(self, rtime, msg):
         #print('js: {} {}'.format(rtime, msg))
-        self.joint_msg_to_body(msg)
+        self.joint_msg_to_robot(msg)
 
 #
 # RobotInterface
@@ -326,12 +327,12 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
         with open(parseURLROS(fname)) as f:
             self.info = yaml.safe_load(f)
 
-        self.load_robot()
+        self.__load_robot()
         JointInterface.__init__(self, self.info)
         DeviceInterface.__init__(self, self.info)
         MobileBaseInterface.__init__(self, self.info)
 
-    def load_robot(self):
+    def __load_robot(self):
         if 'robot_model' in self.info:
             mdl = self.info['robot_model']
             self.robot_name = mdl['name']
@@ -343,8 +344,8 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
                 raise Exception('file: {} does not exist'.format(self.model_file))
 
             bl = cnoid.Body.BodyLoader()
-            self.__body = bl.load(self.model_file)
-            if self.__body is None:
+            self.instanceOfBody = bl.load(self.model_file)
+            if self.instanceOfBody is None:
                 raise Exception('body can not be loaded by file: {}'.format(self.model_file))
             ## RobotModel??
 
@@ -353,11 +354,11 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
         return bl.load(self.model_file)
 
     @property
-    def body(self):
-        return self.__body
+    def robot(self):
+        return self.instanceOfBody
 #    @body.setter
 #    def body(self, in_body):
-#        self.__body = in_body
+#        self.instanceOfBody = in_body
 
 ##
 ## sample usage
