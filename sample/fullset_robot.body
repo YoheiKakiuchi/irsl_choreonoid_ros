@@ -735,7 +735,7 @@ links:
         field_of_view: 10
         near_clip_distance: 0.01
         far_clip_distance: 100
-        format: COLOR_DEPTH
+        format: POINT_CLOUD
         min_distance: 0.01
         max_distance: 10
         detection_rate: 1
