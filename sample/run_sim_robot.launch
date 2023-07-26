@@ -24,6 +24,11 @@
       <remap from="output_sensor_data" to="TOFSensor/value"/>
     </node>
 
+    <node name="colorsensor_converter_node" pkg="irsl_choreonoid_ros" type="colorsensor_converter_node.py" output="screen">
+      <remap from="input_image" to="COLOR_Sensor1/color/image_raw"/>
+      <remap from="output_sensor_data" to="COLOR_Sensor1/value"/>
+    </node>
+
     <node name="wheelcontroller_node" pkg="irsl_choreonoid_ros" type="wheelcontroller.py" output="screen">
       <param name="wheelconfigfile" value="$(arg wheelconfigfile)" />
     </node>
