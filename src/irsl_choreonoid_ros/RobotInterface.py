@@ -11,11 +11,13 @@ from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 import cnoid.Body
 
 # irsl
-import cnoid.IRSLUtil as iu
+from cnoid.IRSLCoords import coordinates
 import irsl_choreonoid.cnoid_util as cu
 import irsl_choreonoid.robot_util as ru
 from .cnoid_ros_util import parseURLROS
 #from irsl_choreonoid_ros.cnoid_ros_util import parseURLROS
+
+from numpy import array as npa
 
 #
 # MobileBaseInterface
@@ -69,6 +71,19 @@ class MobileBaseInterface(object):
         msg.linear.y = vel_y
         msg.angular.y = vel_th
         self.pub.publish(msg)
+
+    @property
+    def currentMapCoords(self):
+        """Current robot's coordinate on the map
+
+Not implemented yet [TODO]
+
+        Returns:
+            cnoid.IRSLCoords.coordinates : Current robot's coordinate on the map
+
+
+        """
+        return coordinates()
 
     def move_position(self, coords):
         """Set target position for MobileBase, target is reletive to current robot's coordinates
@@ -126,6 +141,25 @@ class JointInterface(object):
             self.joint_groups[name] = jg
             if self.default_group is None:
                 self.default_group = jg
+
+    @property
+    def groupList(self):
+        """Getting list of instance of joint-group
+
+        Returns:
+            list [ JointGroup ] : List of instance of joint-groups
+
+        """
+        return [ g for g in self.joint_groups.values() ]
+    @property
+    def groupNameList(self):
+        """Getting list of name of joint-groups
+
+        Returns:
+            list [ str ] : List of name of joint-groups
+
+        """
+        return [ g for g in self.joint_groups.values() ]
 
     def sendAngles(self, tm=None, group=None):
         """Sending angles of self.robot to the actual robot
@@ -245,6 +279,38 @@ class DeviceInterface(object):
                 self.devices[dev['name']] = cls(dev, robot=self.robot)
             else:
                 self.devices[dev['name']] = RosDevice(dev, robot=self.robot)
+
+    @property
+    def deviceList(self):
+        """Getting list of the instances for gathering data from the device
+
+        Returns:
+            list [ RosDeviceBase ] : List of the instances for gathering data
+
+        """
+        return [ d for d in self.devices.values() ]
+
+    @property
+    def deviceNames(self):
+        """Getting list of name of the devices
+
+        Returns:
+            list [ str ] : List of name of the devices
+
+        """
+        return [ d for d in self.devices.keys() ]
+
+    def getDevice(self, name):
+        """Getting the instance for gathering data from the device
+
+        Args:
+            name (str) : Name of the device
+
+        Returns:
+            RosDeviceBase : The instance for gathering data
+
+        """
+        return self.devices[name]
 
     def data(self, name, clear=False):
         """Getting data from the device
