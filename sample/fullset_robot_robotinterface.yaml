@@ -1,6 +1,7 @@
 robot_model:
   name: fullset_robot
-  url: 'file:///userdir/irsl_choreonoid_ros/sample/fullset_robot.body'
+  url: 'package://irsl_choreonoid_ros/sample/fullset_robot.body'
+  #url: 'file:///userdir/irsl_choreonoid_ros/sample/fullset_robot.body'
 # package://<package_name>/
 # ros_param:///absolute
 # ros_param://~/

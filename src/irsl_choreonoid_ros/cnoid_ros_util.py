@@ -13,11 +13,12 @@ def parseURLROS(url):
         url (str): url
 
     Returns:
-        str: absolute path
+        str: Absolute path
 
     Examples:
         >>> parseURLROS('package://ros_package_name/dir/file')
         /catkin_ws/install/share/ros_package_name/dir/file
+
     """
     try:
         return parseURL(url)

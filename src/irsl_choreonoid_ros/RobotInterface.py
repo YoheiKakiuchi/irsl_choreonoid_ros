@@ -11,17 +11,19 @@ from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 import cnoid.Body
 
 # irsl
-import cnoid.IRSLUtil as iu
+from cnoid.IRSLCoords import coordinates
 import irsl_choreonoid.cnoid_util as cu
 import irsl_choreonoid.robot_util as ru
 from .cnoid_ros_util import parseURLROS
 #from irsl_choreonoid_ros.cnoid_ros_util import parseURLROS
 
+from numpy import array as npa
+
 #
 # MobileBaseInterface
 #
 class MobileBaseInterface(object):
-    """Interface for controlling locomotion of robot
+    """Interface for controlling locomotion of the robot
     """
     def __init__(self, info, robot=None, **kwargs):
         if 'mobile_base' in info:
@@ -47,11 +49,22 @@ class MobileBaseInterface(object):
 
     def stop(self):
         """Stop moving of MobileBase
+
+        Args:
+            None
+
         """
         self.move_velocity(0.0, 0.0, 0.0)
 
     def move_velocity(self, vel_x, vel_y, vel_th):
-        """Add moving velocity of MobileBase
+        """Set moving velocity of MobileBase
+
+        Args:
+            vel_x (float) : Velocity of x-axis [ m/sec ]
+            vel_y (float) : Velocity of y-axis [ m/sec ]
+            vel_th (float) : Angular velocity of yaw [ radian/sec ]
+
+
         """
         msg = self.msg()
         msg.linear.x = vel_x
@@ -59,25 +72,53 @@ class MobileBaseInterface(object):
         msg.angular.y = vel_th
         self.pub.publish(msg)
 
+    @property
+    def currentMapCoords(self):
+        """Current robot's coordinate on the map
+
+Not implemented yet [TODO]
+
+        Returns:
+            cnoid.IRSLCoords.coordinates : Current robot's coordinate on the map
+
+
+        """
+        return coordinates()
+
     def move_position(self, coords):
-        """Set target position(relative) for MobileBase
+        """Set target position for MobileBase, target is reletive to current robot's coordinates
+
+        Args:
+            coords (cnoid.IRSLCoords.coordinates) : Target coordinates for moving (reletive to current robot's coordinates)
+
         """
         pass
 
     def move_on_map(self, coords):
-        """Set target position on map for MobileBase
+        """Set target position on map for MobileBase, target is relative to map coordinates
+
+        Args:
+            coords (cnoid.IRSLCoords.coordinates) : Target coordinates for moving (map coordinates)
+
         """
         pass
 
     def move_trajectory(self, traj, relative = False):
         """Set target trajectory for MobileBase
+
+Not implemented yet [TODO]
+
+        Args:
+            traj (list[(cnoid.IRSLCoords.coordinates, float)]) : List of pair of coordinates and time
+            relative (boolean, default = False) : If True, trajectory is considered it is relative to robot's coordinates.
+
         """
         pass
 #
 # JointInterface
 #
 class JointInterface(object):
-    """Interface for controlling joints of robot
+    """Interface for controlling joints of the robot
     """
     def __init__(self, info, robot=None, **kwargs):
         if 'joint_groups' in info:
@@ -101,23 +142,73 @@ class JointInterface(object):
             if self.default_group is None:
                 self.default_group = jg
 
+    @property
+    def groupList(self):
+        """Getting list of instance of joint-group
+
+        Returns:
+            list [ JointGroup ] : List of instance of joint-groups
+
+        """
+        return [ g for g in self.joint_groups.values() ]
+    @property
+    def groupNameList(self):
+        """Getting list of name of joint-groups
+
+        Returns:
+            list [ str ] : List of name of joint-groups
+
+        """
+        return [ g for g in self.joint_groups.values() ]
+
     def sendAngles(self, tm=None, group=None):
+        """Sending angles of self.robot to the actual robot
+
+        Args:
+            tm (float) : Moving duration in second
+            group (str, optional): Name of group to be used
+
+        """
         if group is None:
             gp = self.default_group
         else:
             gp = self.joint_groups[group]
         gp.sendAngles(tm)
 
-    def sendAngleVector(self, av, tm=None, group=None):
-        self.robot.angleVector(av)
-        self.sendAngles(tm=tm,group=group)
+    def sendAngleVector(self, angle_vector, tm=None, group=None):
+        """Sending angle-vector to the actual robot. angle_vector is set to self.robot
+
+        Args:
+            angle_vector (numpy.array) : Vector of angles
+            tm (float) : Moving duration in second
+            group (str, optional): Name of group to be used
+
+        """
+        self.robot.angleVector(angle_vector)
+        self.sendAngles(tm=tm, group=group)
 
     def sendAngleDict(self, angle_dict, tm):
+        """Sending angles to the actual robot. angles is set to self.robot
+
+        Args:
+            angle_dict ( dict[name, float] ) : Dictionary, whose key is joint-name, and value is joint-angle
+            tm (float) : Moving duration in second
+
+        """
         for name, angle in angle_dict.items():
             self.robot.joint(name).q = angle
-        self.sendAngles(tm=tm,group=group)
+        self.sendAngles(tm=tm)
 
     def isFinished(self, group = None):
+        """Checking method for finishing to send angles
+
+        Args:
+            group (str, optional): Name of group to be used
+
+        Returns:
+               boolean : If True, the robot is not moving
+
+        """
         if group is None:
             gp = self.default_group
         else:
@@ -171,7 +262,7 @@ class JointGroupAction(object):
 # DeviceInterface
 #
 class DeviceInterface(object):
-    """Interface for receiving data from sensors on robot
+    """Interface for receiving data from sensors on the robot
     """
     def __init__(self, info, robot=None, **kwargs):
         if 'devices' in info:
@@ -189,35 +280,123 @@ class DeviceInterface(object):
             else:
                 self.devices[dev['name']] = RosDevice(dev, robot=self.robot)
 
+    @property
+    def deviceList(self):
+        """Getting list of the instances for gathering data from the device
+
+        Returns:
+            list [ RosDeviceBase ] : List of the instances for gathering data
+
+        """
+        return [ d for d in self.devices.values() ]
+
+    @property
+    def deviceNames(self):
+        """Getting list of name of the devices
+
+        Returns:
+            list [ str ] : List of name of the devices
+
+        """
+        return [ d for d in self.devices.keys() ]
+
+    def getDevice(self, name):
+        """Getting the instance for gathering data from the device
+
+        Args:
+            name (str) : Name of the device
+
+        Returns:
+            RosDeviceBase : The instance for gathering data
+
+        """
+        return self.devices[name]
+
     def data(self, name, clear=False):
-        """Get data from the device
+        """Getting data from the device
+
+        Args:
+            name (str) : Name of the device
+            clear (boolean, default = False) : Clear current-data
+
+        Returns:
+            ANY : Data from the device. Type of a return value depends on type of the devide.
+
         """
         dev = self.devices[name]
         return dev.data(clear)
 
     def waitData(self, name, timeout=None, clear=False):
-        """Wait if there is no current data
+        """Getting data, waiting if there is no current data
+
+        Args:
+            name (str) : Name of the device
+            timeout (float, optional) : Time out in second
+            clear (boolean, default = False) : Clear current-data
+
+        Returns:
+            ANY : Data from the device. Type of a return value depends on type of the devide.
+
         """
         dev = self.devices[name]
         return dev.waitData(timeout, clear=clear)
 
     def waitNextData(self, name, timeout=None, clear=False):
-        """Wait until subscribing new data
+        """Getting data, waiting until subscribing new data
+
+        Args:
+            name (str) : Name of the device
+            timeout (float, optional) : Time out in second
+            clear (boolean, default = False) : Clear current-data
+
+        Returns:
+            ANY : Data from the device. Type of a return value depends on type of the devide.
+
         """
         dev = self.devices[name]
         return dev.waitNextData(timeout, clear=clear)
 
     def dataArray(self, names, clear=False):
-        """Get data array from devices
+        """Getting list of data from devices
+
+        Args:
+            names (list[str]) : Name of the device
+            clear (boolean, default = False) : Clear current-data
+
+        Returns:
+            list[ANY] : Data from the device. Type of a return value depends on type of the devide.
+
         """
         return [ self.devices[name].data(clear) for name in names ]
 
     def waitDataArray(self, names, timeout=None, clear=False):
+        """Getting list of data, waiting if there is no current data
+
+        Args:
+            names (list[str]) : Name of the device
+            timeout (float, optional) : Time out in second
+            clear (boolean, default = False) : Clear current-data
+
+        Returns:
+            ANY : Data from the device. Type of a return value depends on type of the devide.
+
+        """
         for name in names:
             self.devices[name]._pre_wait(timeout)
         return [ self.devices[name]._fetch_data(clear) for name in names ]
 
     def waitNextDataArray(self, names, timeout=None, clear=False):
+        """Getting list of data, waiting until subscribing new data
+
+        Args:
+            names (list[str]) : Name of the device
+            timeout (float, optional) : Time out in second
+            clear (boolean, default = False) : Clear current-data
+
+        Returns:
+            ANY : Data from the device. Type of a return value depends on type of the devide.
+
+        """
         for name in names:
             self.devices[name]._pre_wait_next(timeout)
         return [ self.devices[name]._fetch_data(clear) for name in names ]
@@ -340,11 +519,23 @@ class JointState(RosDeviceBase):
 #
 class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
     """Interface for controllring robot (inheriting classes JointInterface, DeviceInterface and MobileBaseInterface)
-    """
-    def __init__(self, fname, name='robot_interface', anonymous=False):
-        rospy.init_node(name, anonymous=anonymous)
 
-        with open(parseURLROS(fname)) as f:
+    At a instance of this interface, all methods in JointInterface, DeviceInterface and MobileBaseInterface can be used.
+
+    Then, please refer methods of these classes.
+    """
+    def __init__(self, file_name, node_name='robot_interface', anonymous=False):
+        """
+
+        Args:
+            file_name (str) : Name of setting file
+            node_name (str) : Name of node
+            anonymous (boolean, default = False) : If True, ROS node will start with this node-name.
+
+        """
+        rospy.init_node(node_name, anonymous=anonymous)
+
+        with open(parseURLROS(file_name)) as f:
             self.info = yaml.safe_load(f)
 
         self.__load_robot()
@@ -371,6 +562,13 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
     def copyRobotModel(self):
         """Return other instance of the robot model
+
+        Args:
+            None
+
+        Returns:
+            cnoid.Body.Body : Copy of self.robot (this is not identical to self.robot)
+
         """
         bl = cnoid.Body.BodyLoader()
         return bl.load(self.model_file)
@@ -378,6 +576,10 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
     @property
     def robot(self):
         """Return instance of the robot model
+
+        Returns:
+            cnoid.Body.Body : Instance of the robot model using in this instance
+
         """
         return self.instanceOfBody
 #    @body.setter
