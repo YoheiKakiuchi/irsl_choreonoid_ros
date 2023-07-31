@@ -187,15 +187,15 @@ class JointInterface(object):
         self.robot.angleVector(angle_vector)
         self.sendAngles(tm=tm, group=group)
 
-    def sendAngleDict(self, angle_dict, tm):
+    def sendAngleMap(self, angle_map, tm):
         """Sending angles to the actual robot. angles is set to self.robot
 
         Args:
-            angle_dict ( dict[name, float] ) : Dictionary, whose key is joint-name, and value is joint-angle
+            angle_map ( dict[name, float] ) : Dictionary, whose key is joint-name, and value is joint-angle
             tm (float) : Moving duration in second
 
         """
-        for name, angle in angle_dict.items():
+        for name, angle in angle_map.items():
             self.robot.joint(name).q = angle
         self.sendAngles(tm=tm)
 
