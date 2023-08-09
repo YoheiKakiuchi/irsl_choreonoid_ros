@@ -5,6 +5,7 @@ import os
 # ROS
 import rospy
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from control_msgs.msg import JointTrajectoryControllerState
 ## TODO: action
 
 # choreonoid
@@ -513,7 +514,23 @@ class JointState(RosDeviceBase):
     def joint_callback(self, rtime, msg):
         #print('js: {} {}'.format(rtime, msg))
         self.joint_msg_to_robot(msg)
+class JointTrajectoryState(RosDeviceBase):
+    def __init__(self, dev_dict, robot=None):
+        super().__init__(dev_dict, robot)
+        from control_msgs.msg import JointTrajectoryControllerState as JState_msg
+        self.msg = JState_msg
+        self.robot_callback = self.joint_callback
+        self.subscribe()
 
+    def joint_msg_to_robot(self, msg):
+        for idx, nm in zip(range(len(msg.joint_names)), msg.joint_names):
+            lk = self.robot.joint(nm)
+            if lk:
+                lk.q = msg.actual.positions[idx]
+
+    def joint_callback(self, rtime, msg):
+        #print('js: {} {}'.format(rtime, msg))
+        self.joint_msg_to_robot(msg)
 #
 # RobotInterface
 #
