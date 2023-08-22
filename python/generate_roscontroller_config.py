@@ -58,15 +58,14 @@ if __name__=='__main__':
 
     robotname = args.robotname if args.robotname != "" else rbody.getModelName()
     if len(joint_list)>0:
-        print('%s:'%robotname)
-        print('  %s:'%controllername)
-        print('    type: "position_controllers/JointTrajectoryController"')
-        print("    joints:")
+        print('%s:'%controllername)
+        print('  type: "position_controllers/JointTrajectoryController"')
+        print("  joints:")
         for joint in joint_list:
-            print('      - %s%s'%(joint.getName(), joint_suffix))
-        print("    gains:")
+            print('    - %s%s'%(joint.jointName, joint_suffix))
+        print("  gains:")
         for joint in joint_list:
-            print('      %s%s:'%(joint.getName(), joint_suffix))
-            print('        p: 100')
-            print('        i: 10')
-            print('        d: 1')
+            print('    %s%s:'%(joint.jointName, joint_suffix))
+            print('      p: 100')
+            print('      i: 10')
+            print('      d: 1')
