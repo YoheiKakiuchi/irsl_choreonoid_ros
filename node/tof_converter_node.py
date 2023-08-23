@@ -12,8 +12,8 @@ class TOFConverter:
     def callback(self, data):
         width = data.width
         height = data.height
-        pcdata = np.frombuffer(data.data, dtype=np.float32).reshape((height,width,4))
-        z_tmp = np.copy(pcdata[:,:,2])
+        pcdata = np.frombuffer(data.data, dtype=np.float32).reshape((-1,4))
+        z_tmp = np.copy(pcdata[:,2])
         z_tmp[z_tmp==np.inf] = np.nan
         z_tmp[z_tmp==-np.inf] = np.nan
         z_value = np.nanmin(z_tmp)
