@@ -126,7 +126,7 @@ class JointInterface(object):
     def __joint_init(self, group_list, robot):
         print('joint: {}'.format(group_list))
         if robot is not None:
-            self.instanceOfBody = robot
+            self.instanceOfJointBody = robot
         self.joint_groups = {}
         self.default_group = None
         for group in group_list:
@@ -135,9 +135,9 @@ class JointInterface(object):
             else:
                 name = group['name']
             if ('type' in group) and (group['type'] == 'action'):
-                jg = JointGroupAction(group, self.robot)
+                jg = JointGroupAction(group, self.jointRobot)
             else:
-                jg = JointGroupTopic(group, self.robot)
+                jg = JointGroupTopic(group, self.jointRobot)
             self.joint_groups[name] = jg
             if self.default_group is None:
                 self.default_group = jg
@@ -184,7 +184,7 @@ class JointInterface(object):
             group (str, optional): Name of group to be used
 
         """
-        self.robot.angleVector(angle_vector)
+        self.jointRobot.angleVector(angle_vector)
         self.sendAngles(tm=tm, group=group)
 
     def sendAngleMap(self, angle_map, tm):
@@ -196,7 +196,7 @@ class JointInterface(object):
 
         """
         for name, angle in angle_map.items():
-            self.robot.joint(name).q = angle
+            self.jointRobot.joint(name).q = angle
         self.sendAngles(tm=tm)
 
     def isFinished(self, group = None):
@@ -557,6 +557,7 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             self.instanceOfBody = iu.loadRobot(self.model_file)
             if self.instanceOfBody is None:
                 raise Exception('body can not be loaded by file: {}'.format(self.model_file))
+            self.instanceOfJointBody = self.copyRobotModel()
             ## RobotModel??
 
     def copyRobotModel(self):
@@ -581,6 +582,17 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
         """
         self.instanceOfBody.calcForwardKinematics()
         return self.instanceOfBody
+
+    @property
+    def jointRobot(self):
+        """Return instance of the robot model (using for sending command)
+
+        Returns:
+            cnoid.Body.Body : Instance of the robot model using in this instance
+
+        """
+        self.instanceOfJointBody.calcForwardKinematics()
+        return self.instanceOfJointBody
 #    @body.setter
 #    def body(self, in_body):
 #        self.instanceOfBody = in_body
