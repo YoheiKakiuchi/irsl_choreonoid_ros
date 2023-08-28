@@ -12,7 +12,7 @@ import cnoid.Body
 
 # irsl
 from cnoid.IRSLCoords import coordinates
-import irsl_choreonoid.cnoid_util as cu
+import irsl_choreonoid.cnoid_util as iu
 import irsl_choreonoid.robot_util as ru
 from .cnoid_ros_util import parseURLROS
 #from irsl_choreonoid_ros.cnoid_ros_util import parseURLROS
@@ -554,8 +554,7 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             if not os.path.isfile(self.model_file):
                 raise Exception('file: {} does not exist'.format(self.model_file))
 
-            bl = cnoid.Body.BodyLoader()
-            self.instanceOfBody = bl.load(self.model_file)
+            self.instanceOfBody = iu.loadRobot(self.model_file)
             if self.instanceOfBody is None:
                 raise Exception('body can not be loaded by file: {}'.format(self.model_file))
             ## RobotModel??
@@ -570,17 +569,17 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             cnoid.Body.Body : Copy of self.robot (this is not identical to self.robot)
 
         """
-        bl = cnoid.Body.BodyLoader()
-        return bl.load(self.model_file)
+        return iu.loadRobot(self.model_file)
 
     @property
     def robot(self):
-        """Return instance of the robot model
+        """Return instance of the robot model (applying sensor values)
 
         Returns:
             cnoid.Body.Body : Instance of the robot model using in this instance
 
         """
+        self.instanceOfBody.calcForwardKinematics()
         return self.instanceOfBody
 #    @body.setter
 #    def body(self, in_body):
