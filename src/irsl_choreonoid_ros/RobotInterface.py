@@ -602,6 +602,37 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
         return iu.loadRobot(self.model_file)
 
     @property
+    def actualAngleVector(self):
+        """Return angle-vector of actual robot (sensing value)
+
+        Returns:
+            numpy.array : 1 x N vector ( N is len(jointList) )
+        """
+        return self.instanceOfBody.angleVector()
+
+    @property
+    def referenceAngleVector(self):
+        """Return reference angle-vector (value of past command)
+
+        Returns:
+            numpy.array : 1 x N vector ( N is len(jointList) )
+        """
+        res = self.getDevicesByClass(JointTrajectoryState)
+        if len(res) < 1:
+            return None
+        tm, val = res[0].data()
+        if val is None:
+            return None
+        tmp = self.instanceOfJointBody.angleVector()# store
+        for idx, nm in enumerate(val.joint_names):
+            lk = self.instanceOfJointBody.joint(nm)
+            if lk:
+                lk.q = val.desired.positions[idx]
+        ret = self.instanceOfJointBody.angleVector()
+        self.instanceOfJointBody.angleVector(tmp)# restore
+        return ret
+
+    @property
     def robot(self):
         """Return instance of the robot model (applying sensor values)
 
