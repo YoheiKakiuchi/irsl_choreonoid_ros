@@ -308,10 +308,22 @@ class DeviceInterface(object):
             name (str) : Name of the device
 
         Returns:
-            RosDeviceBase : The instance for gathering data
+            RosDeviceBase : The instance witch has the same name as given name
 
         """
         return self.devices[name]
+
+    def getDevicesByClass(self, cls):
+        """Getting the list of device which is a typical class
+
+        Args:
+            cls (Class) : Class of the device
+
+        Returns:
+            list [obj] : List of the instance whose class is subclass of cls
+
+        """
+        return [ d for d in self.devices.values() if issubclass(type(d), cls) ]
 
     def data(self, name, clear=False):
         """Getting data from the device
