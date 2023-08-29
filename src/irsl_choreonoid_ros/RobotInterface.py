@@ -151,16 +151,16 @@ class JointInterface(object):
             list [ JointGroup ] : List of instance of joint-groups
 
         """
-        return [ g for g in self.joint_groups.values() ]
+        return list(self.joint_groups.values())
     @property
-    def groupNameList(self):
+    def groupNames(self):
         """Getting list of name of joint-groups
 
         Returns:
             list [ str ] : List of name of joint-groups
 
         """
-        return [ g for g in self.joint_groups.values() ]
+        return list(self.joint_groups.keys())
 
     def sendAngles(self, tm=None, group=None):
         """Sending angles of self.robot to the actual robot
@@ -289,7 +289,7 @@ class DeviceInterface(object):
             list [ RosDeviceBase ] : List of the instances for gathering data
 
         """
-        return [ d for d in self.devices.values() ]
+        return list(self.devices.values())
 
     @property
     def deviceNames(self):
@@ -299,7 +299,7 @@ class DeviceInterface(object):
             list [ str ] : List of name of the devices
 
         """
-        return [ d for d in self.devices.keys() ]
+        return list(self.devices.keys())
 
     def getDevice(self, name):
         """Getting the instance for gathering data from the device
