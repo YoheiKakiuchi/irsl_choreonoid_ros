@@ -136,15 +136,15 @@ class JointInterface(object):
             else:
                 name = group['name']
             if ('type' in group) and (group['type'] == 'action'):
-                jg = JointGroupAction(group, self.jointRobot)
+                jg = JointGroupAction(group, name, self.jointRobot)
             else:
-                jg = JointGroupTopic(group, self.jointRobot)
+                jg = JointGroupTopic(group, name, self.jointRobot)
             self.joint_groups[name] = jg
             if self.default_group is None:
                 self.default_group = jg
 
     @property
-    def groupList(self):
+    def jointGroupList(self):
         """Getting list of instance of joint-group
 
         Returns:
@@ -153,7 +153,7 @@ class JointInterface(object):
         """
         return list(self.joint_groups.values())
     @property
-    def groupNames(self):
+    def jointGroupNames(self):
         """Getting list of name of joint-groups
 
         Returns:
@@ -161,6 +161,20 @@ class JointInterface(object):
 
         """
         return list(self.joint_groups.keys())
+
+    def getJointGroup(self, name):
+        """Getting a instance of joint-group
+
+        Args:
+            name (str) : Name of joint-group
+
+        Returns:
+            JointGroupTopic : Instance of joint-group
+
+        """
+        if name in self.joint_groups:
+            return self.joint_groups[name]
+        return None
 
     def sendAngles(self, tm=None, group=None):
         """Sending angles of self.robot to the actual robot
@@ -217,16 +231,33 @@ class JointInterface(object):
         return gp.isFinished()
 
 class JointGroupTopic(object):
-    def __init__(self, group, robot=None):
+    def __init__(self, group, name, robot=None):
         super().__init__()
         self.__robot = robot
+        self.group_name = name
         self.pub = rospy.Publisher(group['topic'], JointTrajectory, queue_size=1)
         self.joint_names = group['joint_names']
         self.joints  = []
         for j in self.joint_names:
             j = robot.joint(j)
-            self.joints.append(j)
+            if j is None:
+                print('JointGroupTopic({}): joint-name: {} is invalid'.format(name, j))
+            else:
+                self.joints.append(j)
         self.finish_time = rospy.get_rostime()
+
+    @property
+    def name(self):
+        return self.group_name
+
+    @property
+    def jointNames(self):
+        # return self.joint_names
+        return [ j.jointName for j in self.joints ]
+
+    @property
+    def jointList(self):
+        return self.joints
 
     def sendAngles(self, tm = None):
         if tm is None:
@@ -249,7 +280,7 @@ class JointGroupTopic(object):
             return False
 
 class JointGroupAction(object):
-    def __init__(self, group, robot=None):
+    def __init__(self, group, name, robot=None):
         super().__init__()
         self.__robot = robot
         print('JointGroupAction not implemented', file=sys.stderr)
