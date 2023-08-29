@@ -506,7 +506,7 @@ class JointState(RosDeviceBase):
         self.subscribe()
 
     def joint_msg_to_robot(self, msg):
-        for idx, nm in zip(range(len(msg.name)), msg.name):
+        for idx, nm in enumerate(msg.name):
             lk = self.robot.joint(nm)
             if lk:
                 lk.q = msg.position[idx]
@@ -523,7 +523,7 @@ class JointTrajectoryState(RosDeviceBase):
         self.subscribe()
 
     def joint_msg_to_robot(self, msg):
-        for idx, nm in zip(range(len(msg.joint_names)), msg.joint_names):
+        for idx, nm in enumerate(msg.joint_names):
             lk = self.robot.joint(nm)
             if lk:
                 lk.q = msg.actual.positions[idx]
