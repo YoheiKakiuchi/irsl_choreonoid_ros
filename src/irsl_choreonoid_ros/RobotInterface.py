@@ -6,6 +6,7 @@ import os
 import rospy
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from control_msgs.msg import JointTrajectoryControllerState
+from std_msgs.msg import Header as std_msgs_header
 ## TODO: action
 
 # choreonoid
@@ -466,28 +467,32 @@ class RosDeviceBase(object):
         tp = type_str.split('/')
         exec('from {}.msg import {}'.format(tp[0], tp[1]), locals(), globals())
         self.msg = eval('{}'.format(tp[1]))
-
+        ## exec('class {}Wrapped({}):\n  __slots__ = ("header")')
+        ## self.msg_wrapped = eval('{}Wrapped'.format(tp[1]))
     def subscribe(self):
         self.sub = rospy.Subscriber(self.topic, self.msg, self.callback)
 
     def callback(self, msg):
-        if hasattr(msg, 'header'):
-            self.msg_time = msg.header.stamp
-        else:
-            self.msg_time = rospy.get_rostime()
+        #
+        #if not hasattr(msg, 'header'):
+        #    setattr(msg, 'header', std_msgs_header(stamp=rospy.get_rostime(), frame_id='add_by_ri'))
+        #    ## msg.header = std_msgs_header(stamp=rospy.get_rostime(), frame_id='add_by_ri')
+        self.msg_time = rospy.get_rostime()
         if self.robot_callback is not None:
-            self.robot_callback(self.msg_time, msg)
+            self.robot_callback(msg)
         self.current_msg = msg
 
     def returnData(self):
-        return (self.msg_time, self.current_msg)
+        return self.current_msg
 
     def data(self, clear=False):
         res = self.returnData()
+        tm = self.msg_time
         if clear:
             self.msg_time = None
             self.current_msg = None
         return res
+
     ## protected functions
     def _pre_wait(self, timeout):
         if timeout is None:
@@ -535,11 +540,7 @@ class StringDevice(RosDeviceBase):
         import std_msgs.msg
         self.msg = std_msgs.msg.String
         self.subscribe()
-    def returnData(self):
-        if self.current_msg is None:
-            return (None, None)
-        else:
-            return (self.msg_time, self.current_msg.data)
+
 class JointState(RosDeviceBase):
     def __init__(self, dev_dict, robot=None):
         super().__init__(dev_dict, robot)
@@ -556,7 +557,7 @@ class JointState(RosDeviceBase):
                 lk.dq = msg.velocity[idx]
                 lk.u  = msg.effort[idx]
 
-    def joint_callback(self, rtime, msg):
+    def joint_callback(self, msg):
         #print('js: {} {}'.format(rtime, msg))
         self.joint_msg_to_robot(msg)
 
@@ -579,7 +580,7 @@ class JointTrajectoryStateCallback(JointTrajectoryState):
                 lk.q = msg.actual.positions[idx]
                 lk.q = msg.actual.velocities[idx]
 
-    def joint_callback(self, rtime, msg):
+    def joint_callback(self, msg):
         #print('js: {} {}'.format(rtime, msg))
         self.joint_msg_to_robot(msg)
 #
@@ -667,7 +668,7 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
         res = self.getDevicesByClass(JointTrajectoryState)
         if len(res) < 1:
             return None
-        tm, val = res[0].data()
+        val = res[0].data()
         if val is None:
             return None
         tmp = self.instanceOfJointBody.angleVector()# store
