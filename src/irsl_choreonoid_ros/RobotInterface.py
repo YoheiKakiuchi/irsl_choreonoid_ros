@@ -552,24 +552,32 @@ class JointState(RosDeviceBase):
         for idx, nm in enumerate(msg.name):
             lk = self.robot.joint(nm)
             if lk:
-                lk.q = msg.position[idx]
+                lk.q  = msg.position[idx]
+                lk.dq = msg.velocity[idx]
+                lk.u  = msg.effort[idx]
 
     def joint_callback(self, rtime, msg):
         #print('js: {} {}'.format(rtime, msg))
         self.joint_msg_to_robot(msg)
-class JointTrajectoryState(RosDeviceBase):
+
+class JointTrajectoryState(RosDeviceBase): ## just store reference
     def __init__(self, dev_dict, robot=None):
         super().__init__(dev_dict, robot)
         from control_msgs.msg import JointTrajectoryControllerState as JState_msg
         self.msg = JState_msg
-        self.robot_callback = self.joint_callback
         self.subscribe()
+
+class JointTrajectoryStateCallback(JointTrajectoryState):
+    def __init__(self, dev_dict, robot=None):
+        super().__init__(dev_dict, robot)
+        self.robot_callback = self.joint_callback
 
     def joint_msg_to_robot(self, msg):
         for idx, nm in enumerate(msg.joint_names):
             lk = self.robot.joint(nm)
             if lk:
                 lk.q = msg.actual.positions[idx]
+                lk.q = msg.actual.velocities[idx]
 
     def joint_callback(self, rtime, msg):
         #print('js: {} {}'.format(rtime, msg))
@@ -631,6 +639,14 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
         """
         return iu.loadRobot(self.model_file)
+
+    @property
+    def effortVector(self):
+        return npa([ j.u for j in self.instanceOfBody.joints ])
+
+    @property
+    def velocityVector(self):
+        return npa([ j.dq for j in self.instanceOfBody.joints ])
 
     @property
     def actualAngleVector(self):
