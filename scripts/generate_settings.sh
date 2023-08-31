@@ -68,13 +68,13 @@ fi
 set -x
 choreonoid_body2urdf $BODYFILE > $URDFFILE 2>/dev/null
 
-python3  $CHOREONOID_DIR_PATH/../lib/irsl_choreonoid_ros/python/generate_roscontroller_config.py --bodyfile $BODYFILE $WHEELOPTION ${WHEEL_LIST[@]} > $ROSCONTROLFILE
+rosrun irsl_choreonoid_ros generate_roscontroller_config.py --bodyfile $BODYFILE $WHEELOPTION ${WHEEL_LIST[@]} > $ROSCONTROLFILE
 CONTROLLERS_LIST=`python3 -c "import yaml; f=open('$ROSCONTROLFILE'); obj=yaml.safe_load(f); f.close(); [ print(str(c)+' ', end='') for c in obj.keys() ]"`
 
 if [ $wheel_length -gt 0 ] ; then
-    python3  $CHOREONOID_DIR_PATH/../lib/irsl_choreonoid_ros/python/generate_wheelconfig.py --bodyfile $BODYFILE --wheeljoints ${WHEEL_LIST[@]} > $WHEELCONFIG
+   rosrun irsl_choreonoid_ros generate_wheelconfig.py --bodyfile $BODYFILE --wheeljoints ${WHEEL_LIST[@]} > $WHEELCONFIG
 fi
 
-python3  $CHOREONOID_DIR_PATH/../lib/irsl_choreonoid_ros/python/generate_cnoid.py --bodyfile $BODYFILE --templatefile $CHOREONOID_DIR_PATH/../share/irsl_choreonoid_ros/config/choreonoid_ros_template.cnoid > $CNOIDFILE
-python3 $CHOREONOID_DIR_PATH/../lib/irsl_choreonoid_ros/python/generate_ri_config.py --bodyfile $BODYFILE --use_wheel $USE_WHEEL > $RICONFIGFILE
-python3 $CHOREONOID_DIR_PATH/../lib/irsl_choreonoid_ros/python/generate_roslaunch.py --bodyfile $BODYFILE  --urdffile $URDFFILE --cnoidfile $CNOIDFILE --roscontrolfile $ROSCONTROLFILE --use_wheel $USE_WHEEL --controllers "$CONTROLLERS_LIST" > run_sim_robot.launch 
+rosrun irsl_choreonoid_ros generate_cnoid.py --bodyfile $BODYFILE --templatefile $CHOREONOID_DIR_PATH/../share/irsl_choreonoid_ros/config/choreonoid_ros_template.cnoid > $CNOIDFILE
+rosrun irsl_choreonoid_ros generate_ri_config.py --bodyfile $BODYFILE --use_wheel $USE_WHEEL > $RICONFIGFILE
+rosrun irsl_choreonoid_ros generate_roslaunch.py --bodyfile $BODYFILE  --urdffile $URDFFILE --cnoidfile $CNOIDFILE --roscontrolfile $ROSCONTROLFILE --use_wheel $USE_WHEEL --controllers "$CONTROLLERS_LIST" > run_sim_robot.launch 
