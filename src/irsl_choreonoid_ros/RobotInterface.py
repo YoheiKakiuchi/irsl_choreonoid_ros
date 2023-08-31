@@ -75,6 +75,20 @@ class MobileBaseInterface(object):
             return True
         return False
 
+    def waitFinishMoving(self, timeout=1.0):
+        """Wait to finish moving of MobileBase
+
+        Args:
+            timeout(float, default=1.0) :
+
+        Returns:
+            boolean : False returns, if timeout.
+
+        """
+        if timeout is not None:
+            rospy.sleep(timeout)
+        return False
+
     def stop(self):
         """Stop moving of MobileBase
 
@@ -283,6 +297,23 @@ class JointInterface(object):
             gp = self.joint_groups[group]
         return gp.isFinished()
 
+    def waitUntilFinish(self, timeout = None, group = None):
+        """Waiting until finishing joint moving
+
+        Args:
+            timeout (float, optional): Time for timeout
+            group (str, optional): Name of group to be used
+
+        Returns:
+               boolean : False returns, if timeout.
+
+        """
+        if group is None:
+            gp = self.default_group
+        else:
+            gp = self.joint_groups[group]
+        return gp.waitUntilFinish(timeout)
+
 class JointGroupTopic(object):
     def __init__(self, group, name, robot=None):
         super().__init__()
@@ -337,6 +368,15 @@ class JointGroupTopic(object):
             return True
         else:
             return False
+
+    def waitUntilFinish(self, timeout=None):
+        if timeout is None:
+            timeout = 1000000000.0
+        st = rospy.get_rostime()
+        while (rospy.get_rostime() - st).to_sec() < timeout:
+            if self.isFinished():
+                break
+            rospy.sleep(0.01)
 
 class JointGroupAction(object):
     def __init__(self, group, name, robot=None):
