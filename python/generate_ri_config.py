@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/bin/python3
 import argparse
 import numpy
 import os
@@ -82,6 +82,10 @@ if __name__=='__main__':
     print("    topic: /{}/joint_states".format(robotname))
     print("    class: JointState")
     print("    name: joint_state")
+    print("  -")
+    print("    topic: /{}/joint_controller/state".format(robotname))
+    print("    class: JointTrajectoryState")
+    print("    name: joint_trajectory_state")
     for idx in range(num_device):
         dev = rbody.getDevice(idx)
         print("  -")

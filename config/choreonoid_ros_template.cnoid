@@ -52,6 +52,7 @@ items:
               data: 
                 body_ros_version: 0
                 joint_state_update_rate: 100
+                publish_joint_state: false
             - 
               id: 4
               name: "ROSControl"
