@@ -28,6 +28,7 @@ class MobileBaseInterface(object):
     """Interface for controlling locomotion of the robot
     """
     def __init__(self, info, robot=None, **kwargs):
+        self.pub = None
         if 'mobile_base' in info:
             self.__mobile_init(info['mobile_base'], robot)
     def __mobile_init(self, mobile_dict, robot):
@@ -48,6 +49,31 @@ class MobileBaseInterface(object):
         if 'baselink' in mobile_dict:
             self.baselink = mobile_dict['baselink']
             ## TODO check baselink in self.instanceOfBody
+
+    @property
+    def mobile_initialized(self):
+        """Initialized check of MobileBase
+
+        Returns:
+            boolean : True returns, if MobileBase instance has been initialized
+
+        """
+        if self.pub is None:
+            return False
+        else:
+            return True
+
+    @property
+    def mobile_connected(self):
+        """Connection check of MobileBase
+
+        Returns:
+            boolean : True returns, if MobileBase instance has been connected
+
+        """
+        if self.pub is not None and self.pub.get_num_connections() > 0:
+            return True
+        return False
 
     def stop(self):
         """Stop moving of MobileBase
@@ -123,14 +149,14 @@ class JointInterface(object):
     """Interface for controlling joints of the robot
     """
     def __init__(self, info, robot=None, **kwargs):
+        self.joint_groups = {}
+        self.default_group = None
         if 'joint_groups' in info:
             self.__joint_init(info['joint_groups'], robot)
     def __joint_init(self, group_list, robot):
         print('joint: {}'.format(group_list))
         if robot is not None:
             self.instanceOfJointBody = robot
-        self.joint_groups = {}
-        self.default_group = None
         for group in group_list:
             if not 'name' in group:
                 name = 'default'
@@ -145,6 +171,31 @@ class JointInterface(object):
                 self.default_group = jg
 
     @property
+    def joint_initialized(self):
+        """Initialized check of JointInterface
+
+        Returns:
+            boolean : True returns, if JointInterface instance has been initialized
+
+        """
+        if self.default_group is None:
+            return False
+        else:
+            return True
+
+    @property
+    def joint_connected(self):
+        """Connection check of JointInterface
+
+        Returns:
+            boolean : True returns, if JointInterface instance has been connected
+
+        """
+        if self.default_group is not None and self.default_group.connected:
+            return True
+        return False
+
+    @property
     def jointGroupList(self):
         """Getting list of instance of joint-group
 
@@ -153,6 +204,7 @@ class JointInterface(object):
 
         """
         return list(self.joint_groups.values())
+
     @property
     def jointGroupNames(self):
         """Getting list of name of joint-groups
@@ -260,6 +312,12 @@ class JointGroupTopic(object):
     def jointList(self):
         return self.joints
 
+    @property
+    def connected(self):
+        if self.pub.get_num_connections() > 0:
+            return True
+        return False
+
     def sendAngles(self, tm = None):
         if tm is None:
             ### TODO: do not use hard coded number
@@ -298,20 +356,46 @@ class DeviceInterface(object):
     """Interface for receiving data from sensors on the robot
     """
     def __init__(self, info, robot=None, **kwargs):
+        self.devices = {}
         if 'devices' in info:
             self.__device_init(info['devices'], robot)
     def __device_init(self, device_list, robot):
         print('devices: {}'.format(device_list))
         if robot is not None:
             self.instanceOfBody = robot
-        self.devices = {}
-
         for dev in device_list:
             if 'class' in dev:
                 cls = eval('{}'.format(dev['class']))
                 self.devices[dev['name']] = cls(dev, robot=self.robot)
             else:
                 self.devices[dev['name']] = RosDevice(dev, robot=self.robot)
+
+    @property
+    def device_initialized(self):
+        """Initialized check of DeviceInterface
+
+        Returns:
+            boolean : True returns, if DeviceInterface instance has been initialized
+
+        """
+        if len(self.devices) > 0:
+            return True
+        return False
+
+    @property
+    def device_connected(self):
+        """Connection check of DeviceInterface
+
+        Returns:
+            boolean : True returns, if all devices in this instance have been connected
+
+        """
+        if not self.device_initialized:
+            return False
+        for dev in self.devices.values():
+            if not dev.connected:
+                return False
+        return True
 
     @property
     def deviceList(self):
@@ -462,6 +546,13 @@ class RosDeviceBase(object):
         self.msg_time = None
         self.current_msg = None
         self.timeout = None
+        self.sub = None
+
+    @property
+    def connected(self):
+        if self.sub is not None and self.sub.get_num_connections() > 0:
+            return True
+        return False
 
     def parseType(self, type_str):
         tp = type_str.split('/')
@@ -593,13 +684,14 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
     Then, please refer methods of these classes.
     """
-    def __init__(self, file_name, node_name='robot_interface', anonymous=False):
+    def __init__(self, file_name, node_name='robot_interface', anonymous=False, connection_wait=3.0):
         """
 
         Args:
-            file_name (str) : Name of setting file
+            file_name (str) : Name of setting.yaml file
             node_name (str) : Name of node
             anonymous (boolean, default = False) : If True, ROS node will start with this node-name.
+            connection_wait (float, default=3.0) :
 
         """
         rospy.init_node(node_name, anonymous=anonymous)
@@ -611,6 +703,22 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
         JointInterface.__init__(self, self.info)
         DeviceInterface.__init__(self, self.info)
         MobileBaseInterface.__init__(self, self.info)
+
+        tmp = rospy.get_rostime()
+        while (rospy.get_rostime() - tmp).to_sec() < connection_wait:
+            res = True
+            if self.mobile_initialized:
+                if not self.mobile_connected:
+                    res = False
+            if self.joint_initialized:
+                if not self.joint_connected:
+                    res = False
+            if self.device_initialized:
+                if not self.device_connected:
+                    res = False
+            if res:
+                break
+            rospy.sleep(0.1)
 
     def __load_robot(self):
         if 'robot_model' in self.info:
