@@ -52,6 +52,8 @@ items:
               data: 
                 body_ros_version: 0
                 joint_state_update_rate: 100
+                publish_joint_state: false
+                name_space: __ROBOT__NAME__
             - 
               id: 4
               name: "ROSControl"
