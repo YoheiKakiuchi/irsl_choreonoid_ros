@@ -789,7 +789,16 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             else:
                 self.model_cls = ru.RobotModelWrapped
 
-    def generateRobotModel(self, asItem=True):
+    def getRobotModel(self, asItem=True):
+        """Return an instance of RobotModel (irsl_choreonoid.robot_util.RobotModelWrapped)
+
+        Args:
+            asItem(boolean, default=True) : If True, model is generated as cnoid.BodyPlugin.BodyItem
+
+        Returns:
+            irsl_choreonoid.robot_util.RobotModelWrapped : Newly generated instance
+
+        """
         if asItem and iu.isInChoreonoid():
             rb = ib.loadRobotItem(self.model_file)
         else:
@@ -810,15 +819,28 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
     @property
     def effortVector(self):
+        """Return vector of effort of actual robot (sensing value)
+This method requires JointState class in devices
+
+        Returns:
+            numpy.array : 1 x N vector ( N is len(jointList) )
+        """
         return npa([ j.u for j in self.instanceOfBody.joints ])
 
     @property
     def velocityVector(self):
+        """Return vector of velocity of actual robot (sensing value)
+This method requires JointState class in devices
+
+        Returns:
+            numpy.array : 1 x N vector ( N is len(jointList) )
+        """
         return npa([ j.dq for j in self.instanceOfBody.joints ])
 
     @property
     def actualAngleVector(self):
         """Return angle-vector of actual robot (sensing value)
+This method requires JointState class in devices
 
         Returns:
             numpy.array : 1 x N vector ( N is len(jointList) )
@@ -828,6 +850,7 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
     @property
     def referenceAngleVector(self):
         """Return reference angle-vector (value of past command)
+This method requires JointTrajectoryState class in devices
 
         Returns:
             numpy.array : 1 x N vector ( N is len(jointList) )
