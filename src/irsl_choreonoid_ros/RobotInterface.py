@@ -18,6 +18,10 @@ import irsl_choreonoid.cnoid_util as iu
 import irsl_choreonoid.robot_util as ru
 from .cnoid_ros_util import parseURLROS
 #from irsl_choreonoid_ros.cnoid_ros_util import parseURLROS
+if iu.isInChoreonoid():
+    ## in base
+    import irsl_choreonoid.cnoid_base as ib
+    import cnoid.Base as cbase
 
 from numpy import array as npa
 
@@ -774,10 +778,25 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             self.instanceOfBody = iu.loadRobot(self.model_file)
             if self.instanceOfBody is None:
                 raise Exception('body can not be loaded by file: {}'.format(self.model_file))
-            self.instanceOfJointBody = self.copyRobotModel()
-            ## RobotModel??
+            self.instanceOfJointBody = self.copyRobot()
 
-    def copyRobotModel(self):
+            if 'class' in mdl:
+                if 'import' in mdl:
+                    exec('from {} import {}'.format(mdl['import'], mdl['class']))
+                    self.model_cls = exec('{}'.format(mdl['class']))
+                else:
+                    self.model_cls = exec('{}'.format(mdl['class']))
+            else:
+                self.model_cls = ru.RobotModelWrapped
+
+    def generateRobotModel(self, asItem=True):
+        if asItem and iu.isInChoreonoid():
+            rb = ib.loadRobotItem(self.model_file)
+        else:
+            rb = iu.loadRobot(self.model_file)
+        return self.model_cls(rb)
+
+    def copyRobot(self):
         """Return other instance of the robot model
 
         Args:
