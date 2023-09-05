@@ -800,7 +800,7 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
         """
         if asItem and iu.isInChoreonoid():
-            rb = ib.loadRobotItem(self.model_file)
+            rb = ib.loadRobotItem(self.model_file, world=False)
         else:
             rb = iu.loadRobot(self.model_file)
         return self.model_cls(rb)
