@@ -122,7 +122,7 @@ class MobileBaseInterface(object):
     def currentMapCoords(self):
         """Current robot's coordinate on the map
 
-Not implemented yet [TODO]
+        **Not implemented yet**
 
         Returns:
             cnoid.IRSLCoords.coordinates : Current robot's coordinate on the map
@@ -152,7 +152,7 @@ Not implemented yet [TODO]
     def move_trajectory(self, traj, relative = False):
         """Set target trajectory for MobileBase
 
-Not implemented yet [TODO]
+        **Not implemented yet**
 
         Args:
             traj (list[(cnoid.IRSLCoords.coordinates, float)]) : List of pair of coordinates and time
@@ -819,41 +819,49 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
     @property
     def effortVector(self):
-        """Return vector of effort of actual robot (sensing value)
-This method requires JointState class in devices
+        """Return vector of effort of actual robot \(sensing value\)
+
+        This method requires JointState class in devices
 
         Returns:
             numpy.array : 1 x N vector ( N is len(jointList) )
+
         """
         return npa([ j.u for j in self.instanceOfBody.joints ])
 
     @property
     def velocityVector(self):
-        """Return vector of velocity of actual robot (sensing value)
-This method requires JointState class in devices
+        """Return vector of velocity of actual robot \(sensing value\)
+
+        This method requires JointState class in devices
 
         Returns:
             numpy.array : 1 x N vector ( N is len(jointList) )
+
         """
         return npa([ j.dq for j in self.instanceOfBody.joints ])
 
     @property
     def actualAngleVector(self):
-        """Return angle-vector of actual robot (sensing value)
-This method requires JointState class in devices
+        """Return angle-vector of actual robot \(sensing value\)
+
+        This method requires JointState class in devices
 
         Returns:
             numpy.array : 1 x N vector ( N is len(jointList) )
+
         """
         return self.instanceOfBody.angleVector()
 
     @property
     def referenceAngleVector(self):
-        """Return reference angle-vector (value of past command)
-This method requires JointTrajectoryState class in devices
+        """Return reference angle-vector \(value of past command\)
+
+        This method requires JointTrajectoryState class in devices
 
         Returns:
             numpy.array : 1 x N vector ( N is len(jointList) )
+
         """
         res = self.getDevicesByClass(JointTrajectoryState)
         if len(res) < 1:
