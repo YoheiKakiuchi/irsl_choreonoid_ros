@@ -115,7 +115,7 @@ class MobileBaseInterface(object):
         msg = self.msg()
         msg.linear.x = vel_x
         msg.linear.y = vel_y
-        msg.angular.y = vel_th
+        msg.angular.z = vel_th
         self.pub.publish(msg)
 
     @property
