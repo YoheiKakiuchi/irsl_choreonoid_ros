@@ -97,7 +97,7 @@ if __name__=='__main__':
             print('')
         elif dev.getName().lower().find('color')>=0:
             print('    <node name="colorsensor_converter_node_{}" pkg="irsl_choreonoid_ros" type="colorsensor_converter_node.py" output="screen">'.format(idx))
-            print('      <remap from="input_image" to="{}/color/image_raw"/>'.foramt(dev.getName()))
+            print('      <remap from="input_image" to="{}/color/image_raw"/>'.format(dev.getName()))
             print('      <remap from="output_sensor_data" to="{}/value"/>'.format(dev.getName()))
             print('    </node>')
             print('')
