@@ -31,6 +31,7 @@ if __name__=='__main__':
     parser.add_argument('--bodyfile', type=str, default="robotname.body")
     parser.add_argument('--use_wheel', type=strtobool, default=False)
     parser.add_argument('--controller_name', type=str, default="joint_controller")
+    parser.add_argument('--wheeljoints', nargs="*", type=str, default=[])
     
     args = parser.parse_args()
     fname = args.bodyfile
@@ -75,7 +76,7 @@ if __name__=='__main__':
     print("    topic: /{}/{}/command".format(robotname,args.controller_name))
     print("    # type: 'action' or 'command'")
     print("    type: command")
-    print("    joint_names: {}".format([j.jointName for j in joint_list]))
+    print("    joint_names: {}".format([j.jointName for j in joint_list if j.jointName not in args.wheeljoints]))
     print("")
     print("devices:")
     print("  -")

@@ -76,5 +76,10 @@ if [ $wheel_length -gt 0 ] ; then
 fi
 
 rosrun irsl_choreonoid_ros generate_cnoid.py --bodyfile $BODYFILE --templatefile $CHOREONOID_DIR_PATH/../share/irsl_choreonoid_ros/config/choreonoid_ros_template.cnoid > $CNOIDFILE
+
+if [ $wheel_length -gt 0 ] ; then
+rosrun irsl_choreonoid_ros generate_ri_config.py --bodyfile $BODYFILE --use_wheel $USE_WHEEL --wheeljoints ${WHEEL_LIST[@]}  > $RICONFIGFILE
+else
 rosrun irsl_choreonoid_ros generate_ri_config.py --bodyfile $BODYFILE --use_wheel $USE_WHEEL > $RICONFIGFILE
+fi
 rosrun irsl_choreonoid_ros generate_roslaunch.py --bodyfile $BODYFILE  --urdffile $URDFFILE --cnoidfile $CNOIDFILE --roscontrolfile $ROSCONTROLFILE --use_wheel $USE_WHEEL --controllers "$CONTROLLERS_LIST" > run_sim_robot.launch 
