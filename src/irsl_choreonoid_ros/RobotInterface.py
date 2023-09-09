@@ -728,22 +728,27 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
     Then, please refer methods of these classes.
     """
-    def __init__(self, file_name, node_name='robot_interface', anonymous=False, connection_wait=3.0):
+    def __init__(self, file_name, node_name='robot_interface', anonymous=False, connection_wait=3.0, connection=True):
         """
 
         Args:
             file_name (str) : Name of setting.yaml file
             node_name (str) : Name of node
             anonymous (boolean, default = False) : If True, ROS node will start with this node-name.
-            connection_wait (float, default=3.0) :
+            connection_wait (float, default=3.0) : Wait until ROS connection has established
+            connection (boolean, default=True) : If false, create instace without ROS connection
 
         """
-        rospy.init_node(node_name, anonymous=anonymous)
-
         with open(parseURLROS(file_name)) as f:
             self.info = yaml.safe_load(f)
-
         self.__load_robot()
+        #
+        if not connection:
+            return
+        #
+        ## ROS setup
+        rospy.init_node(node_name, anonymous=anonymous)
+        ## Interface(ROS) setup
         JointInterface.__init__(self, self.info)
         DeviceInterface.__init__(self, self.info)
         MobileBaseInterface.__init__(self, self.info)
