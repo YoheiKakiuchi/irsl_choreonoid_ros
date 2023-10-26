@@ -182,11 +182,16 @@ class JointInterface(object):
                 name = group['name']
             if ('type' in group) and (group['type'] == 'action'):
                 jg = JointGroupAction(group, name, self.jointRobot)
+            elif ('type' in group) and (group['type'] == 'combined'):
+                jg = JointGroupCombined(group, name, self.jointRobot)
+                jg.setGroups(self.joint_groups)
             else:
                 jg = JointGroupTopic(group, name, self.jointRobot)
             self.joint_groups[name] = jg
             if self.default_group is None:
                 self.default_group = jg
+        if 'default' in self.joint_groups:
+            self.default_group = self.joint_groups['default']
 
     @property
     def joint_initialized(self):
@@ -335,29 +340,26 @@ class JointInterface(object):
                 gp = self.joint_groups[group]
             return gp.waitUntilFinish(timeout)
 
-class JointGroupTopic(object):
-    def __init__(self, group, name, robot=None):
-        super().__init__()
-        self.__robot = robot
-        self.group_name = name
-        self.pub = rospy.Publisher(group['topic'], JointTrajectory, queue_size=1)
-        self.joint_names = group['joint_names']
+class JointGroupBase(object):
+    def __init__(self, name, robot=None):
+        self._robot = robot
+        self._group_name = name
+
+    def setJointNames(self, names):
+        self.joint_names = names
         self.joints  = []
         for j in self.joint_names:
-            j = robot.joint(j)
+            j = self._robot.joint(j)
             if j is None:
                 print('JointGroupTopic({}): joint-name: {} is invalid'.format(name, j))
             else:
                 self.joints.append(j)
-        self.finish_time = rospy.get_rostime()
-
     @property
     def name(self):
-        return self.group_name
+        return self._group_name
 
     @property
     def jointNames(self):
-        # return self.joint_names
         return [ j.jointName for j in self.joints ]
 
     @property
@@ -366,11 +368,34 @@ class JointGroupTopic(object):
 
     @property
     def connected(self):
+        return True
+
+    def sendAngles(self, tm = None):
+        pass
+
+    def isFinished(self):
+        return True
+
+    def waitUntilFinish(self, timeout=None):
+        pass
+
+class JointGroupTopic(JointGroupBase):
+    def __init__(self, group, name, robot=None):
+        super().__init__(name, robot)
+
+        self.pub = rospy.Publisher(group['topic'], JointTrajectory, queue_size=1)
+
+        self.setJointNames(group['joint_names'])
+
+        self.finish_time = rospy.get_rostime()
+
+    @property
+    def connected(self):  ## override
         if self.pub.get_num_connections() > 0:
             return True
         return False
 
-    def sendAngles(self, tm = None):
+    def sendAngles(self, tm = None): ## override
         if tm is None:
             ### TODO: do not use hard coded number
             tm = 4.0
@@ -383,14 +408,14 @@ class JointGroupTopic(object):
         self.finish_time = rospy.get_rostime() + rospy.Duration(tm)
         self.pub.publish(msg)
 
-    def isFinished(self):
+    def isFinished(self):  ## override
         diff = (rospy.get_rostime() - self.finish_time).to_sec()
         if diff > 0:
             return True
         else:
             return False
 
-    def waitUntilFinish(self, timeout=None):
+    def waitUntilFinish(self, timeout=None):  ## override
         if timeout is None:
             timeout = 1000000000.0
         st = rospy.get_rostime()
@@ -399,16 +424,42 @@ class JointGroupTopic(object):
                 break
             rospy.sleep(0.01)
 
-class JointGroupAction(object):
+class JointGroupAction(JointGroupBase):
     def __init__(self, group, name, robot=None):
-        super().__init__()
-        self.__robot = robot
+        super().__init__(name, robot)
+        self.setJointNames(group['joint_names'])
+        ##
         print('JointGroupAction not implemented', file=sys.stderr)
         raise Exception
-    def sendAngles(self, tm = None):
-        pass
-    def isFinished(self):
-        return False
+
+class JointGroupCombined(JointGroupBase):
+    def __init__(self, group, name, robot=None):
+        super().__init__(name, robot)
+        self.group_names = group['groups']
+
+    def setGroups(self, dict_group):
+        self.groups = []
+        for gn in self.group_names:
+            if gn in dict_group:
+                self.groups.append(dict_group[gn])
+            else:
+                raise Exception('group name : {} is not defined'.format(gn))
+    @property
+    def connected(self):  ## override
+        return all( [ g.connected for g in self.groups ] )
+
+    def sendAngles(self, tm = None): ## override
+        for g in self.groups:
+            g.sendAngles(tm)
+
+    def isFinished(self):  ## override
+        return all( [ g.isFinished() for g in self.groups ] )
+
+    def waitUntilFinish(self, timeout=None):  ## override
+        res = []
+        for g in self.groups:
+            res.append(g.waitUntilFinish(timeout))
+        return all(res)
 
 #
 # DeviceInterface
