@@ -869,17 +869,18 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             numpy.array : 1 x N vector ( N is len(jointList) )
 
         """
-        res = self.getDevicesByClass(JointTrajectoryState)
-        if len(res) < 1:
-            return None
-        val = res[0].data()
-        if val is None:
+        res_lst = self.getDevicesByClass(JointTrajectoryState)
+        if len(res_lst) < 1:
             return None
         tmp = self.instanceOfJointBody.angleVector()# store
-        for idx, nm in enumerate(val.joint_names):
-            lk = self.instanceOfJointBody.joint(nm)
-            if lk:
-                lk.q = val.desired.positions[idx]
+        for res in res_lst:
+            val = res.data()
+            if val is None:
+                return None
+            for idx, nm in enumerate(val.joint_names):
+                lk = self.instanceOfJointBody.joint(nm)
+                if lk:
+                    lk.q = val.desired.positions[idx]
         ret = self.instanceOfJointBody.angleVector()
         self.instanceOfJointBody.angleVector(tmp)# restore
         return ret
