@@ -775,8 +775,8 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             self.robot_name = mdl['name']
             self.model_file = parseURLROS(mdl['url'])
 
-            rospy.loginfo('loading model from {}'.format(self.model_file))
-
+            ##rospy.loginfo('loading model from {}'.format(self.model_file))
+            print('loading model from {}'.format(self.model_file))
             if not os.path.isfile(self.model_file):
                 raise Exception('file: {} does not exist'.format(self.model_file))
 
@@ -787,10 +787,11 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
             if 'class' in mdl:
                 if 'import' in mdl:
-                    exec('from {} import {}'.format(mdl['import'], mdl['class']))
-                    self.model_cls = exec('{}'.format(mdl['class']))
+                    # print('from {} import {}'.format(mdl['import'], mdl['class']))
+                    exec('from {} import {}'.format(mdl['import'], mdl['class']), locals(), globals())
+                    exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
                 else:
-                    self.model_cls = exec('{}'.format(mdl['class']))
+                    exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
             else:
                 self.model_cls = ru.RobotModelWrapped
 
