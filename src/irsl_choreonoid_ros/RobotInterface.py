@@ -252,14 +252,19 @@ class JointInterface(object):
 
         Args:
             tm (float) : Moving duration in second
-            group (str, optional): Name of group to be used
+            group (str or list[str], optional): Name(s) of group to be used
 
         """
-        if group is None:
-            gp = self.default_group
+        tp = type(group)
+        if tp is list or tp is tuple:
+            for gp in group:
+                gp.sendAngles(tm)
         else:
-            gp = self.joint_groups[group]
-        gp.sendAngles(tm)
+            if group is None:
+                gp = self.default_group
+            else:
+                gp = self.joint_groups[group]
+            gp.sendAngles(tm)
 
     def sendAngleVector(self, angle_vector, tm=None, group=None):
         """Sending angle-vector to the actual robot. angle_vector is set to self.robot
@@ -267,56 +272,68 @@ class JointInterface(object):
         Args:
             angle_vector (numpy.array) : Vector of angles
             tm (float) : Moving duration in second
-            group (str, optional): Name of group to be used
+            group (str or list[str], optional): Name(s) of group to be used
 
         """
         self.jointRobot.angleVector(angle_vector)
         self.sendAngles(tm=tm, group=group)
 
-    def sendAngleMap(self, angle_map, tm):
+    def sendAngleMap(self, angle_map, tm, group=None):
         """Sending angles to the actual robot. angles is set to self.robot
 
         Args:
             angle_map ( dict[name, float] ) : Dictionary, whose key is joint-name, and value is joint-angle
             tm (float) : Moving duration in second
+            group (str or list[str], optional): Name(s) of group to be used
 
         """
         for name, angle in angle_map.items():
             self.jointRobot.joint(name).q = angle
-        self.sendAngles(tm=tm)
+        self.sendAngles(tm=tm, group=group)
 
     def isFinished(self, group = None):
         """Checking method for finishing to send angles
 
         Args:
-            group (str, optional): Name of group to be used
+            group (str or list[str], optional): Name(s) of group to be used
 
         Returns:
                boolean : If True, the robot is not moving
 
         """
-        if group is None:
-            gp = self.default_group
+        tp = type(group)
+        if tp is list or tp is tuple:
+            return all( [ gp.isFinished() for gp in group ] )
         else:
-            gp = self.joint_groups[group]
-        return gp.isFinished()
+            if group is None:
+                gp = self.default_group
+            else:
+                gp = self.joint_groups[group]
+            return gp.isFinished()
 
     def waitUntilFinish(self, timeout = None, group = None):
         """Waiting until finishing joint moving
 
         Args:
             timeout (float, optional): Time for timeout
-            group (str, optional): Name of group to be used
+            group (str or list[str], optional): Name(s) of group to be used
 
         Returns:
                boolean : False returns, if timeout.
 
         """
-        if group is None:
-            gp = self.default_group
+        tp = type(group)
+        if tp is list or tp is tuple:
+            res = []
+            for gp in group:
+                res.append(gp.waitUntilFinish(timeout))
+            return all(res)
         else:
-            gp = self.joint_groups[group]
-        return gp.waitUntilFinish(timeout)
+            if group is None:
+                gp = self.default_group
+            else:
+                gp = self.joint_groups[group]
+            return gp.waitUntilFinish(timeout)
 
 class JointGroupTopic(object):
     def __init__(self, group, name, robot=None):
