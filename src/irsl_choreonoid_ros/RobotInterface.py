@@ -182,11 +182,16 @@ class JointInterface(object):
                 name = group['name']
             if ('type' in group) and (group['type'] == 'action'):
                 jg = JointGroupAction(group, name, self.jointRobot)
+            elif ('type' in group) and (group['type'] == 'combined'):
+                jg = JointGroupCombined(group, name, self.jointRobot)
+                jg.setGroups(self.joint_groups)
             else:
                 jg = JointGroupTopic(group, name, self.jointRobot)
             self.joint_groups[name] = jg
             if self.default_group is None:
                 self.default_group = jg
+        if 'default' in self.joint_groups:
+            self.default_group = self.joint_groups['default']
 
     @property
     def joint_initialized(self):
@@ -252,14 +257,19 @@ class JointInterface(object):
 
         Args:
             tm (float) : Moving duration in second
-            group (str, optional): Name of group to be used
+            group (str or list[str], optional): Name(s) of group to be used
 
         """
-        if group is None:
-            gp = self.default_group
+        tp = type(group)
+        if tp is list or tp is tuple:
+            for gp in group:
+                gp.sendAngles(tm)
         else:
-            gp = self.joint_groups[group]
-        gp.sendAngles(tm)
+            if group is None:
+                gp = self.default_group
+            else:
+                gp = self.joint_groups[group]
+            gp.sendAngles(tm)
 
     def sendAngleVector(self, angle_vector, tm=None, group=None):
         """Sending angle-vector to the actual robot. angle_vector is set to self.robot
@@ -267,80 +277,89 @@ class JointInterface(object):
         Args:
             angle_vector (numpy.array) : Vector of angles
             tm (float) : Moving duration in second
-            group (str, optional): Name of group to be used
+            group (str or list[str], optional): Name(s) of group to be used
 
         """
         self.jointRobot.angleVector(angle_vector)
         self.sendAngles(tm=tm, group=group)
 
-    def sendAngleMap(self, angle_map, tm):
+    def sendAngleMap(self, angle_map, tm, group=None):
         """Sending angles to the actual robot. angles is set to self.robot
 
         Args:
             angle_map ( dict[name, float] ) : Dictionary, whose key is joint-name, and value is joint-angle
             tm (float) : Moving duration in second
+            group (str or list[str], optional): Name(s) of group to be used
 
         """
         for name, angle in angle_map.items():
             self.jointRobot.joint(name).q = angle
-        self.sendAngles(tm=tm)
+        self.sendAngles(tm=tm, group=group)
 
     def isFinished(self, group = None):
         """Checking method for finishing to send angles
 
         Args:
-            group (str, optional): Name of group to be used
+            group (str or list[str], optional): Name(s) of group to be used
 
         Returns:
                boolean : If True, the robot is not moving
 
         """
-        if group is None:
-            gp = self.default_group
+        tp = type(group)
+        if tp is list or tp is tuple:
+            return all( [ gp.isFinished() for gp in group ] )
         else:
-            gp = self.joint_groups[group]
-        return gp.isFinished()
+            if group is None:
+                gp = self.default_group
+            else:
+                gp = self.joint_groups[group]
+            return gp.isFinished()
 
     def waitUntilFinish(self, timeout = None, group = None):
         """Waiting until finishing joint moving
 
         Args:
             timeout (float, optional): Time for timeout
-            group (str, optional): Name of group to be used
+            group (str or list[str], optional): Name(s) of group to be used
 
         Returns:
                boolean : False returns, if timeout.
 
         """
-        if group is None:
-            gp = self.default_group
+        tp = type(group)
+        if tp is list or tp is tuple:
+            res = []
+            for gp in group:
+                res.append(gp.waitUntilFinish(timeout))
+            return all(res)
         else:
-            gp = self.joint_groups[group]
-        return gp.waitUntilFinish(timeout)
+            if group is None:
+                gp = self.default_group
+            else:
+                gp = self.joint_groups[group]
+            return gp.waitUntilFinish(timeout)
 
-class JointGroupTopic(object):
-    def __init__(self, group, name, robot=None):
-        super().__init__()
-        self.__robot = robot
-        self.group_name = name
-        self.pub = rospy.Publisher(group['topic'], JointTrajectory, queue_size=1)
-        self.joint_names = group['joint_names']
+class JointGroupBase(object):
+    def __init__(self, name, robot=None):
+        self._robot = robot
+        self._group_name = name
+
+    def setJointNames(self, names):
+        self.joint_names = names
         self.joints  = []
         for j in self.joint_names:
-            j = robot.joint(j)
+            j = self._robot.joint(j)
             if j is None:
                 print('JointGroupTopic({}): joint-name: {} is invalid'.format(name, j))
             else:
                 self.joints.append(j)
-        self.finish_time = rospy.get_rostime()
-
     @property
     def name(self):
-        return self.group_name
+        return self._group_name
 
     @property
     def jointNames(self):
-        # return self.joint_names
         return [ j.jointName for j in self.joints ]
 
     @property
@@ -349,11 +368,34 @@ class JointGroupTopic(object):
 
     @property
     def connected(self):
+        return True
+
+    def sendAngles(self, tm = None):
+        pass
+
+    def isFinished(self):
+        return True
+
+    def waitUntilFinish(self, timeout=None):
+        pass
+
+class JointGroupTopic(JointGroupBase):
+    def __init__(self, group, name, robot=None):
+        super().__init__(name, robot)
+
+        self.pub = rospy.Publisher(group['topic'], JointTrajectory, queue_size=1)
+
+        self.setJointNames(group['joint_names'])
+
+        self.finish_time = rospy.get_rostime()
+
+    @property
+    def connected(self):  ## override
         if self.pub.get_num_connections() > 0:
             return True
         return False
 
-    def sendAngles(self, tm = None):
+    def sendAngles(self, tm = None): ## override
         if tm is None:
             ### TODO: do not use hard coded number
             tm = 4.0
@@ -366,14 +408,14 @@ class JointGroupTopic(object):
         self.finish_time = rospy.get_rostime() + rospy.Duration(tm)
         self.pub.publish(msg)
 
-    def isFinished(self):
+    def isFinished(self):  ## override
         diff = (rospy.get_rostime() - self.finish_time).to_sec()
         if diff > 0:
             return True
         else:
             return False
 
-    def waitUntilFinish(self, timeout=None):
+    def waitUntilFinish(self, timeout=None):  ## override
         if timeout is None:
             timeout = 1000000000.0
         st = rospy.get_rostime()
@@ -382,16 +424,42 @@ class JointGroupTopic(object):
                 break
             rospy.sleep(0.01)
 
-class JointGroupAction(object):
+class JointGroupAction(JointGroupBase):
     def __init__(self, group, name, robot=None):
-        super().__init__()
-        self.__robot = robot
+        super().__init__(name, robot)
+        self.setJointNames(group['joint_names'])
+        ##
         print('JointGroupAction not implemented', file=sys.stderr)
         raise Exception
-    def sendAngles(self, tm = None):
-        pass
-    def isFinished(self):
-        return False
+
+class JointGroupCombined(JointGroupBase):
+    def __init__(self, group, name, robot=None):
+        super().__init__(name, robot)
+        self.group_names = group['groups']
+
+    def setGroups(self, dict_group):
+        self.groups = []
+        for gn in self.group_names:
+            if gn in dict_group:
+                self.groups.append(dict_group[gn])
+            else:
+                raise Exception('group name : {} is not defined'.format(gn))
+    @property
+    def connected(self):  ## override
+        return all( [ g.connected for g in self.groups ] )
+
+    def sendAngles(self, tm = None): ## override
+        for g in self.groups:
+            g.sendAngles(tm)
+
+    def isFinished(self):  ## override
+        return all( [ g.isFinished() for g in self.groups ] )
+
+    def waitUntilFinish(self, timeout=None):  ## override
+        res = []
+        for g in self.groups:
+            res.append(g.waitUntilFinish(timeout))
+        return all(res)
 
 #
 # DeviceInterface
@@ -775,8 +843,8 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             self.robot_name = mdl['name']
             self.model_file = parseURLROS(mdl['url'])
 
-            rospy.loginfo('loading model from {}'.format(self.model_file))
-
+            ##rospy.loginfo('loading model from {}'.format(self.model_file))
+            print('loading model from {}'.format(self.model_file))
             if not os.path.isfile(self.model_file):
                 raise Exception('file: {} does not exist'.format(self.model_file))
 
@@ -787,10 +855,11 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
             if 'class' in mdl:
                 if 'import' in mdl:
-                    exec('from {} import {}'.format(mdl['import'], mdl['class']))
-                    self.model_cls = exec('{}'.format(mdl['class']))
+                    # print('from {} import {}'.format(mdl['import'], mdl['class']))
+                    exec('from {} import {}'.format(mdl['import'], mdl['class']), locals(), globals())
+                    exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
                 else:
-                    self.model_cls = exec('{}'.format(mdl['class']))
+                    exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
             else:
                 self.model_cls = ru.RobotModelWrapped
 
@@ -868,17 +937,18 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             numpy.array : 1 x N vector ( N is len(jointList) )
 
         """
-        res = self.getDevicesByClass(JointTrajectoryState)
-        if len(res) < 1:
-            return None
-        val = res[0].data()
-        if val is None:
+        res_lst = self.getDevicesByClass(JointTrajectoryState)
+        if len(res_lst) < 1:
             return None
         tmp = self.instanceOfJointBody.angleVector()# store
-        for idx, nm in enumerate(val.joint_names):
-            lk = self.instanceOfJointBody.joint(nm)
-            if lk:
-                lk.q = val.desired.positions[idx]
+        for res in res_lst:
+            val = res.data()
+            if val is None:
+                return None
+            for idx, nm in enumerate(val.joint_names):
+                lk = self.instanceOfJointBody.joint(nm)
+                if lk:
+                    lk.q = val.desired.positions[idx]
         ret = self.instanceOfJointBody.angleVector()
         self.instanceOfJointBody.angleVector(tmp)# restore
         return ret
