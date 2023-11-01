@@ -340,6 +340,9 @@ class JointInterface(object):
                 gp = self.joint_groups[group]
             return gp.waitUntilFinish(timeout)
 
+    def cancel(self):
+        pass
+
 class JointGroupBase(object):
     def __init__(self, name, robot=None):
         self._robot = robot
@@ -373,10 +376,16 @@ class JointGroupBase(object):
     def sendAngles(self, tm = None):
         pass
 
+    def sendAnglesSequence(self, vec_list, tm_list):
+        pass
+
     def isFinished(self):
         return True
 
     def waitUntilFinish(self, timeout=None):
+        pass
+
+    def cancel(self):
         pass
 
 class JointGroupTopic(JointGroupBase):
@@ -429,8 +438,54 @@ class JointGroupAction(JointGroupBase):
         super().__init__(name, robot)
         self.setJointNames(group['joint_names'])
         ##
-        print('JointGroupAction not implemented', file=sys.stderr)
-        raise Exception
+        self._client = actionlib.SimpleActionClient(group['topic'],  FollowJointTrajectoryAction)
+
+    @property
+    def connected(self):  ## override
+        return self._client.wait_for_server(rospy.Duration(0.0001))
+
+    def sendAngles(self, tm=None):  ## override
+        if tm is None:
+            ### TODO: do not use hard coded number
+            tm = 4.0
+        header_ = Header(stamp=rospy.Time(0))
+        _traj = JointTrajectory(header=header, joint_names=self.joint_names)
+
+        point = JointTrajectoryPoint()
+        point.positions = [j.q for j in self.joints]
+        point.time_from_start = rospy.Duration(tm)
+        _traj.points.append(point)
+
+        _goal = FollowJointTrajectoryGoal(trajectory=_traj, goal_time_tolerance=rospy.Time(0.1))
+        _client.send_goal(_goal)
+
+    def sendAnglesSequence(self, vec_list, tm_list):  ## override
+        header_ = Header(stamp=rospy.Time(0))
+        _traj = JointTrajectory(header=header, joint_names=self.joint_names)
+        time_ = 0.0
+        for vec, tm in zip(vec_list, tm_list):
+            point = JointTrajectoryPoint()
+            point.positions = vec
+            time_ += tm
+            point.time_from_start = rospy.Duration(time_)
+            _traj.points.append(point)
+        _goal = FollowJointTrajectoryGoal(trajectory=_traj, goal_time_tolerance=rospy.Time(0.1))
+        _client.send_goal(_goal)
+
+    def isFinished(self):  ## override
+        return _client.simple_state != 1
+
+    def waitUntilFinish(self, timeout=None):  ## override
+        if timeout is None:
+            timeout = rospy.Duration(1000000000.0)
+        else:
+            if timeout <= 0.0:
+                timeout = 0.001
+            timeout = rospy.Duration(timeout)
+        _client.wait_for_result(timeout)
+
+    def cancel(self):
+        _client.cancel_all_goals()
 
 class JointGroupCombined(JointGroupBase):
     def __init__(self, group, name, robot=None):
