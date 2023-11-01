@@ -283,6 +283,23 @@ class JointInterface(object):
         self.jointRobot.angleVector(angle_vector)
         self.sendAngles(tm=tm, group=group)
 
+    def sendAngleVectorSequence(self, angle_vector_list, tm_list, group=None):
+        tp = type(group)
+        if tp is not list and tp is not tuple:
+            if group is None:
+                group = [ self.default_group ]
+            else:
+                group = [ self.joint_groups[group] ]
+        vec_list_group = []
+        for i in len(group):
+            vec_list_group.append([])
+        for angle_vector in angle_vector_list:
+            self.jointRobot.angleVector(angle_vector)
+            for idx, gp in enumerate(group):
+                vec_list_group[idx].append(gp.getAngleVector())
+        for gp, vec in zip(group, vec_list_group):
+            gp.sendAnglesSequence(vec, tm_list)
+
     def sendAngleMap(self, angle_map, tm, group=None):
         """Sending angles to the actual robot. angles is set to self.robot
 
@@ -357,9 +374,19 @@ class JointGroupBase(object):
                 print('JointGroupTopic({}): joint-name: {} is invalid'.format(name, j))
             else:
                 self.joints.append(j)
+
+    def getAngleVector(self, whole_angles=None):
+        if whole_angles is not None:
+            self.robot.angleVector(whole_angles)
+        return [j.q for j in self.joints]
+
     @property
     def name(self):
         return self._group_name
+
+    @property
+    def robot(self):
+        return self._robot
 
     @property
     def jointNames(self):
@@ -404,7 +431,7 @@ class JointGroupTopic(JointGroupBase):
             return True
         return False
 
-    def sendAngles(self, tm = None): ## override
+    def sendAngles(self, tm = None):  ## override
         if tm is None:
             ### TODO: do not use hard coded number
             tm = 4.0
@@ -415,6 +442,19 @@ class JointGroupTopic(JointGroupBase):
         point.time_from_start = rospy.Duration(tm)
         msg.points.append(point)
         self.finish_time = rospy.get_rostime() + rospy.Duration(tm)
+        self.pub.publish(msg)
+
+    def sendAnglesSequence(self, vec_list, tm_list):  ## override
+        msg = JointTrajectory()
+        msg.joint_names = self.joint_names
+        time_ = 0.0
+        for vec, tm in zip(vec_list, tm_list):
+            point = JointTrajectoryPoint()
+            point.positions = vec
+            time_ += tm
+            point.time_from_start = rospy.Duration(time_)
+            msg.points.append(point)
+        self.finish_time = rospy.get_rostime() + rospy.Duration(time)
         self.pub.publish(msg)
 
     def isFinished(self):  ## override
@@ -507,14 +547,20 @@ class JointGroupCombined(JointGroupBase):
         for g in self.groups:
             g.sendAngles(tm)
 
+    def sendAnglesSequence(self, vec_list, tm_list):  ## override
+        for g in self.groups:
+            g.sendAnglesSequence(vec_list, tm_list)
+
     def isFinished(self):  ## override
         return all( [ g.isFinished() for g in self.groups ] )
 
     def waitUntilFinish(self, timeout=None):  ## override
-        res = []
         for g in self.groups:
-            res.append(g.waitUntilFinish(timeout))
-        return all(res)
+            g.waitUntilFinish(timeout)
+
+    def cancel(self): ## override
+        for g in self.groups:
+            g.cancel()
 
 #
 # DeviceInterface
