@@ -1,0 +1,44 @@
+format: ChoreonoidBody
+formatVersion: 1.0
+
+name: "Box"
+rootLink: base
+links:
+  -
+    name: base
+    jointType: free
+    translation: [ 0, 0, 0.056 ]
+    mass: 0.05
+    inertia: [
+      0.01, 0,       0,
+      0,       0.01, 0,
+      0,       0,       0.01 ]
+    elements:
+      -
+        type: Shape
+        geometry: { type: Box, size: [ 0.016, 0.0288, 0.112 ] }
+        translation: [ 0.012, 0, 0 ]
+        appearance:
+          material:
+            diffuseColor: [ 1.0, 0.0, 0.0 ]
+      -
+        type: Shape
+        geometry: { type: Box, size: [ 0.016, 0.0288, 0.112 ] }
+        translation: [ -0.012, 0, 0 ]
+        appearance:
+          material:
+            diffuseColor: [ 0.0, 0.0, 1.0 ]
+      -
+        type: Shape
+        geometry: { type: Box, size: [ 0.04, 0.0096, 0.016 ] }
+        translation: [ 0, 0.0192, 0.048 ]
+        appearance:
+          material:
+            diffuseColor: [ 0.0, 1.0, 0.0 ]
+      -
+        type: Shape
+        geometry: { type: Box, size: [ 0.04, 0.0096, 0.016 ] }
+        translation: [ 0, -0.0192, 0.048 ]
+        appearance:
+          material:
+            diffuseColor: [ 0.0, 1.0, 0.0 ]
