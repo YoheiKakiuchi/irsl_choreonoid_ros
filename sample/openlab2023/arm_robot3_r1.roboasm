@@ -1,0 +1,217 @@
+actuator-info: 
+  XL-430_2494_17/horn: 
+    name: servo1
+  XL-430_2494_21/horn: 
+    name: servo2
+  XL-430_2922_3/horn: 
+    name: servo4
+  XL-430_3007_1/horn: 
+    name: servo5
+  XL-430_364_1/horn: 
+    name: servo3
+history: 
+  - 
+    initial-parts: true
+    parts-name: plate_16_16_1879_16
+    parts-type: plate_16_16
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 1.570796326795 ]
+    parent: plate_16_16_1879_16
+    parent-point: PL1_15_15
+    parts-name: plate_4_4_4075_4
+    parts-point: SK1_2_1
+    parts-type: plate_4_4
+  - 
+    parent: plate_4_4_4075_4
+    parent-point: SK1_1_1
+    parts-name: plate_16_16_4075_3
+    parts-point: PL1_15_15
+    parts-type: plate_16_16
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 3.141592653590 ]
+    parent: plate_4_4_4075_4
+    parent-point: SK1_2_2
+    parts-name: plate_16_16_4075_2
+    parts-point: PL1_15_15
+    parts-type: plate_16_16
+  - 
+    parent: plate_16_16_1879_16
+    parent-point: PL1_8_7
+    parts-name: Frame_Bottom_Socket_3007_3
+    parts-point: plug_2_1
+    parts-type: Frame_Bottom_Socket
+  - 
+    parent: Frame_Bottom_Socket_3007_3
+    parent-point: connect_point
+    parts-name: XL-430_2494_17
+    parts-point: bottom-side2
+    parts-type: XL-430
+  - 
+    parent: XL-430_2494_17
+    parent-point: horn
+    parts-name: Frame_Short_2494_20
+    parts-point: horn
+    parts-type: Frame_Short
+  - 
+    parent: Frame_Short_2494_20
+    parent-point: side_connect_point1
+    parts-name: XL-430_2494_21
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    parent: XL-430_2494_21
+    parent-point: horn
+    parts-name: Hinge_Long_Plug_2922_0
+    parts-point: side_connect_point
+    parts-type: Hinge_Long_Plug
+  - 
+    parent: Hinge_Long_Plug_2922_0
+    parent-point: plug_3_0
+    parts-name: Frame_Short_Socket_364_0
+    parts-point: socket_3_0
+    parts-type: Frame_Short_Socket
+  - 
+    parent: Frame_Short_Socket_364_0
+    parent-point: side_connect_point1
+    parts-name: XL-430_364_1
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    parent: XL-430_364_1
+    parent-point: horn
+    parts-name: Hinge_Long_Plug_364_2
+    parts-point: side_connect_point
+    parts-type: Hinge_Long_Plug
+  - 
+    parent: Hinge_Long_Plug_364_2
+    parent-point: plug_3_0
+    parts-name: Hinge_Long_Socket_2922_2
+    parts-point: socket_3_3
+    parts-type: Hinge_Long_Socket
+  - 
+    parent: Hinge_Long_Socket_2922_2
+    parent-point: side_connect_point
+    parts-name: XL-430_2922_3
+    parts-point: horn
+    parts-type: XL-430
+  - 
+    parent: XL-430_2922_3
+    parent-point: bottom-side1
+    parts-name: Frame_Short_Plug_2922_4
+    parts-point: side_connect_point1
+    parts-type: Frame_Short_Plug
+  - 
+    parent: Frame_Short_Plug_2922_4
+    parent-point: plug_0_0
+    parts-name: plate_6_12_1879_10
+    parts-point: SK1_1_4
+    parts-type: plate_6_12
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: plate_6_12_1879_10
+    parent-point: PL1_0_11
+    parts-name: block_2_3_2709_0
+    parts-point: SK1_1_2
+    parts-type: block_2_3
+  - 
+    parent: block_2_3_2709_0
+    parent-point: PL1_1_2
+    parts-name: block_2_3_2709_1
+    parts-point: SK1_1_2
+    parts-type: block_2_3
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 3.141592653590 ]
+    parent: block_2_3_2709_1
+    parent-point: PL1_1_2
+    parts-name: grove-sensor-mounter_1879_12
+    parts-point: s1_0_0
+    parts-type: grove-sensor-mounter
+  - 
+    parent: grove-sensor-mounter_1879_12
+    parent-point: sensor_pos
+    parts-name: grove-color-sensor_1879_11
+    parts-point: mount_pos
+    parts-type: grove-color-sensor
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: plate_6_12_1879_10
+    parent-point: PL1_1_4
+    parts-name: Fixed_Finger_3007_0
+    parts-point: s1_0_4
+    parts-type: Fixed_Finger
+  - 
+    parent: Fixed_Finger_3007_0
+    parent-point: side_connetct_point1
+    parts-name: XL-430_3007_1
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    parent: XL-430_3007_1
+    parent-point: horn
+    parts-name: Moveable_Finger_3007_2
+    parts-point: horn
+    parts-type: Moveable_Finger
+  - 
+    parent: plate_16_16_1879_16
+    parent-point: PL1_0_0
+    parts-name: plate_4_4_4075_5
+    parts-point: SK1_2_2
+    parts-type: plate_4_4
+  - 
+    parent: plate_4_4_4075_5
+    parent-point: SK1_1_2
+    parts-name: plate_16_16_4075_1
+    parts-point: PL1_15_0
+    parts-type: plate_16_16
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 1.570796326795 ]
+    parent: plate_4_4_4075_5
+    parent-point: SK1_2_1
+    parts-name: plate_16_16_4075_0
+    parts-point: PL1_0_0
+    parts-type: plate_16_16
+parts-info: 
+  Fixed_Finger_3007_0: 
+    color: [ 0.600000000000, 0.800000000000, 0.880000000000 ]
+  Frame_Bottom_Socket_3007_3: 
+    color: [ 0.900000000000, 0.200000000000, 0.200000000000 ]
+  Frame_Short_2494_20: 
+    color: [ 0.600000000000, 0.800000000000, 0.880000000000 ]
+  Frame_Short_Socket_364_0: 
+    color: [ 0.600000000000, 0.800000000000, 0.880000000000 ]
+  Hinge_Long_Plug_2922_0: 
+    color: [ 0.900000000000, 0.200000000000, 0.200000000000 ]
+  Hinge_Long_Plug_364_2: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  Hinge_Long_Socket_2922_2: 
+    color: [ 0.900000000000, 0.200000000000, 0.200000000000 ]
+  Moveable_Finger_3007_2: 
+    color: [ 0.600000000000, 0.800000000000, 0.880000000000 ]
+  XL-430_2494_17: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  XL-430_2494_21: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  XL-430_2922_3: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  XL-430_3007_1: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  XL-430_364_1: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  block_2_3_2709_0: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_2_3_2709_1: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  grove-sensor-mounter_1879_12: 
+    color: [ 0.600000000000, 0.800000000000, 0.880000000000 ]
+  plate_6_12_1879_10: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+robot-info: 
+  initial-coords: 
+    translation: [ 0.000000000000, 0.000000000000, 0.100000000000 ]
+  name: arm_robot3

@@ -1,0 +1,31 @@
+robot_model:
+  name: arm_robot3
+  url: 'file:////userdir/arm_robot3_r1.body'
+
+# mobile_base:
+#   type: geometry_msgs/Twist
+#   topic: /arm_robot3/cmd_vel
+#   baselink: Root
+
+joint_groups:
+  -
+    name: default
+    topic: /arm_robot3/joint_controller/command
+    # type: 'action' or 'command'
+    type: command
+    joint_names: ['servo1', 'servo2', 'servo3', 'servo4', 'servo5']
+
+devices:
+  -
+    topic: /arm_robot3/joint_states
+    class: JointState
+    name: joint_state
+  -
+    topic: /arm_robot3/joint_controller/state
+    class: JointTrajectoryState
+    name: joint_trajectory_state
+  -
+    topic: /arm_robot3/COLOR_Sensor0/value
+    type: std_msgs/ColorRGBA
+    name: COLOR_Sensor0
+    rate: 10

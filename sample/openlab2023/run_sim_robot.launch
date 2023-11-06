@@ -1,0 +1,31 @@
+<launch>
+  <arg name="demo_base_dir" default="/userdir"/>
+  <!-- choreonoid -->
+  <arg name="project_file" default="$(arg demo_base_dir)/sim_arm_robot3.cnoid"/>
+  <arg name="robot_name" default="arm_robot3"/>
+  <!-- ros_control -->
+  <arg name="model" default="$(arg demo_base_dir)/arm_robot3_r1.urdf"/>
+  <arg name="control_config" default="$(arg demo_base_dir)/roscontrol_config.yaml"/>
+  <arg name="controllers" default="joint_state_controller joint_controller " />
+
+  <include file="$(find irsl_choreonoid_ros)/launch/sim_robot.launch">
+    <arg name="project_file" value="$(arg project_file)" />
+    <arg name="robot_name" default="$(arg robot_name)"/>
+    <arg name="model" value="$(arg model)" />
+    <arg name="control_config" value="$(arg control_config)" />
+    <arg name="controllers" value="$(arg controllers)" />
+  </include>
+
+  <group ns="$(arg robot_name)" >
+    <node name="colorsensor_converter_node_0" pkg="irsl_choreonoid_ros" type="colorsensor_converter_node.py" output="screen">
+      <remap from="input_image" to="COLOR_Sensor0/color/image_raw"/>
+      <remap from="output_sensor_data" to="COLOR_Sensor0/value"/>
+    </node>
+
+    <!--<node name="tof_converter_node_1" pkg="irsl_choreonoid_ros" type="tof_converter_node.py" output="screen">
+      <remap from="input_points" to="TOF_Sensor1/point_cloud"/>
+      <remap from="output_sensor_data" to="TOF_Sensor1/value"/>
+    </node>-->
+
+  </group>
+</launch>
