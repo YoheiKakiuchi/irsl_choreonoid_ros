@@ -283,6 +283,23 @@ class JointInterface(object):
         self.jointRobot.angleVector(angle_vector)
         self.sendAngles(tm=tm, group=group)
 
+    def sendAngleVectorSequence(self, angle_vector_list, tm_list, group=None):
+        tp = type(group)
+        if tp is not list and tp is not tuple:
+            if group is None:
+                group = [ self.default_group ]
+            else:
+                group = [ self.joint_groups[group] ]
+        vec_list_group = []
+        for i in len(group):
+            vec_list_group.append([])
+        for angle_vector in angle_vector_list:
+            self.jointRobot.angleVector(angle_vector)
+            for idx, gp in enumerate(group):
+                vec_list_group[idx].append(gp.getAngleVector())
+        for gp, vec in zip(group, vec_list_group):
+            gp.sendAnglesSequence(vec, tm_list)
+
     def sendAngleMap(self, angle_map, tm, group=None):
         """Sending angles to the actual robot. angles is set to self.robot
 
@@ -340,6 +357,9 @@ class JointInterface(object):
                 gp = self.joint_groups[group]
             return gp.waitUntilFinish(timeout)
 
+    def cancel(self):
+        pass
+
 class JointGroupBase(object):
     def __init__(self, name, robot=None):
         self._robot = robot
@@ -354,9 +374,19 @@ class JointGroupBase(object):
                 print('JointGroupTopic({}): joint-name: {} is invalid'.format(name, j))
             else:
                 self.joints.append(j)
+
+    def getAngleVector(self, whole_angles=None):
+        if whole_angles is not None:
+            self.robot.angleVector(whole_angles)
+        return [j.q for j in self.joints]
+
     @property
     def name(self):
         return self._group_name
+
+    @property
+    def robot(self):
+        return self._robot
 
     @property
     def jointNames(self):
@@ -373,10 +403,16 @@ class JointGroupBase(object):
     def sendAngles(self, tm = None):
         pass
 
+    def sendAnglesSequence(self, vec_list, tm_list):
+        pass
+
     def isFinished(self):
         return True
 
     def waitUntilFinish(self, timeout=None):
+        pass
+
+    def cancel(self):
         pass
 
 class JointGroupTopic(JointGroupBase):
@@ -395,7 +431,7 @@ class JointGroupTopic(JointGroupBase):
             return True
         return False
 
-    def sendAngles(self, tm = None): ## override
+    def sendAngles(self, tm = None):  ## override
         if tm is None:
             ### TODO: do not use hard coded number
             tm = 4.0
@@ -406,6 +442,19 @@ class JointGroupTopic(JointGroupBase):
         point.time_from_start = rospy.Duration(tm)
         msg.points.append(point)
         self.finish_time = rospy.get_rostime() + rospy.Duration(tm)
+        self.pub.publish(msg)
+
+    def sendAnglesSequence(self, vec_list, tm_list):  ## override
+        msg = JointTrajectory()
+        msg.joint_names = self.joint_names
+        time_ = 0.0
+        for vec, tm in zip(vec_list, tm_list):
+            point = JointTrajectoryPoint()
+            point.positions = vec
+            time_ += tm
+            point.time_from_start = rospy.Duration(time_)
+            msg.points.append(point)
+        self.finish_time = rospy.get_rostime() + rospy.Duration(time)
         self.pub.publish(msg)
 
     def isFinished(self):  ## override
@@ -429,8 +478,54 @@ class JointGroupAction(JointGroupBase):
         super().__init__(name, robot)
         self.setJointNames(group['joint_names'])
         ##
-        print('JointGroupAction not implemented', file=sys.stderr)
-        raise Exception
+        self._client = actionlib.SimpleActionClient(group['topic'],  FollowJointTrajectoryAction)
+
+    @property
+    def connected(self):  ## override
+        return self._client.wait_for_server(rospy.Duration(0.0001))
+
+    def sendAngles(self, tm=None):  ## override
+        if tm is None:
+            ### TODO: do not use hard coded number
+            tm = 4.0
+        header_ = Header(stamp=rospy.Time(0))
+        _traj = JointTrajectory(header=header, joint_names=self.joint_names)
+
+        point = JointTrajectoryPoint()
+        point.positions = [j.q for j in self.joints]
+        point.time_from_start = rospy.Duration(tm)
+        _traj.points.append(point)
+
+        _goal = FollowJointTrajectoryGoal(trajectory=_traj, goal_time_tolerance=rospy.Time(0.1))
+        _client.send_goal(_goal)
+
+    def sendAnglesSequence(self, vec_list, tm_list):  ## override
+        header_ = Header(stamp=rospy.Time(0))
+        _traj = JointTrajectory(header=header, joint_names=self.joint_names)
+        time_ = 0.0
+        for vec, tm in zip(vec_list, tm_list):
+            point = JointTrajectoryPoint()
+            point.positions = vec
+            time_ += tm
+            point.time_from_start = rospy.Duration(time_)
+            _traj.points.append(point)
+        _goal = FollowJointTrajectoryGoal(trajectory=_traj, goal_time_tolerance=rospy.Time(0.1))
+        _client.send_goal(_goal)
+
+    def isFinished(self):  ## override
+        return _client.simple_state != 1
+
+    def waitUntilFinish(self, timeout=None):  ## override
+        if timeout is None:
+            timeout = rospy.Duration(1000000000.0)
+        else:
+            if timeout <= 0.0:
+                timeout = 0.001
+            timeout = rospy.Duration(timeout)
+        _client.wait_for_result(timeout)
+
+    def cancel(self):
+        _client.cancel_all_goals()
 
 class JointGroupCombined(JointGroupBase):
     def __init__(self, group, name, robot=None):
@@ -452,14 +547,20 @@ class JointGroupCombined(JointGroupBase):
         for g in self.groups:
             g.sendAngles(tm)
 
+    def sendAnglesSequence(self, vec_list, tm_list):  ## override
+        for g in self.groups:
+            g.sendAnglesSequence(vec_list, tm_list)
+
     def isFinished(self):  ## override
         return all( [ g.isFinished() for g in self.groups ] )
 
     def waitUntilFinish(self, timeout=None):  ## override
-        res = []
         for g in self.groups:
-            res.append(g.waitUntilFinish(timeout))
-        return all(res)
+            g.waitUntilFinish(timeout)
+
+    def cancel(self): ## override
+        for g in self.groups:
+            g.cancel()
 
 #
 # DeviceInterface
