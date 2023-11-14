@@ -3,6 +3,7 @@ from cnoid.Base import RootItem
 from cnoid.Base import ItemTreeView
 
 from cnoid.BodyPlugin import AISTSimulatorItem
+from cnoid.BodyPlugin import GLVisionSimulatorItem
 from cnoid.BodyPlugin import BodyItem
 from cnoid.BodyPlugin import WorldItem
 
@@ -26,7 +27,11 @@ import yaml
 ##   initial_joint_angles:
 ##   initial_coords:
 ##   BodyROSItem:
+##       publish_joint_state: false
+##       joint_state_update_rate: 100
+##       name_space: arm_robot3
 ##   ROSControlItem:
+##       name_space: arm_robot3
 ## robots:
 ##   - { robot: }
 ## object:
@@ -44,31 +49,36 @@ import yaml
 ##   World:
 ##     name:
 ##   WorldROS:
-##   simulator:
+##   Simulator:
 ##      type: 'AISTSimulator'
 ##   GLVision:
-
-# parse-coords
 
 param_method_dict = {
 #    'param_name':'method_name'
 #    'param_name':'variable_name='
-    'name_space':'nameSpace='
-    'joint_state_update_rate':'jointStateUpdateRate='
-    'max_clock_publishing_rate':'maxClockPublishingRate='
+    'name_space': 'nameSpace=',
+    'joint_state_update_rate': 'jointStateUpdateRate=',
+    'max_clock_publishing_rate': 'maxClockPublishingRate=',
     }
-def applyParameter(item, param):
+def _applyParameter(item, param):
+    if type(param) is not dict:
+        return
     for key,val in param.items():
         eval_str = ''
         if key in param_method_dict:
             method = param_method_dict(key)
             if method[-1] == '=':
-                eval_str = 'item.' + method + 'val'
+                if hasattr(item, method[:-1]):
+                    eval_str = 'item.' + method + 'val'
             else:
-                eval_str = 'item.' + method + '(val)'
+                if hasattr(item, method):
+                    eval_str = 'item.' + method + '(val)'
         else:
-            eval_str = 'item.set' + ''.join([s.capitalize() for s in key.split('_')]) + '(val)'
+            method = 'set' + ''.join([ s.capitalize() for s in key.split('_') ])
+            if hasattr(item, method):
+                eval_str = 'item.' + method + '(val)'
         if len(eval_str) > 0:
+            print('eval: {}'.format(eval_str))
             eval(eval_str)
 
 class BodyItemWrapper(object):
@@ -77,12 +87,13 @@ class BodyItemWrapper(object):
         self.world_item = world
 
     def addObject(self, info, fix=False):
-        ## TODO
-        pass
+        return self.addRobot(info, fix=fix, ros_enable=False)
 
-    def addRobot(self, info, fix=False, ros_enable=False): ## fix is overwrittern by info
+    def addRobot(self, info, fix=False, ros_enable=False):
         self.body_item = BodyItem()
-        self.body_item.load(info['model'])
+        fname = info['model']
+        ## TODO: parse fname
+        self.body_item.load(fname)
         if 'name' in info:
             self.body_item.setName(info['name'])
         self.body_item.body.updateLinkTree()
@@ -96,14 +107,17 @@ class BodyItemWrapper(object):
         self.body_item.storeInitialState()
         if 'fix' in info:
             fix = info['fix']
-        if fix:
+        if fix: ## fix is overwrittern by info
             pass ## TODO:
         self.world_item.insertChildItem(self.body_item, self.world_item.childItem)
         if 'check' in info and info['check']:
             ItemTreeView.instance.checkItem(self.body_item)
 
         if ros_enable:
-            pass
+            if 'BodyROSItem' in info:
+                self.addBodyROSItem(check=True, param=info['BodyROSItem'])
+            if 'ROSControlItem' in info:
+                self.addROSControlItem(check=True, param=info['ROSControlItem'])
 
     def addBodyROSItem(self, check=True, param=None):
         self.body_ros = BodyROSItem()
@@ -113,30 +127,28 @@ class BodyItemWrapper(object):
         # body_ros_item.publishJointState = 
         self.body_item.addChildItem(self.body_ros)
         if param is not None:
-            applyParameter(self.body_ros, param)
+            _applyParameter(self.body_ros, param)
         if check:
             ItemTreeView.instance.checkItem(self.body_ros)
 
-    def addROSControl(self, check=True, param=None):
+    def addROSControlItem(self, check=True, param=None):
         self.ros_control = ROSControlItem()
         self.ros_control.setName('ROSControlItem')
         ## ros_cntrl_item.nameSpace = ''
         self.body_item.addChildItem(self.ros_control)
         if param is not None:
-            applyParameter(self.ros_control, param)
+            _applyParameter(self.ros_control, param)
         if check:
             ItemTreeView.instance.checkItem(self.ros_control)
 
 class CnoidSim(object):
-    def __init__(self, yaml_file=None):
+    def __init__(self):
         self.world_item = None
         self.root_item = RootItem.instance
         self.robots =  []
         self.objects = []
         self.ros_enable = False
         self.simulator = None
-        if yaml_file is not None:
-            pass
 
     def parseInfo(self, info_dict):
         ### parse world first
@@ -150,7 +162,7 @@ class CnoidSim(object):
             ## ROS
             if 'ROS' in world_info:
                 self.ros_enable = True
-                self.addROSScript(param=world_info['ROS'])
+                self.execROSScript(param=world_info['ROS'])
             ## WorldROS
             if 'WorldROS' in world_info:
                 self.ros_enable = True
@@ -178,6 +190,9 @@ class CnoidSim(object):
             for obj_info in info_dict['objects']:
                 self.addRobot(obj_info)
 
+    def execROSScript(self, param=None):
+        pass
+
     def addWorld(self, name='World', check=True, param=None):
         wd = self.root_item.findItem(name)
         if wd is None:
@@ -186,8 +201,8 @@ class CnoidSim(object):
             self.root_item.addChildItem(self.world_item)
         else:
             self.world_item = wd
-        if param is not None:
-            applyParameter(self.world_item, param)
+        #
+        _applyParameter(self.world_item, param)
         if check:
             ItemTreeView.instance.checkItem(self.world_item)
 
@@ -200,8 +215,8 @@ class CnoidSim(object):
             self.world_item.addChildItem(self.ros_world)## ? insert
         else:
             self.ros_world = ros_world
-        if param is not None:
-            applyParameter(self.ros_world, param)
+        #
+        _applyParameter(self.ros_world, param)
         if check:
             ItemTreeView.instance.checkItem(self.ros_world)
 
@@ -216,28 +231,26 @@ class CnoidSim(object):
     #def addFixedObject(self):
     #    pass
 
-    def addSimulator(self, name='AISTSimulator', check=True, param=None): ## name is overwritten by param
-        aist_sim = self.world_item.findItem(name)
-        if aist_sim is None:
-            self.simulator = AISTSimulatorItem()
-            self.simulator.setName(name)
+    def addSimulator(self, check=True, param=None): ## name is overwritten by param
+        if 'type' in param:
+            exec('self.simulator = {}Item()'.format(param['type']), locals(), globals())
+        print('self.simulator: {}'.format(self.simulator) )
+        if self.simulator is not None:
+            ## set integrationMode: runge-kutta
             self.world_item.addChildItem(self.simulator)## ? insert
-        else:
-            self.simulator = aist_sim
-        if param is not None:
-            applyParameter(self.simulator, param)
-        if check:
-            ItemTreeView.instance.checkItem(self.simulator)
+            _applyParameter(self.simulator, param)
+            if check:
+                ItemTreeView.instance.checkItem(self.simulator)
 
     def addGLVision(self, simulator=None, target_bodies=None, target_sensors=None, param=None):
         if self.simulator is None:
             return
         vsim = GLVisionSimulatorItem()
-        if 'target_bodies' in param:
+        if param is not None and 'target_bodies' in param:
             vsim.setTargetBodies(param['target_bodies'])
         elif target_bodies is not None:
             vsim.setTargetBodies(target_bodies)
-        if 'target_sensors' in param:
+        if param is not None and 'target_sensors' in param:
             vsim.setTargetSensors(param['target_sensors'])
         elif target_sensors is not None:
             vsim.setTargetSensors(target_sensors)
@@ -249,12 +262,12 @@ class CnoidSim(object):
         vsim.setDedicatedSensorThreadsEnabled(True)
         vsim.setBestEffortMode(True)
         vsim.setRangeSensorPrecisionRatio(2.0)
-        vsim.setAllSceneObjectsEnabled(False)
+        #vsim.setAllSceneObjectsEnabled(False)
+        vsim.setAllSceneObjectsEnabled(True)
         vsim.setHeadLightEnabled(True)
         vsim.setAdditionalLightsEnabled(True)
-        if param is not None:
-            applyParameter(vsim, param)
+        ##
+        _applyParameter(vsim, param)
         #add
         self.simulator.addChildItem(vsim)
         self.glvision = vsim
-

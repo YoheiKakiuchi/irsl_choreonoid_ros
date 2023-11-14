@@ -1,0 +1,11 @@
+world:
+#  ROS:
+#    generate_urdf: ''
+#    generate_controller_param: {param} <-- controller.yaml
+  World:
+    name: MyWorld
+#  WorldROS:
+  Simulator:
+     type: 'AISTSimulator'
+     name: 'AASIM'
+  GLVision:
