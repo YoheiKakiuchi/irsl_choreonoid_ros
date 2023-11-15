@@ -52,6 +52,9 @@ import rospy
 ##   Simulator:
 ##     type: 'AISTSimulator'
 ##   GLVision:
+##   Camera:
+##     position:
+##     fov:
 ##   WorldROS: ## should be launch from choreonoid_ros
 ##   ROS:
 ##     urdf_settings:
@@ -96,6 +99,17 @@ def _applyParameter(item, param):
             # print('eval: {}'.format(eval_str)) ## debug
             eval(eval_str)
 
+def _getDictValue(in_dict, keys):
+    for k in keys:
+        if k in in_dict:
+            return in_dict[k]
+
+def _getDictValueExist(in_dict, keys):
+    for k in keys:
+        if k in in_dict:
+            return (True, in_dict[k])
+    return (False, None)
+
 class _BodyItemWrapper(object):
     def __init__(self, world):
         self.body_item = None
@@ -106,27 +120,34 @@ class _BodyItemWrapper(object):
 
     def addRobot(self, info, fix=False, ros_enable=False):
         self.body_item = BodyItem()
-        fname = parseURLROS(info['model'])
+        model_ = _getDictValue(info, ('model', 'Model', 'file', 'File', 'body', 'Body', 'model_file', 'modelFile', 'uri', 'URI'))
+        if model_ is None:
+            return
+        fname = parseURLROS(model_)
         self.body_item.load(fname)
         ##
-        if 'name' in info:
-            self.body_item.setName(info['name'])
+        name_ = _getDictValue(info, ('name', 'Name', 'modelName'))
+        if name_ is not None:
+            self.body_item.setName(name_)
         ##
         self.body_item.body.updateLinkTree()
         self.body_item.body.initializePosition()
-        if 'initial_joint_angles' in info:
-            angles = info['initial_joint_angles']
-            for j, q in zip(self.body_item.body.joints, angles):
+        angles_ = _getDictValue(info, ('initial_joint_angles', 'joint_angles', 'initial_angles', 'jointAngles', 'initialAngles',
+                                       'initial_joint_angle', 'joint_angle', 'initial_angle', 'jointAngle', 'initialAngle',
+                                       'initialJointAngles', 'initialJointAngle'))
+        if angles_ is not None:
+            for j, q in zip(self.body_item.body.joints, angles_):
                 j.q = q
-        if 'initial_coords' in info:
-            cds_dict = info['initial_coords']
-            cds = make_coordinates(cds_dict)
+        cds_dict_ =  _getDictValue(info, ('initial_coords', 'initial_position', 'Coords', 'Position', 'initialCoords', 'initialPosition'))
+        if cds_dict_ is not None:
+            cds = make_coordinates(cds_dict_)
             self.body_item.body.rootLink.setPosition(cds.cnoidPosition)
         self.body_item.body.calcForwardKinematics()
         self.body_item.storeInitialState()
         ##
-        if 'fix' in info:
-            fix = info['fix']
+        fix_ = _getDictValue(info, ('fix', 'Fix', 'fixedObject', 'fixed', 'Fixed'))
+        if fix_ is not None:
+            fix = fix_
         if fix: ## fix is overwrittern by info
             self.body_item.body.setRootLinkFixed(True);
         ##
@@ -215,30 +236,35 @@ class SetupCnoid(object):
         if 'world' in info_dict:
             world_info = info_dict['world']
             ## World
-            if 'World' in world_info:
-                self._addWorld(param=world_info['World'])
+            exist_, world_ = _getDictValueExist(world_info, ('World', 'world', 'WORLD'))
+            if exist_:
+                self._addWorld(param=world_)
             else:
                 self._addWorld()
             is_master_exists = rosgraph.is_master_online()
             ## ROS
-            if 'ROS' in world_info:
+            exist_, ros_ = _getDictValueExist(world_info, ('ros', 'ROS', 'Ros'))
+            if exist_:
                 if is_master_exists:
                     self.ros_enable = True
-                self._execROSScript(param=world_info['ROS'])
+                self._execROSScript(param=ros_)
             ## WorldROS
-            if 'WorldROS' in world_info:
+            exist_, world_ros_ = _getDictValueExist(world_info, ('WorldROS', 'world_ros'))
+            if exist_:
                 if is_master_exists:
                     self.ros_enable = True
-                    self._addWorldROS(param=world_info['WorldROS'])
+                    self._addWorldROS(param=world_ros_)
             elif self.ros_enable:
                 if is_master_exists:
                     self._addWorldROS()
             ## Simulator
-            if 'Simulator' in world_info:
-                self._addSimulator(param=world_info['Simulator'])
+            exist_, simulator_ = _getDictValueExist(world_info, ('Simulator', 'simulator', 'SimulatorItem'))
+            if exist_:
+                self._addSimulator(param=simulator_)
             ## GLVision
-            if 'GLVision' in world_info:
-                self._addGLVision(param=world_info['GLVision'])
+            exist_, gl_vision_ = _getDictValueExist(world_info, ('GLVision', 'gl_vision', 'Vision', 'vision'))
+            if exist_:
+                self._addGLVision(param=gl_vision_)
         else:
             ## add default_world
             if addDefaultWorld:
@@ -339,14 +365,23 @@ class SetupCnoid(object):
         self.simulator.addChildItem(vsim)
         self.glvision = vsim
 
+    def _setCameraPosition(self, param=None):
+        if param is None:
+            return
+        fov_ = _getDictValue(param, ('fov', 'FOV'))
+        cds_ = _getDictValue(param, ('position', 'Position', 'coords'))
+        if cds_ is not None:
+            cds_ = make_coordinates(cds_)
+
     def _execROSScript(self, param=None):
         if param is None:
             return
-        if 'urdf_settings' in param:
-            self._parseURDF(param['urdf_settings'])
-
-        if 'set_parameter' in param:
-            self._parseParam(param['set_parameter'])
+        urdf_ = _getDictValue(param, ('urdf_settings', 'URDFSettings', 'URDF_settings', 'urdf_setting', 'URDFSetting', 'URDF_setting', 'URDF', 'urdf'))
+        if urdf_ is not None:
+            self._parseURDF(urdf_)
+        parameters_ = _getDictValue(param, ('set_parameter', 'set_parameters', 'setParameter', 'setParameters', 'parameters', 'Parameters'))
+        if parameters_ is not None:
+            self._parseParam(parameters_)
 
     def _parseURDF(self, param):
         pass
@@ -361,11 +396,13 @@ class SetupCnoid(object):
     def _parseSingleParam(self, param):
         if 'type' in param:
             if param['type'] == 'yaml':
-                if 'file' in param:
-                    fn = parseURLROS(param['file'])
+                file_ = _getDictValue(param, ('file', 'File', 'URI', 'uri', 'yaml', 'yaml_file'))
+                if file_ is not None:
+                    fn = parseURLROS(file_)
                     yparam = yaml.safe_load(open(fn))
-                    if 'name' in param:
-                        rospy.set_param(param['name'], yparam)
+                    name_ = _getDictValue(param, ('name', 'param', 'Name', 'Param', 'parameter_name', 'parameterName'))
+                    if name_ is not None:
+                        rospy.set_param(name_, yparam)
                     else:
                         for k,v in yparam.items():
                             if type(k) is str:
@@ -373,8 +410,9 @@ class SetupCnoid(object):
                 return
         if 'parameter' in param:
             p = param['parameter']
-            if 'name' in param:
-                rospy.set_param(param['name'], p)
+            name_ = _getDictValue(param, ('name', 'param', 'Name', 'Param', 'parameter_name', 'parameterName'))
+            if name_ is not None:
+                rospy.set_param(name_, p)
             else:
                 for k,v in p.items():
                     if type(k) is str:
