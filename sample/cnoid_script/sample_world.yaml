@@ -5,6 +5,10 @@ world:
      type: 'AISTSimulator'
      name: 'AISTSim'
   GLVision:
+  Camera:
+    lookEye: [0., 3., 1.7]
+    lookUp: [0., 0., 1.0]
+    lookAtCenter: [0., 0., 0.7]
   WorldROS: ## if using choreonoid_ros
 #  ROS: ## WIP
 #     urdf_settings:

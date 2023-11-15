@@ -17,6 +17,7 @@ import cnoid.Util
 #from irsl_choreonoid_ros.cnoid_ros_util import parseURLROS
 from .cnoid_ros_util import parseURLROS
 from irsl_choreonoid.robot_util import make_coordinates
+import irsl_choreonoid.cnoid_base as ib
 
 import yaml
 
@@ -53,6 +54,10 @@ import rospy
 ##     type: 'AISTSimulator'
 ##   GLVision:
 ##   Camera:
+##     lookEye:
+##     lookForDirection:
+##     lookAtCenter:
+##     lookAtUp:
 ##     position:
 ##     fov:
 ##   WorldROS: ## should be launch from choreonoid_ros
@@ -198,7 +203,7 @@ class SetupCnoid(object):
         self.ros_enable = False
         self.simulator = None
 
-    def buildEnvironment(self, info_dict, world='World', createWorld=False):
+    def buildEnvironment(self, info_dict, world='World', createWorld=False, setCamera=False):
         """
         Building environment (setting objects) under the WorldItem
 
@@ -206,7 +211,7 @@ class SetupCnoid(object):
             info_dict ( dict['key': value] ) : Dictionary for representing objects on environment
             world (str, default='World') : Name of WorldItem, added objects under this item
             craeteWorld (boolean, default=False) : If True, creating new WorldItem
-
+            setCamera (boolean, default=False) : If True, set camera position
         """
         worldItem = None
         if createWorld:
@@ -214,7 +219,14 @@ class SetupCnoid(object):
             worldItem = self.world_item
         else:
             worldItem = self.root_item.findItem(world)
-
+        ##
+        if setCamera:
+            if 'world' in info_dict:
+                world_info = info_dict['world']
+                camera_ = _getDictValue(world_info, ('Camera', 'camera', 'View', 'view'))
+                if camera_ is not None:
+                    self._setCameraPosition(param=camera_)
+        ##
         if 'object' in info_dict:
             self._addObject(info_dict['object'], worldItem=worldItem)
         if 'objects' in info_dict:
@@ -265,6 +277,10 @@ class SetupCnoid(object):
             exist_, gl_vision_ = _getDictValueExist(world_info, ('GLVision', 'gl_vision', 'Vision', 'vision'))
             if exist_:
                 self._addGLVision(param=gl_vision_)
+            ## Camera
+            camera_ = _getDictValue(world_info, ('Camera', 'camera', 'View', 'view'))
+            if camera_ is not None:
+                self._setCameraPosition(param=camera_)
         else:
             ## add default_world
             if addDefaultWorld:
@@ -372,6 +388,20 @@ class SetupCnoid(object):
         cds_ = _getDictValue(param, ('position', 'Position', 'coords'))
         if cds_ is not None:
             cds_ = make_coordinates(cds_)
+            ib.setCameraCoords(cds_, fov_)
+        else:
+            eye_ = _getDictValue(param, ('lookEye', 'eye', 'Eye'))
+            up_ = _getDictValue(param, ('lookUp', 'up', 'Up'))
+            if eye_ is not None and up_ is not None:
+                dir_ = _getDictValue(param, ('lookForDirection', 'lookDirection', 'Direction', 'direction'))
+                if dir_ is not None:
+                    cds = ib.cameraPositionLookingFor(eye_, dir_, up_)
+                    ib.setCameraCoords(cds, fov_, opencv=False)
+                else:
+                    center_ = _getDictValue(param, ('lookAtCenter', 'lookAt', 'at', 'center'))
+                    if center_ is not None:
+                        cds = ib.cameraPositionLookingAt(eye_, center_, up_)
+                        ib.setCameraCoords(cds, fov_, opencv=False)
 
     def _execROSScript(self, param=None):
         if param is None:
