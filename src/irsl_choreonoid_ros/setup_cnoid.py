@@ -216,10 +216,20 @@ class SetupCnoid(object):
         """
         worldItem = None
         if createWorld:
-            self._addWorld(name=world)
+            if 'world' in info_dict:
+                world_info = info_dict['world']
+                ## World
+                exist_, world_ = _getDictValueExist(world_info, ('World', 'world', 'WORLD'))
+                if exist_:
+                    self._addWorld(param=world_)
+            else:
+                self._addWorld(name=world)
             worldItem = self.world_item
         else:
             worldItem = self.root_item.findItem(world)
+        ##
+        if worldItem is None:
+            worldItem = self.root_item
         ##
         if setCamera:
             if 'world' in info_dict:
