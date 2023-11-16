@@ -980,6 +980,18 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             rb = iu.loadRobot(self.model_file)
         return self.model_cls(rb)
 
+    def getActualRobotModel(self, asItem=True):
+        """Return an instance of RobotModel (irsl_choreonoid.robot_util.RobotModelWrapped) with RobotInterface internal robot-model
+
+        Args:
+            asItem(boolean, default=True) : If True, model is generated as cnoid.BodyPlugin.BodyItem
+
+        Returns:
+            irsl_choreonoid.robot_util.RobotModelWrapped : RobotModel created from RobotInterface internal robot-model
+
+        """
+        return self.model_cls(self.robot)
+
     def copyRobot(self):
         """Return other instance of the robot model
 

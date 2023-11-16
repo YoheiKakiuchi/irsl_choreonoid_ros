@@ -1,0 +1,61 @@
+world:
+  World:
+    name: MyWorld
+  Simulator:
+     type: 'AISTSimulator'
+     name: 'AISTSim'
+  GLVision:
+  Camera:
+    lookEye: [0., 3., 1.7]
+    lookUp: [0., 0., 1.0]
+    lookAtCenter: [0., 0., 0.7]
+  WorldROS: ## if using choreonoid_ros
+#  ROS: ## WIP
+#     urdf_settings:
+#          file: <file>
+#          robotName:
+#          control_type:
+#          name:
+#     set_parameter: 
+#          - type: 'yaml'
+#            file: @parameter_yaml_file@
+#            name: ~
+#          - type: 'param'
+#            name: myparam
+#            parameter: {int: 1, str: 'str', float: 0.5, list: [0, 0, 0] }
+#          - parameter: { myparam_wo: {a: 1, b: 1} }
+
+robot:
+  model: 'package://irsl_choreonoid_ros/sample/openlab2023/arm_robot3_r1.body'
+  name: 'MyRobot'
+  initial_coords: { pos: [0, 0, 0.1] }
+  initial_joint_angles: [0, 0, 0.5, 0, 0]
+  fix: True
+  # BodyROSItem: ## for choreonoid_ros
+  # ROSControlItem: ## for choreonoid_ros
+
+objects:
+  -
+    model: 'choreonoid://share/model/misc/floor.body'
+    name: 'MyFloor'
+    fix: True
+  -
+    model: 'choreonoid://share/model/misc/floor.body'
+    name: 'MyWall0'
+    initial_coords: { pos: [0.0, -5, 0.0], aa: [1, 0, 0, 1.5707] }
+    fix: True
+  -
+    model: 'choreonoid://share/model/misc/floor.body'
+    name: 'MyWall1'
+    initial_coords: { pos: [0.0, 5, 0.0], aa: [1, 0, 0, 1.5707] }
+    fix: True
+  -
+    model: 'choreonoid://share/model/misc/floor.body'
+    name: 'MyWall2'
+    initial_coords: { pos: [-5, 0.0, 0.0], aa: [0, 1, 0, 1.5707] }
+    fix: True
+  -
+    model: 'choreonoid://share/model/misc/floor.body'
+    name: 'MyWall3'
+    initial_coords: { pos: [5, 0.0, 0.0], aa: [0, 1, 0, 1.5707] }
+    fix: True
