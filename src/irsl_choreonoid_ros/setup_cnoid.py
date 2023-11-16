@@ -50,6 +50,7 @@ import rospy
 ## world:
 ##   World:
 ##     name:
+##     draw_grid: False
 ##   Simulator:
 ##     type: 'AISTSimulator'
 ##   GLVision:
@@ -309,7 +310,30 @@ class SetupCnoid(object):
             self.root_item.addChildItem(self.world_item)
         else:
             self.world_item = wd
-
+        ##
+        grid_ = _getDictValue(param, ('draw_grid', 'DrawGrid', 'grid', 'Grid'))
+        if grid_ is not None:
+            if grid_ is False:
+                ib.disableGrid()
+            elif grid_ == 'XY':
+                ib.disableGrid()
+                ib.enableGrid(0)
+            elif grid_ == 'XZ':
+                ib.disableGrid()
+                ib.enableGrid(1)
+            elif grid_ == 'YZ':
+                ib.disableGrid()
+                ib.enableGrid(2)
+            elif type(grid_) is list or type(grid_) is tuple:
+                ib.disableGrid()
+                for g_ in grid_:
+                    if g_ == 'XY':
+                        ib.enableGrid(0)
+                    elif g_ == 'XZ':
+                        ib.enableGrid(1)
+                    elif g_ == 'YZ':
+                        ib.enableGrid(2)
+        ##
         if check:
             ItemTreeView.instance.checkItem(self.world_item)
 
