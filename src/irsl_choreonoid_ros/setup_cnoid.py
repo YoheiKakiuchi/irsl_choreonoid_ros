@@ -305,7 +305,7 @@ class SetupCnoid(object):
             for rb_info in info_dict['robots']:
                 self._addRobot(rb_info, ros_enable=self.ros_enable)
 
-        if noEnvironment:
+        if not noEnvironment:
             if 'object' in info_dict:
                 self._addObject(info_dict['object'])
             if 'objects' in info_dict:
