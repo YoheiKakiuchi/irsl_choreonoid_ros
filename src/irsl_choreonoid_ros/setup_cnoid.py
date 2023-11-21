@@ -196,11 +196,22 @@ class _BodyItemWrapper(object):
             ItemTreeView.instance.checkItem(self.ros_control)
 
 class SetupCnoid(object):
-    def __init__(self):
-        self.world_item = None
-        self.root_item = RootItem.instance
-        self.robots =  []
-        self.objects = []
+    """
+    Utility class for setting .cnoid file from python script
+    """
+    def __init__(self, rootItem=None, worldItem=None):
+        """
+        Args:
+            rootItem (cnoid.Base.Item, optional) : If set, it is used as root for creating environment
+            worldItem (cnoid.Base.WorldItem, optional) : If set, it is used as a worldItem
+        """
+        self.world_item = worldItem
+        if rootItem:
+            self.root_item = rootItem
+        else:
+            self.root_item = RootItem.instance
+        #self.robots =  []
+        #self.objects = []
         self.ros_enable = False
         self.simulator = None
 
@@ -315,9 +326,10 @@ class SetupCnoid(object):
     def _addWorld(self, name='World', check=True, param=None):
         wd = self.root_item.findItem(name)
         if wd is None:
-            self.world_item = WorldItem()
-            _applyParameter(self.world_item, param)
-            self.root_item.addChildItem(self.world_item)
+            if self.world_item is None:
+                self.world_item = WorldItem()
+                _applyParameter(self.world_item, param)
+                self.root_item.addChildItem(self.world_item)
         else:
             self.world_item = wd
         ##
