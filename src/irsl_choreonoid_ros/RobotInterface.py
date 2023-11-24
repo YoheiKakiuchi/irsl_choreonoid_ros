@@ -956,9 +956,16 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
             if 'class' in mdl:
                 if 'import' in mdl:
-                    # print('from {} import {}'.format(mdl['import'], mdl['class']))
-                    exec('from {} import {}'.format(mdl['import'], mdl['class']), locals(), globals())
-                    exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
+                    import_ = mdl['import']
+                    import_[-2:]
+                    if '://' in import_ or import_[-3:] == '.py':
+                        fname = parseURLROS(import_)
+                        exec(open(fname).read(), locals(), globals())
+                        exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
+                    else:
+                        # print('from {} import {}'.format(mdl['import'], mdl['class']))
+                        exec('from {} import {}'.format(import_, mdl['class']), locals(), globals())
+                        exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
                 else:
                     exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
             else:
