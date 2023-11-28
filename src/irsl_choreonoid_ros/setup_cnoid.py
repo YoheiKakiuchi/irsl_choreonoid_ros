@@ -17,9 +17,11 @@ import cnoid.Util
 #from irsl_choreonoid_ros.cnoid_ros_util import parseURLROS
 from .cnoid_ros_util import parseURLROS
 from irsl_choreonoid.robot_util import make_coordinates
+import irsl_choreonoid.cnoid_util as iu
 import irsl_choreonoid.cnoid_base as ib
 
 import yaml
+import math
 
 ## ROS
 import rosgraph
@@ -32,7 +34,7 @@ import rospy
 ##   initial_joint_angles: []
 ##   initial_coords: {} ## using make_coordinates from irsl_choreonoid.robot_util
 ##   BodyROSItem: ## should be launch from choreonoid_ros
-##       publish_joint_state: false
+##       joint_state_publication: false
 ##       joint_state_update_rate: 100
 ##       name_space: arm_robot3
 ##   ROSControlItem: ## should be launch from choreonoid_ros
@@ -42,8 +44,8 @@ import rospy
 ## object:
 ##   model: @object_file_name@
 ##   name: MyObject
-##   initial_coords: []
-##   initial_joint_angles: {} ## using make_coordinates from irsl_choreonoid.robot_util
+##   initial_joint_angles: []
+##   initial_coords: {} ## using make_coordinates from irsl_choreonoid.robot_util
 ##   fixed: True ##
 ## objects:
 ##   - { object: }
@@ -59,7 +61,7 @@ import rospy
 ##     lookForDirection:
 ##     lookAtCenter:
 ##     lookAtUp:
-##     position:
+##     position: { pos: [], aa: [] }
 ##     fov:
 ##   WorldROS: ## should be launch from choreonoid_ros
 ##   ROS:
@@ -76,13 +78,17 @@ import rospy
 ##            name: 
 ##            parameter: {}
 ##          - parameter: {}
+##     generate_settings:
+##        robot: @robot_file_name@
+##        controllers: [ {name: '', type: '', joints: [] } ]
 
 param_method_dict = {
 #    'param_name':'method_name'
 #    'param_name':'variable_name='
     'name_space': 'nameSpace=',
-    'joint_state_update_rate': 'jointStateUpdateRate=',
     'max_clock_publishing_rate': 'maxClockPublishingRate=',
+    'joint_state_update_rate': 'jointStateUpdateRate=',
+    'joint_state_publication': 'jointStatePublication=',
     }
 def _applyParameter(item, param):
     if type(param) is not dict:
@@ -90,7 +96,7 @@ def _applyParameter(item, param):
     for key,val in param.items():
         eval_str = ''
         if key in param_method_dict:
-            method = param_method_dict(key)
+            method = param_method_dict[key]
             if method[-1] == '=':
                 if hasattr(item, method[:-1]):
                     eval_str = 'item.' + method + 'val'
@@ -102,8 +108,8 @@ def _applyParameter(item, param):
             if hasattr(item, method):
                 eval_str = 'item.' + method + '(val)'
         if len(eval_str) > 0:
-            # print('eval: {}'.format(eval_str)) ## debug
-            eval(eval_str)
+            #print('eval: {}'.format(eval_str)) ## debug
+            exec(eval_str, locals(), globals())
 
 def _getDictValue(in_dict, keys):
     for k in keys:
@@ -214,6 +220,7 @@ class SetupCnoid(object):
         #self.objects = []
         self.ros_enable = False
         self.simulator = None
+        self.simulatorRobot = None
 
     def buildEnvironment(self, info_dict, world='World', createWorld=False, setCamera=False):
         """
@@ -225,6 +232,9 @@ class SetupCnoid(object):
             craeteWorld (boolean, default=False) : If True, creating new WorldItem
             setCamera (boolean, default=False) : If True, set camera position
         """
+        if type(info_dict) is not dict:
+            raise Exception('type of {} is not dict'.format(info_dict))
+
         worldItem = None
         if createWorld:
             if 'world' in info_dict:
@@ -266,6 +276,9 @@ class SetupCnoid(object):
             noEnvironment (boolean, default=False) : If True, not adding environment(objects). Use buildEnvironment method.
 
         """
+        if type(info_dict) is not dict:
+            raise Exception('type of {} is not dict'.format(info_dict))
+
         ### parse world first
         if 'world' in info_dict:
             world_info = info_dict['world']
@@ -322,6 +335,32 @@ class SetupCnoid(object):
             if 'objects' in info_dict:
                 for obj_info in info_dict['objects']:
                     self._addObject(obj_info)
+
+    def buildEnvironmentFromYaml(self, yamlFile, **kwargs):
+        """
+        Building environment from yaml-file
+
+        Args:
+            yamlFile (str) : File name to load
+            kwargs (dict) : Keyword to pass to setup_cnoid.buildEnvironment
+
+        """
+        fname = parseURLROS(yamlFile)
+        info_ = yaml.safe_load(open(fname))
+        self.buildEnvironment(info_, **kwargs)
+
+    def createCnoidFromYaml(self, yamlFile, **kwargs):
+        """
+        Creating project from yaml-file
+
+        Args:
+            yamlFile (str) : File name to load
+            kwargs (dict) : Keyword to pass to setup_cnoid.createCnoid
+
+        """
+        fname = parseURLROS(yamlFile)
+        info_ = yaml.safe_load(open(fname))
+        self.createCnoid(info_, **kwargs)
 
     def _addWorld(self, name='World', check=True, param=None):
         wd = self.root_item.findItem(name)
@@ -431,7 +470,7 @@ class SetupCnoid(object):
         if param is None:
             return
         fov_ = _getDictValue(param, ('fov', 'FOV'))
-        cds_ = _getDictValue(param, ('position', 'Position', 'coords'))
+        cds_ = _getDictValue(param, ('position', 'Position', 'coords', 'coordinates'))
         if cds_ is not None:
             cds_ = make_coordinates(cds_)
             ib.setCameraCoords(cds_, fov_)
@@ -457,17 +496,67 @@ class SetupCnoid(object):
             self._parseURDF(urdf_)
         parameters_ = _getDictValue(param, ('set_parameter', 'set_parameters', 'setParameter', 'setParameters', 'parameters', 'Parameters'))
         if parameters_ is not None:
-            self._parseParam(parameters_)
+            self._parseROSParam(parameters_)
+        gen_set_ = _getDictValue(param, ('generate_settings', 'generateSettings', 'generate'))
+        if gen_set_ is not None:
+            self._generateROSParam(gen_set_)
 
     def _parseURDF(self, param):
         pass
 
-    def _parseParam(self, param):
+    def _parseROSParam(self, param):
         if type(param) is not list and type(param) is not tuple:
+            ####
             return
         for one in param:
             if type(one) is dict:
                 self._parseSingleParam(one)
+
+    def _generateROSParam(self, param):
+        model_ = _getDictValue(param, ('robot', 'model', 'Model', 'file', 'File', 'body', 'Body', 'model_file', 'modelFile'))
+        if model_ is None:
+            return
+        nspace_ = _getDictValue(param, ('ns', 'name_space', 'nameSpace', 'robotName', 'name'))
+
+        fname = parseURLROS(model_)
+        robot_ = iu.loadRobot(fname)
+
+        if nspace_ is None:
+            if len(model_.name) > 0:
+                nspace_ = robot_.name
+            else:
+                nspace_ = robot_.modelName
+
+        if type(param) is dict:
+            cont_list_ = _getDictValue(param, ('controllers', 'Controllers'))
+        else:
+            cont_list_ = param
+
+        urdf_str = _generate_joint_urdf_header(name=nspace_) ## TODO param
+        cont_param = _generate_roscontrol_config_base()## TODO param
+
+        for cont_ in cont_list_:
+            nm_   = _getDictValue(cont_, ('name', 'Name', 'controller_name', 'controllerName'))
+            tp_   = _getDictValue(cont_, ('type', 'Type', 'controller_type', 'controllerType'))
+            jnms_ = _getDictValue(cont_, ('joints', 'joint_list', 'joint_names', 'jointList', 'jointNames'))
+            if nm_ is None:
+                continue
+            if jnms_ is None or jnms_.lower() == 'all':
+                jlst_ = robot_.joints
+            else:
+                jlst_ = [ robot_.joint(j) for j in jnms_ ]
+            if tp_ is not None:
+                res = _generate_roscontrol_config(jlst_, controller_type=tp_.lower())
+                cont_param[nm_] = res
+                urdf_str += _generate_joint_urdf_joint(jlst_, interface_type=tp_.capitalize())
+            else:
+                res = _generate_roscontrol_config(jlst_)
+                cont_param[nm_] = res
+                urdf_str += _generate_joint_urdf_joint(jlst_)
+        urdf_str += _generate_joint_urdf_footer()
+
+        rospy.set_param('{}'.format(nspace_), cont_param)
+        rospy.set_param('{}/robot_description'.format(nspace_), urdf_str)
 
     def _parseSingleParam(self, param):
         if 'type' in param:
@@ -493,3 +582,72 @@ class SetupCnoid(object):
                 for k,v in p.items():
                     if type(k) is str:
                         rospy.set_param(k, v)
+
+def _generate_roscontrol_config_base(joint_state_publish_rate=50):
+    # controller_type: 'position', 'effort', 'velocity'
+    param = {}
+    param['joint_state_controller'] = {'type': 'joint_state_controller/JointStateController',
+                                       'publish_rate': joint_state_publish_rate}
+    return param
+
+def _generate_roscontrol_config(jointList, gain_p=0.0, gain_i=0.0, gain_d=0.0, controller_type='position'):
+    # controller_type: 'position', 'effort', 'velocity'
+    controller_param = {'type': '{}_controllers/JointTrajectoryController'.format(controller_type) }
+    names = [] # names
+    gains_param = {}
+    for j in jointList:
+        if j is None:
+            continue
+        nm = j.jointName
+        names.append( nm )
+        gains_param[nm] = {'p': gain_p, 'd': gain_d, 'i': gain_i }
+    controller_param['joints'] = names
+    controller_param['gains'] = gains_param
+
+    return controller_param
+
+def _generate_joint_urdf_header(robot=None, name=None):
+    if name is None:
+        if robot is None:
+            name = 'robot'
+        else:
+            if len(robot.name) > 0:
+                name = robot.name
+            else:
+                name = robot.modelName
+    res = '<?xml version="1.0" ?>\n<robot name="{}">\n'.format(name)
+    res += '<link name="root" />\n'
+    return res
+
+def _generate_joint_urdf_footer():
+    return '</robot>\n'
+
+def _generate_joint_urdf_joint(jointList, interface_type='Position'):
+    # controller_type: 'Position', 'Effort', 'Velocity'
+
+    res = ''
+    for j in jointList:
+        if j is None:
+            continue
+        jname = j.jointName
+        res += '<link name="link_{}" />\n'.format(jname)
+
+        res += '<joint name="{}" type="revolute">\n'.format(jname)
+        res += '  <parent link="root" />\n'
+        res += '  <child  link="link_{}" />\n'.format(jname)
+        res += '  <limit effort="{}" lower="{}" upper="{}" velocity="{}" />\n'.format(j.u_upper if j.u_upper < math.fabs(j.u_lower) else math.fabs(j.u_lower),
+                                                                                      j.q_lower, j.q_upper,
+                                                                                      j.dq_upper if j.dq_upper < math.fabs(j.dq_lower) else math.fabs(j.dq_lower))
+        res += '</joint>\n'.format(jname)
+
+        res += '<transmission name="{}_trans">\n'.format(jname)
+        res += '  <type>transmission_interface/SimpleTransmission</type>\n'
+        res += '  <joint name="{}">\n'.format(jname)
+        res += '    <hardwareInterface>hardware_interface/{}JointInterface</hardwareInterface>\n'.format(interface_type)
+        res += '  </joint>\n'
+        res += '  <actuator name="{}_motor">\n'.format(jname)
+        res += '    <mechanicalReduction>1</mechanicalReduction>\n'
+        res += '  </actuator>\n'
+        res += '</transmission>\n'
+
+    return res
