@@ -461,7 +461,7 @@ class JointGroupTopic(JointGroupBase):
             time_ += tm
             point.time_from_start = rospy.Duration(time_)
             msg.points.append(point)
-        self.finish_time = rospy.get_rostime() + rospy.Duration(time)
+        self.finish_time = rospy.get_rostime() + rospy.Duration(time_)
         self.pub.publish(msg)
 
     def isFinished(self):  ## override
