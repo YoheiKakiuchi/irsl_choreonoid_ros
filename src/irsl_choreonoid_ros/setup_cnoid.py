@@ -362,6 +362,18 @@ class SetupCnoid(object):
         info_ = yaml.safe_load(open(fname))
         self.createCnoid(info_, **kwargs)
 
+    @classmethod
+    def setEnvironmentFromYaml(cls, yamlFile, **kwargs):
+        cnoid = cls()
+        cnoid.buildEnvironmentFromYaml(yamlFile, **kwargs)
+        return cnoid
+
+    @classmethod
+    def setCnoidFromYaml(cls, yamlFile, **kwargs):
+        cnoid = cls()
+        cnoid.createCnoidFromYaml(yamlFile, **kwargs)
+        return cnoid
+
     def _addWorld(self, name='World', check=True, param=None):
         wd = self.root_item.findItem(name)
         if wd is None:
