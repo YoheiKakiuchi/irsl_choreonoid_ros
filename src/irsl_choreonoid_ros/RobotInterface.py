@@ -1018,6 +1018,21 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
         """
         return iu.loadRobot(self.model_file)
 
+    def isRealRobot(self):
+        """Checking this interface working with a real robot
+
+        Args:
+            None
+
+        Retuns:
+            boolean : If True, this interface connected to a real robot, otherwise connected to simulator
+
+        """
+        res_ = rospy.has_param('/use_sim_time')
+        if res_:
+            res_ = rospy.get_param('/use_sim_time')
+        return not res_
+
     @property
     def effortVector(self):
         """Return vector of effort of actual robot \(sensing value\)
