@@ -13,6 +13,7 @@ from cnoid.ROSPlugin import BodyROSItem
 from cnoid.ROSPlugin import ROSControlItem
 
 import cnoid.Util
+from cnoid.IRSLCoords import coordinates
 
 #from irsl_choreonoid_ros.cnoid_ros_util import parseURLROS
 from .cnoid_ros_util import parseURLROS
@@ -123,9 +124,10 @@ def _getDictValueExist(in_dict, keys):
     return (False, None)
 
 class _BodyItemWrapper(object):
-    def __init__(self, world):
+    def __init__(self, world, offset=None):
         self.body_item = None
         self.world_item = world
+        self.offset = offset
 
     def addObject(self, info, fix=False):
         return self.addRobot(info, fix=fix, ros_enable=False)
@@ -153,7 +155,11 @@ class _BodyItemWrapper(object):
         cds_dict_ =  _getDictValue(info, ('initial_coords', 'initial_position', 'Coords', 'Position', 'initialCoords', 'initialPosition'))
         if cds_dict_ is not None:
             cds = make_coordinates(cds_dict_)
+            if self.offset is not None:
+                cds.transform(self.offset, coordinates.wrt.world)
             self.body_item.body.rootLink.setPosition(cds.cnoidPosition)
+        elif self.offset is not None:
+            self.body_item.body.rootLink.setPosition(self.offset.cnoidPosition)
         self.body_item.body.calcForwardKinematics()
         self.body_item.storeInitialState()
         ##
@@ -222,7 +228,7 @@ class SetupCnoid(object):
         self.simulator = None
         self.simulatorRobot = None
 
-    def buildEnvironment(self, info_dict, world='World', createWorld=False, setCamera=False):
+    def buildEnvironment(self, info_dict, world='World', createWorld=False, setCamera=False, offset=None):
         """
         Building environment (setting objects) under the WorldItem
 
@@ -231,6 +237,7 @@ class SetupCnoid(object):
             world (str, default='World') : Name of WorldItem, added objects under this item
             craeteWorld (boolean, default=False) : If True, creating new WorldItem
             setCamera (boolean, default=False) : If True, set camera position
+            offset (cnoid.IRSLCoords.coordinates) : Offset of objects
         """
         if type(info_dict) is not dict:
             raise Exception('type of {} is not dict'.format(info_dict))
@@ -260,10 +267,10 @@ class SetupCnoid(object):
                     self._setCameraPosition(param=camera_)
         ##
         if 'object' in info_dict:
-            self._addObject(info_dict['object'], worldItem=worldItem)
+            self._addObject(info_dict['object'], worldItem=worldItem, offset=offset)
         if 'objects' in info_dict:
             for obj_info in info_dict['objects']:
-                self._addObject(obj_info, worldItem=worldItem)
+                self._addObject(obj_info, worldItem=worldItem, offset=offset)
 
     def createCnoid(self, info_dict, addDefaultSimulator=True, addDefaultWorld=True, noEnvironment=False):
         """
@@ -362,6 +369,18 @@ class SetupCnoid(object):
         info_ = yaml.safe_load(open(fname))
         self.createCnoid(info_, **kwargs)
 
+    @classmethod
+    def setEnvironmentFromYaml(cls, yamlFile, **kwargs):
+        cnoid = cls()
+        cnoid.buildEnvironmentFromYaml(yamlFile, **kwargs)
+        return cnoid
+
+    @classmethod
+    def setCnoidFromYaml(cls, yamlFile, **kwargs):
+        cnoid = cls()
+        cnoid.createCnoidFromYaml(yamlFile, **kwargs)
+        return cnoid
+
     def _addWorld(self, name='World', check=True, param=None):
         wd = self.root_item.findItem(name)
         if wd is None:
@@ -412,18 +431,18 @@ class SetupCnoid(object):
         if check:
             ItemTreeView.instance.checkItem(self.ros_world)
 
-    def _addRobot(self, info=None, ros_enable=False, worldItem=None):
+    def _addRobot(self, info=None, ros_enable=False, worldItem=None, offset=None):
         if worldItem is not None:
-            bi = _BodyItemWrapper(worldItem)
+            bi = _BodyItemWrapper(worldItem, offset=offset)
         else:
-            bi = _BodyItemWrapper(self.world_item)
+            bi = _BodyItemWrapper(self.world_item, offset=offset)
         bi.addRobot(info, ros_enable=ros_enable)
 
-    def _addObject(self, info=None, worldItem=None):
+    def _addObject(self, info=None, worldItem=None, offset=None):
         if worldItem is not None:
-            bi = _BodyItemWrapper(worldItem)
+            bi = _BodyItemWrapper(worldItem, offset=offset)
         else:
-            bi = _BodyItemWrapper(self.world_item)
+            bi = _BodyItemWrapper(self.world_item, offset=offset)
         bi.addRobot(info)
 
     def _addSimulator(self, check=True, param=None): ## name is overwritten by param

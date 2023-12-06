@@ -14,6 +14,8 @@ from control_msgs.msg import FollowJointTrajectoryAction
 from control_msgs.msg import FollowJointTrajectoryGoal
 from control_msgs.msg import GripperCommandAction
 from control_msgs.msg import GripperCommandGoal
+from control_msgs.msg import GripperCommandFeedback
+from control_msgs.msg import GripperCommandResult
 from control_msgs.msg import GripperCommand
 
 # choreonoid
@@ -461,7 +463,7 @@ class JointGroupTopic(JointGroupBase):
             time_ += tm
             point.time_from_start = rospy.Duration(time_)
             msg.points.append(point)
-        self.finish_time = rospy.get_rostime() + rospy.Duration(time)
+        self.finish_time = rospy.get_rostime() + rospy.Duration(time_)
         self.pub.publish(msg)
 
     def isFinished(self):  ## override
@@ -520,7 +522,7 @@ class JointGroupAction(JointGroupBase):
         self._client.send_goal(_goal)
 
     def isFinished(self):  ## override
-        return self._client.simple_state != 1
+        return self._client.simple_state != actionlib.SimpleGoalState.ACTIVE
 
     def waitUntilFinish(self, timeout=None):  ## override
         if timeout is None:
@@ -1018,6 +1020,21 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
         """
         return iu.loadRobot(self.model_file)
 
+    def isRealRobot(self):
+        """Checking this interface working with a real robot
+
+        Args:
+            None
+
+        Retuns:
+            boolean : If True, this interface connected to a real robot, otherwise connected to simulator
+
+        """
+        res_ = rospy.has_param('/use_sim_time')
+        if res_:
+            res_ = rospy.get_param('/use_sim_time')
+        return not res_
+
     @property
     def effortVector(self):
         """Return vector of effort of actual robot \(sensing value\)
@@ -1126,11 +1143,11 @@ class GripperInterface(object):
 
     def sendCommand(self, position, max_effort=10.0):
         com_ = GripperCommand(position=position, max_effort=max_effort)
-        goal_ = GripperCommandGoal(gripper_command=com_)
+        goal_ = GripperCommandGoal(command=com_)
         self._client.send_goal(goal_)
 
     def isFinished(self):  ## override
-        return _client.simple_state != 1
+        return _client.simple_state != actionlib.SimpleGoalState.ACTIVE
 
     def waitUntilFinish(self, timeout=None):  ## override
         if timeout is None:
@@ -1160,25 +1177,34 @@ class GripperAction(object):
         self._position_to_positions = position_to_positions
         self._effort_to_duration = effort_to_duration
 
+    def waitForServer(self, timeout=None):
+        if timeout is not None:
+            tm = rospy.Duration(timeout)
+            return self._target_ac.wait_for_server(tm)
+        else:
+            return self._target_ac.wait_for_server()
+
     def sendTrajectoryFromGripperGoal(self, goal):
         header_ = std_msgs_header(stamp=rospy.Time(0))
         traj_ = JointTrajectory(header=header_, joint_names=self._joint_names)
 
         point = JointTrajectoryPoint()
         if self._position_to_positions is not None:
-            point.positions = self._position_to_positions(goal.position)
+            point.positions = self._position_to_positions(goal.command.position)
         else:
             point.positions = [0.0] * len(self._joint_names)
 
         if self._effort_to_duration is not None:
-            point.time_from_start = rospy.Duration(self._effort_to_duration(goal.effort))
+            point.time_from_start = rospy.Duration(self._effort_to_duration(goal.command.max_effort))
         else:
             point.time_from_start = rospy.Duration(1.0)
 
         traj_.points.append(point)
 
-        goal_ = FollowJointTrajectoryGoal(trajectory=_traj, goal_time_tolerance=rospy.Time(0.1))
+        goal_ = FollowJointTrajectoryGoal(trajectory=traj_, goal_time_tolerance=rospy.Time(0.1))
+        #print('before / st: {}'.format(self._target_ac.simple_state))
         self._target_ac.send_goal(goal_)
+        #print('after / st: {}'.format(self._target_ac.simple_state))
 
     def execute_cb(self, goal):
         # helper variables
@@ -1195,30 +1221,34 @@ class GripperAction(object):
             if self._as.is_preempt_requested():
                 rospy.loginfo('%s: Preempted' % self._action_name)
                 self._as.set_preempted()
+                self._target_ac.cancel_all_goals()
                 success = False
                 break
             # publish the feedback
             fd_ = GripperCommandFeedback()
+            ## TODO: set value to feedback
             self._as.publish_feedback(fd_)
 
-            # self._target_ac.
+            res_ = self._target_ac.wait_for_result(rospy.Duration(0.001))
+            if res_:
+                rospy.loginfo('res_ = {} (state: {})'.format(res_, self._target_ac.simple_state))
+                success = True
+                break
+
+            # check finish of target
+            if self._target_ac.simple_state != actionlib.SimpleGoalState.ACTIVE:
+                rospy.loginfo('%s: finished (state: %d)' % (self._action_name, self._target_ac.simple_state))
+                if self._target_ac.simple_state == actionlib.SimpleGoalState.PENDING:
+                    rospy.logwarn('%s: not started (state: %d)' % (self._action_name, self._target_ac.simple_state))
+                    self._as.set_preempted()
+                    self._target_ac.cancel_all_goals()
+                    success = False
+                break
 
             r.sleep()
 
         if success:
             res_ = GripperCommandResult()
-            #self._result.sequence = self._feedback.sequence
+            #TODO: set value to result
             rospy.loginfo('%s: Succeeded' % self._action_name)
             self._as.set_succeeded(res_)
-
-#import rospy
-#import GripperAction
-#if __name__ == '__main__':
-#    rospy.init_node('fibonacci')
-#    rospy.get_param('~joint_names')
-#    rospy.get_param('~func_positions')
-#    rospy.get_param('~func_positions')
-#    server = GripperAction(rospay.resolve_name('gripper_action'),
-#                           rospay.resolvename('trajectory_action'),
-#                           )
-#    rospy.spin()
