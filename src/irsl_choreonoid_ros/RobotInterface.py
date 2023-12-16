@@ -299,14 +299,20 @@ class JointInterface(object):
                 group = [ self.default_group ]
             else:
                 group = [ self.joint_groups[group] ]
+        _group=[]
+        for g in group:
+            if type(g) == JointGroupCombined:
+                _group.extend(g.groups)
+            else:
+                _group.append(g)
         vec_list_group = []
-        for i in len(group):
+        for i in range(len(_group)):
             vec_list_group.append([])
         for angle_vector in angle_vector_list:
             self.jointRobot.angleVector(angle_vector)
-            for idx, gp in enumerate(group):
+            for idx, gp in enumerate(_group):
                 vec_list_group[idx].append(gp.getAngleVector())
-        for gp, vec in zip(group, vec_list_group):
+        for gp, vec in zip(_group, vec_list_group):
             gp.sendAnglesSequence(vec, tm_list)
 
     def sendAngleMap(self, angle_map, tm, group=None):
@@ -543,11 +549,16 @@ class JointGroupCombined(JointGroupBase):
 
     def setGroups(self, dict_group):
         self.groups = []
+        _jnames=[]
         for gn in self.group_names:
             if gn in dict_group:
-                self.groups.append(dict_group[gn])
+                gp=dict_group[gn]
+                _jnames.extend(gp.jointNames)
+                self.groups.append(gp)
             else:
                 raise Exception('group name : {} is not defined'.format(gn))
+        self.setJointNames(_jnames)
+
     @property
     def connected(self):  ## override
         return all( [ g.connected for g in self.groups ] )
@@ -557,6 +568,7 @@ class JointGroupCombined(JointGroupBase):
             g.sendAngles(tm)
 
     def sendAnglesSequence(self, vec_list, tm_list):  ## override
+        ## TODO: fix
         for g in self.groups:
             g.sendAnglesSequence(vec_list, tm_list)
 
@@ -911,7 +923,7 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
         Args:
             file_name (str) : Name of setting.yaml file
-            node_name (str) : Name of node
+            node_name (str, default='robot_interface') : Name of node
             anonymous (boolean, default = False) : If True, ROS node will start with this node-name.
             connection_wait (float, default=3.0) : Wait until ROS connection has established
             connection (boolean, default=True) : If false, create instace without ROS connection
