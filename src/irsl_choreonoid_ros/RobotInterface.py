@@ -933,6 +933,7 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             self.info = yaml.safe_load(f)
         self.__load_robot()
         #
+        self.__connection=False
         if not connection:
             return
         #
@@ -944,6 +945,7 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
         MobileBaseInterface.__init__(self, self.info)
 
         tmp = rospy.get_rostime()
+        connect_=False
         while (rospy.get_rostime() - tmp).to_sec() < connection_wait:
             res = True
             if self.mobile_initialized:
@@ -956,8 +958,10 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
                 if not self.device_connected:
                     res = False
             if res:
+                connect_=True
                 break
             rospy.sleep(0.1)
+        self.__connection=connect_
 
     def __load_robot(self):
         if 'robot_model' in self.info:
@@ -1046,6 +1050,10 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
         if res_:
             res_ = rospy.get_param('/use_sim_time')
         return not res_
+
+    @property
+    def connected(self):
+        return self.__connection
 
     @property
     def effortVector(self):
