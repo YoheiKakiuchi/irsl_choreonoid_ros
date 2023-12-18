@@ -280,19 +280,32 @@ class JointInterface(object):
                 gp = self.joint_groups[group]
             gp.sendAngles(tm)
 
-    def sendAngleVector(self, angle_vector, tm=None, group=None):
+    def sendAngleVector(self, angle_vector, tm=None, group=None, wait=False, waitTimeout=None):
         """Sending angle-vector to the actual robot. angle_vector is set to self.robot
 
         Args:
-            angle_vector (numpy.array) : Vector of angles
+            angle_vector (numpy.array) : Vector of angles of whole body
             tm (float) : Moving duration in second
             group (str or list[str], optional): Name(s) of group to be used
+            wait (boolean, defaut=False) : Wait until finishing moveving
+            waitTimeout (float, optional) : Pass to waitUntilFinish
 
         """
         self.jointRobot.angleVector(angle_vector)
         self.sendAngles(tm=tm, group=group)
+        if wait:
+            self.waitUntilFinish(group=group, timeout=waitTimeout)
 
-    def sendAngleVectorSequence(self, angle_vector_list, tm_list, group=None):
+    def sendAngleVectorSequence(self, angle_vector_list, tm_list, group=None, wait=False, waitTimeout=None):
+        """
+        Args:
+            angle_vector_list ( list [numpy.array] ) : List of vectors of angles
+            tm_list ( list[ float ] ) : List of moving durations in second
+            group (str or list[str], optional): Name(s) of group to be used
+            wait (bolean, default=False) : wait until finishing move
+            waitTimeout (float, optional) : Pass to waitUntilFinish
+
+        """
         tp = type(group)
         if tp is not list and tp is not tuple:
             if group is None:
@@ -314,6 +327,8 @@ class JointInterface(object):
                 vec_list_group[idx].append(gp.getAngleVector())
         for gp, vec in zip(_group, vec_list_group):
             gp.sendAnglesSequence(vec, tm_list)
+        if wait:
+            self.waitUntilFinish(group=group, timeout=waitTimeout)
 
     def sendAngleMap(self, angle_map, tm, group=None):
         """Sending angles to the actual robot. angles is set to self.robot
@@ -327,6 +342,8 @@ class JointInterface(object):
         for name, angle in angle_map.items():
             self.jointRobot.joint(name).q = angle
         self.sendAngles(tm=tm, group=group)
+        if wait:
+            self.waitUntilFinish(group=group, timeout=waitTimeout)
 
     def isFinished(self, group = None):
         """Checking method for finishing to send angles
