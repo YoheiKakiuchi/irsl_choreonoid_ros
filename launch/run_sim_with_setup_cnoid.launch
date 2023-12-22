@@ -6,6 +6,7 @@
   <arg name="control_namespace" default="/robot"/>
   <arg name="controllers"       default="trajectory_controller joint_state_controller" />
   <arg name="model_file"        default=""/>
+  <arg name="start"             default="true" />
   <arg name="load_robot_description" default="$(eval bool(len(model_file)) )" />
   <arg name="spawn_controller"  default="true" />
 
@@ -14,6 +15,8 @@
     <arg name="choreonoid_arg" value="$(arg choreonoid_arg) $(arg python_script)"/>
     <env name="SETUP_CNOID_FILE" value="$(arg setup_cnoid)"
          if="$(eval bool(len(setup_cnoid)))" />
+    <env name="SETUP_CNOID_RUN_SIM" value="True"
+         if="$(arg start)" />
   </include>
 
   <!-- ROS Control -->
