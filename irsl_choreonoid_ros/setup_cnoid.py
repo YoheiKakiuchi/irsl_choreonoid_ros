@@ -381,6 +381,20 @@ class SetupCnoid(object):
         cnoid.createCnoidFromYaml(yamlFile, **kwargs)
         return cnoid
 
+    def startSimulator(self, realTime=False):
+        """
+        Starting simulation
+
+        Args:
+            realTime (boolean, default=False) : If True, simulator will run with realtime sync mode
+
+        """
+        if self.simulator is not None:
+            self.simulator.setRealtimeSyncMode(realTime)
+            ItemTreeView.instance.checkItem(self.simulator)
+            ItemTreeView.instance.selectItem(self.simulator)
+            self.simulator.startSimulation(True)
+
     def _addWorld(self, name='World', check=True, param=None):
         wd = self.root_item.findItem(name)
         if wd is None:
