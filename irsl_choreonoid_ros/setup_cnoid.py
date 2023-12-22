@@ -82,6 +82,8 @@ import rospy
 ##     generate_settings:
 ##        robot: @robot_file_name@
 ##        controllers: [ {name: '', type: '', joints: [] } ]
+## pythonScript:
+####
 
 param_method_dict = {
 #    'param_name':'method_name'
@@ -95,9 +97,11 @@ def _applyParameter(item, param):
     if type(param) is not dict:
         return
     for key,val in param.items():
+        # print("{}/{}".foramt(key, val))
         eval_str = ''
         if key in param_method_dict:
             method = param_method_dict[key]
+            # print("method: {}".format(method))
             if method[-1] == '=':
                 if hasattr(item, method[:-1]):
                     eval_str = 'item.' + method + 'val'
@@ -109,7 +113,7 @@ def _applyParameter(item, param):
             if hasattr(item, method):
                 eval_str = 'item.' + method + '(val)'
         if len(eval_str) > 0:
-            #print('eval: {}'.format(eval_str)) ## debug
+            print('eval: {} / val={}'.format(eval_str, val)) ## debug
             exec(eval_str, locals(), globals())
 
 def _getDictValue(in_dict, keys):
@@ -371,15 +375,51 @@ class SetupCnoid(object):
 
     @classmethod
     def setEnvironmentFromYaml(cls, yamlFile, **kwargs):
+        """
+        Setup environment from yaml-file (classmethod of buildEnvironmentFromYaml)
+
+        Args:
+            yamlFile (str) : File name to load
+            kwargs (dict) : Keyword to pass to setup_cnoid.buildEnvironment
+
+        Returns:
+            irsl_choreonoid_ros.setup_cnoid : Instance of setup_cnoid
+
+        """
         cnoid = cls()
         cnoid.buildEnvironmentFromYaml(yamlFile, **kwargs)
         return cnoid
 
     @classmethod
     def setCnoidFromYaml(cls, yamlFile, **kwargs):
+        """
+        Setup project from yaml-file (classmethod of createCnoidFromYaml)
+
+        Args:
+            yamlFile (str) : File name to load
+            kwargs (dict) : Keyword to pass to setup_cnoid.createCnoid
+
+        Returns:
+            irsl_choreonoid_ros.setup_cnoid : Instance of setup_cnoid
+
+        """
         cnoid = cls()
         cnoid.createCnoidFromYaml(yamlFile, **kwargs)
         return cnoid
+
+    def startSimulator(self, realTime=False):
+        """
+        Starting simulation
+
+        Args:
+            realTime (boolean, default=False) : If True, simulator will run with realtime sync mode
+
+        """
+        if self.simulator is not None:
+            self.simulator.setRealtimeSyncMode(realTime)
+            ItemTreeView.instance.checkItem(self.simulator)
+            ItemTreeView.instance.selectItem(self.simulator)
+            self.simulator.startSimulation(True)
 
     def _addWorld(self, name='World', check=True, param=None):
         wd = self.root_item.findItem(name)
@@ -560,7 +600,7 @@ class SetupCnoid(object):
             jnms_ = _getDictValue(cont_, ('joints', 'joint_list', 'joint_names', 'jointList', 'jointNames'))
             if nm_ is None:
                 continue
-            if jnms_ is None or jnms_.lower() == 'all':
+            if jnms_ is None or ( type(jnms_) is str and jnms_.lower() == 'all' ):
                 jlst_ = robot_.joints
             else:
                 jlst_ = [ robot_.joint(j) for j in jnms_ ]
@@ -601,6 +641,17 @@ class SetupCnoid(object):
                 for k,v in p.items():
                     if type(k) is str:
                         rospy.set_param(k, v)
+
+    def _addScriptItem(self, param):
+        script = PythonSimScriptItem()
+        filename = _getDictValue(param, ('file', 'file_name', 'filename', 'File', 'FileName', 'script', 'Script'))
+        if filename is not None:
+            script.load(filename)
+            # script.setExecutionTiming(SimulationScriptItem.ExecutionTiming.AFTER_INITIALIZATION)
+            # script.setBackgroundMode(False)
+            _applyParameter(script, param)
+            self.world_item.addChildItem(script)## ? insert
+        itemTreeView.checkItem(script)
 
 def _generate_roscontrol_config_base(joint_state_publish_rate=50):
     # controller_type: 'position', 'effort', 'velocity'

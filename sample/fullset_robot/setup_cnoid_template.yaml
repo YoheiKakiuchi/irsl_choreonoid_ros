@@ -1,0 +1,95 @@
+## template:
+#  $$model_file_location$$  : 'package://irsl_choreonoid_ros/sample/fullset_robot/fullset_robot.body' 
+#  $$robot_initial_coords$$ : {'pos': [0, 0, 0], 'angle-axis': [1, 0, 0, 0] }
+#  $$robot_joint_names$$    : 'JOINT0', 'JOINT1', 'JOINT2', 'JOINT3'
+#  $$robot_initial_angles$$ : 0, 0, 0, 0, 0, 0, 0, 0
+###
+#  simulation
+###
+#robots:
+robot:
+  model: &rbmodel
+    'package://irsl_choreonoid_ros/sample/fullset_robot/fullset_robot.body'
+  name: 'robot'
+  initial_coords: {'pos': [0, 0, 0], 'angle-axis': [1, 0, 0, 0] }
+  initial_joint_angles: [ 0, 0, 0, 0, 0, 0, 0, 0 ]
+  fix: True ## True or False(mobile-robot)
+  BodyROSItem:
+    name_space: 'robot'
+    joint_state_publication: False
+  ROSControlItem:
+    name_space: 'robot'
+world:
+  World:
+    name: 'RobotWorld'
+  Simulator:
+     type: 'AISTSimulator'
+     name: 'AISTSim'
+#  GLVision:
+#  Camera:
+#    lookEye: [-5.5, -0.0, 2.0]
+#    lookUp: [0.0, 0.0, 1.0]
+#    lookAtCenter: [-2.5, -0.0, 0.7]
+#    fov: 0.75
+  WorldROS: ## if using choreonoid_ros
+  ROS:
+    generate:
+      robot: *rbmodel
+      name_space: 'robot'
+      controllers:
+        - name: 'trajectory_controller'
+          type: 'position'
+          joints: [ 'JOINT0', 'JOINT1', 'JOINT2', 'JOINT3' ]
+#  ROS: ## WIP
+#     urdf_settings:
+#          file: <file>
+#          robotName:
+#          control_type:
+#          name:
+#     set_parameter: 
+#          - type: 'yaml'
+#            file: @parameter_yaml_file@
+#            name: ~
+#          - type: 'param'
+#            name: myparam
+#            parameter: {int: 1, str: 'str', float: 0.5, list: [0, 0, 0] }
+#          - parameter: { myparam_wo: {a: 1, b: 1} }
+#object
+objects:
+  -
+    model: 'choreonoid://share/model/misc/floor.body'
+    name: 'FixedFloor'
+    fix: True
+#  -
+#    model: 'package://irsl_sim_environments/cnoid/depot/depot.body'
+#    name: 'Depot'
+#    fix: True
+#  -
+#    model: 'package://irsl_sim_environments/cnoid/dining_table/dining_table.body'
+#    name: 'Table'
+#    initial_coords: { pos: [-2.5, 0.0, 0.0] }
+#    fix: True
+
+###
+#  interface
+###
+robot_model:
+  name: robot # ロボット名
+  url: *rbmodel
+#  class: MyModel
+#  import: 'my_model.py'
+#mobile_base:
+joint_groups:
+  -
+    name: default
+    #topic: /ur5e/trajectory_controller/command
+    #type: command
+    # type: 'action' or 'command'
+    topic: /robot/trajectory_controller/follow_joint_trajectory
+    type: action
+    joint_names: [ 'JOINT0', 'JOINT1', 'JOINT2', 'JOINT3' ]
+devices:
+  -
+    topic: /robot/joint_states
+    class: JointState
+    name: joint_state

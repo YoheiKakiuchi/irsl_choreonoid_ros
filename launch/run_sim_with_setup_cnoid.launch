@@ -1,14 +1,22 @@
 <launch>
   <arg name="choreonoid_arg"    default=""/>
+  <arg name="python_script"     default="--python=$(find irsl_choreonoid_ros)/launch/load_setup_cnoid.py" />
+  <arg name="setup_cnoid"       default="" />
+  <arg name="model_namespace"   default="/robot_ros"/>
+  <arg name="control_namespace" default="/robot"/>
+  <arg name="controllers"       default="trajectory_controller joint_state_controller" />
   <arg name="model_file"        default=""/>
-  <arg name="model_namespace"   default=""/>
-  <arg name="control_namespace" default=""/>
-  <arg name="controllers"       default="joint_state_controller" />
-  <arg name="load_robot_description" default="true" />
+  <arg name="start"             default="true" />
+  <arg name="load_robot_description" default="$(eval bool(len(model_file)) )" />
+  <arg name="spawn_controller"  default="true" />
 
   <!-- choreonoid_ros -->
   <include file="$(find choreonoid_ros)/launch/choreonoid.launch">
-    <arg name="choreonoid_arg" value="$(arg choreonoid_arg)"/>
+    <arg name="choreonoid_arg" value="$(arg choreonoid_arg) $(arg python_script)"/>
+    <env name="SETUP_CNOID_FILE" value="$(arg setup_cnoid)"
+         if="$(eval bool(len(setup_cnoid)))" />
+    <env name="SETUP_CNOID_RUN_SIM" value="True"
+         if="$(arg start)" />
   </include>
 
   <!-- ROS Control -->
@@ -16,7 +24,8 @@
     <!-- load the controllers -->
     <node name="robot_controller_spawner" pkg="controller_manager"
           type="spawner" output="screen" respawn="true"
-          args="$(arg controllers)"/>
+          args="$(arg controllers)"
+          if="$(arg spawn_controller)" />
   </group>
 
   <!-- For ROS (rviz, etc.) -->
@@ -25,7 +34,8 @@
            name="robot_description" command="$(find xacro)/xacro '$(arg model_file)'"/>
 
     <!-- state publisher -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true">
+    <node if="$(arg load_robot_description)"
+          name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true">
       <remap from="joint_states" to="$(arg control_namespace)/joint_states" />
     </node>
   </group>
