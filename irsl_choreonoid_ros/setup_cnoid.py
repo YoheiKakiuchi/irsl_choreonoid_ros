@@ -560,7 +560,7 @@ class SetupCnoid(object):
             jnms_ = _getDictValue(cont_, ('joints', 'joint_list', 'joint_names', 'jointList', 'jointNames'))
             if nm_ is None:
                 continue
-            if jnms_ is None or jnms_.lower() == 'all':
+            if jnms_ is None or ( type(jnms_) is str and jnms_.lower() == 'all' ):
                 jlst_ = robot_.joints
             else:
                 jlst_ = [ robot_.joint(j) for j in jnms_ ]
