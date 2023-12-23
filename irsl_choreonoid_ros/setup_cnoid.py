@@ -112,6 +112,11 @@ def _applyParameter(item, param):
             method = 'set' + ''.join([ s.capitalize() for s in key.split('_') ])
             if hasattr(item, method):
                 eval_str = 'item.' + method + '(val)'
+            elif hasattr(item, 'set' + key):
+                eval_str = 'item.set' + key + '(val)'
+            elif hasattr(item, key):
+                eval_str = 'item.' + key + '(val)'
+
         if len(eval_str) > 0:
             print('eval: {} / val={}'.format(eval_str, val)) ## debug
             exec(eval_str, locals(), globals())
@@ -407,16 +412,17 @@ class SetupCnoid(object):
         cnoid.createCnoidFromYaml(yamlFile, **kwargs)
         return cnoid
 
-    def startSimulator(self, realTime=False):
+    def startSimulator(self, realTime=None):
         """
         Starting simulation
 
         Args:
-            realTime (boolean, default=False) : If True, simulator will run with realtime sync mode
+            realTime (boolean, default=None) : If True, simulator will run with realtime sync mode
 
         """
         if self.simulator is not None:
-            self.simulator.setRealtimeSyncMode(realTime)
+            if realTime is not None:
+                self.simulator.setRealtimeSyncMode(realTime)
             ItemTreeView.instance.checkItem(self.simulator)
             ItemTreeView.instance.selectItem(self.simulator)
             self.simulator.startSimulation(True)
