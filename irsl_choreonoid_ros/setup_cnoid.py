@@ -6,7 +6,7 @@ from cnoid.BodyPlugin import AISTSimulatorItem
 from cnoid.BodyPlugin import GLVisionSimulatorItem
 from cnoid.BodyPlugin import BodyItem
 from cnoid.BodyPlugin import WorldItem
-
+from cnoid.BodyPlugin import SimulationBar
 ##
 from cnoid.ROSPlugin import WorldROSItem
 from cnoid.ROSPlugin import BodyROSItem
@@ -425,7 +425,8 @@ class SetupCnoid(object):
                 self.simulator.setRealtimeSyncMode(realTime)
             ItemTreeView.instance.checkItem(self.simulator)
             ItemTreeView.instance.selectItem(self.simulator)
-            self.simulator.startSimulation(True)
+            # self.simulator.startSimulation(True)
+            SimulationBar.instance.startSimulation(True)## doRest=True
 
     def _addWorld(self, name='World', check=True, param=None):
         wd = self.root_item.findItem(name)
