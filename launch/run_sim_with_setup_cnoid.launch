@@ -6,7 +6,7 @@
   <arg name="control_namespace" default="/robot"/>
   <arg name="controllers"       default="trajectory_controller joint_state_controller" />
   <arg name="model_file"        default=""/>
-  <arg name="start"             default="false" />
+  <arg name="start"             default="true" />
   <arg name="load_robot_description" default="$(eval bool(len(model_file)) )" />
   <arg name="spawn_controller"  default="true" />
 
