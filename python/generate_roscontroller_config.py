@@ -2,12 +2,12 @@
 import argparse
 import numpy
 import os
+import sys
 
 try:
     import cnoid.Body
     import cnoid.Util
 except ImportError:
-    import sys
     import shutil
     choreonoid_path = os.path.join(os.path.dirname(shutil.which('choreonoid')), '../lib/choreonoid-2.0/python') if shutil.which('choreonoid') is not None else None
     if choreonoid_path is None:
