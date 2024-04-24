@@ -23,6 +23,7 @@ import irsl_choreonoid.cnoid_base as ib
 
 import yaml
 import math
+import sys
 
 ## ROS
 import rosgraph
@@ -706,14 +707,22 @@ def _generate_joint_urdf_joint(jointList, interface_type='Position'):
     for j in jointList:
         if j is None:
             continue
+        ##
+        q_upper = j.q_upper
+        q_lower = j.q_lower
+        if j.q_upper >= float('inf'):
+            q_upper = sys.float_info.max
+        if j.q_lower <= float('-inf'):
+            q_lower = -sys.float_info.max
+        ##
         jname = j.jointName
         res += '<link name="link_{}" />\n'.format(jname)
 
         res += '<joint name="{}" type="revolute">\n'.format(jname)
         res += '  <parent link="root" />\n'
         res += '  <child  link="link_{}" />\n'.format(jname)
-        res += '  <limit effort="{}" lower="{}" upper="{}" velocity="{}" />\n'.format(j.u_upper if j.u_upper < math.fabs(j.u_lower) else math.fabs(j.u_lower),
-                                                                                      j.q_lower, j.q_upper,
+        res += '  <limit lower="{}" upper="{}" effort="{}" velocity="{}" />\n'.format(q_lower, q_upper,
+                                                                                      j.u_upper if j.u_upper < math.fabs(j.u_lower) else math.fabs(j.u_lower),
                                                                                       j.dq_upper if j.dq_upper < math.fabs(j.dq_lower) else math.fabs(j.dq_lower))
         res += '</joint>\n'.format(jname)
 
