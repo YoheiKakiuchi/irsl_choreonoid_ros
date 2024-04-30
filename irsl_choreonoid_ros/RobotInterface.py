@@ -330,7 +330,7 @@ class JointInterface(object):
         if wait:
             self.waitUntilFinish(group=group, timeout=waitTimeout)
 
-    def sendAngleMap(self, angle_map, tm, group=None):
+    def sendAngleMap(self, angle_map, tm, group=None, wait=False, waitTimeout=None):
         """Sending angles to the actual robot. angles is set to self.robot
 
         Args:
@@ -403,7 +403,7 @@ class JointGroupBase(object):
         for j in self.joint_names:
             j = self._robot.joint(j)
             if j is None:
-                print('JointGroupTopic({}): joint-name: {} is invalid'.format(name, j))
+                print('JointGroupTopic({}): joint-name: {} is invalid'.format(self.name, j))
             else:
                 self.joints.append(j)
 
@@ -1184,7 +1184,7 @@ class GripperInterface(object):
         self._client.send_goal(goal_)
 
     def isFinished(self):  ## override
-        return _client.simple_state != actionlib.SimpleGoalState.ACTIVE
+        return self._client.simple_state != actionlib.SimpleGoalState.ACTIVE
 
     def waitUntilFinish(self, timeout=None):  ## override
         if timeout is None:
