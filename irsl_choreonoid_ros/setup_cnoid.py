@@ -133,6 +133,12 @@ def _getDictValueExist(in_dict, keys):
             return (True, in_dict[k])
     return (False, None)
 
+def _splitFiles(fname):
+    res = fname.split(';')
+    if len(res) > 1:
+        return res
+    return None
+
 class _BodyItemWrapper(object):
     def __init__(self, world, offset=None):
         self.body_item = None
@@ -249,6 +255,11 @@ class SetupCnoid(object):
             setCamera (boolean, default=False) : If True, set camera position
             offset (cnoid.IRSLCoords.coordinates) : Offset of objects
         """
+        if type(info_dict) is list:
+            for obj_info in info_dict:
+                self._addObject(obj_info, worldItem=worldItem, offset=offset)
+            return
+
         if type(info_dict) is not dict:
             raise Exception('type of {} is not dict'.format(info_dict))
 
@@ -267,7 +278,10 @@ class SetupCnoid(object):
             worldItem = self.root_item.findItem(world)
         ##
         if worldItem is None:
-            worldItem = self.root_item
+            if self.world_item:
+                worldItem = self.world_item
+            else:
+                worldItem = self.root_item
         ##
         if setCamera:
             if 'world' in info_dict:
@@ -362,9 +376,21 @@ class SetupCnoid(object):
             kwargs (dict) : Keyword to pass to setup_cnoid.buildEnvironment
 
         """
-        fname = parseURLROS(yamlFile)
-        info_ = yaml.safe_load(open(fname))
-        self.buildEnvironment(info_, **kwargs)
+        files = _splitFiles(yamlFile)
+        if files is None:
+            fname = parseURLROS(yamlFile)
+            info_ = yaml.safe_load(open(fname))
+            self.buildEnvironment(info_, **kwargs)
+        else:
+            fname = parseURLROS(files[0])
+            info_ = yaml.safe_load(open(fname))
+            self.buildEnvironment(info_, **kwargs)
+            kwargs['createWorld'] = False
+            kwargs['setCamera'] = False
+            for f in files[1:]:
+                fname = parseURLROS(f)
+                info_ = yaml.safe_load(open(fname))
+                self.buildEnvironment(info_, **kwargs)
 
     def createCnoidFromYaml(self, yamlFile, **kwargs):
         """
@@ -375,9 +401,21 @@ class SetupCnoid(object):
             kwargs (dict) : Keyword to pass to setup_cnoid.createCnoid
 
         """
-        fname = parseURLROS(yamlFile)
-        info_ = yaml.safe_load(open(fname))
-        self.createCnoid(info_, **kwargs)
+        files = _splitFiles(yamlFile)
+        if files is None:
+            fname = parseURLROS(yamlFile)
+            info_ = yaml.safe_load(open(fname))
+            self.createCnoid(info_, **kwargs)
+        else:
+            fname = parseURLROS(files[0])
+            info_ = yaml.safe_load(open(fname))
+            self.createCnoid(info_, **kwargs)
+            kwargs['createWorld'] = False
+            kwargs['setCamera'] = False
+            for f in files[1:]:
+                fname = parseURLROS(f)
+                info_ = yaml.safe_load(open(fname))
+                self.buildEnvironment(info_, **kwargs)
 
     @classmethod
     def setEnvironmentFromYaml(cls, yamlFile, **kwargs):
