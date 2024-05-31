@@ -11,6 +11,8 @@ from cnoid.BodyPlugin import SimulationBar
 from cnoid.ROSPlugin import WorldROSItem
 from cnoid.ROSPlugin import BodyROSItem
 from cnoid.ROSPlugin import ROSControlItem
+##
+import cnoid.Body as cbody
 
 import cnoid.Util
 from cnoid.IRSLCoords import coordinates
@@ -20,6 +22,7 @@ from .cnoid_ros_util import parseURLROS
 from irsl_choreonoid.robot_util import make_coordinates
 import irsl_choreonoid.cnoid_util as iu
 import irsl_choreonoid.cnoid_base as ib
+import irsl_choreonoid.make_shapes as mkshapes
 
 import yaml
 import math
@@ -98,11 +101,11 @@ def _applyParameter(item, param):
     if type(param) is not dict:
         return
     for key,val in param.items():
-        # print("{}/{}".foramt(key, val))
+        #print("{}/{}".format(key, val))
         eval_str = ''
         if key in param_method_dict:
             method = param_method_dict[key]
-            # print("method: {}".format(method))
+            #print("method: {}".format(method))
             if method[-1] == '=':
                 if hasattr(item, method[:-1]):
                     eval_str = 'item.' + method + 'val'
@@ -146,6 +149,9 @@ class _BodyItemWrapper(object):
         self.offset = offset
 
     def addObject(self, info, fix=False):
+        model_ = _getDictValue(info, ('model', 'Model', 'file', 'File', 'body', 'Body', 'model_file', 'modelFile', 'uri', 'URI'))
+        if model_ is None:
+            return self.addPrimitive(info)## always fixed
         return self.addRobot(info, fix=fix, ros_enable=False)
 
     def addRobot(self, info, fix=False, ros_enable=False):
@@ -198,6 +204,57 @@ class _BodyItemWrapper(object):
                 self.addBodyROSItem(self.body_item, check=check, param=info['BodyROSItem'])
             if 'ROSControlItem' in info:
                 self.addROSControlItem(self.body_item, check=check, param=info['ROSControlItem'])
+
+    def _addPrimitiveWithShape(self, shape, info):
+        bitem = BodyItem()
+        nm_ = _getDictValue(info, ('name', 'Name', 'NAME'))
+        if nm_ is not None:
+            bitem.setName(nm_)
+        baselk = bitem.body.createLink()
+        baselk.addShapeNode(shape)
+        cds = make_coordinates(info)
+        baselk.setPosition(cds.cnoidPosition)
+        baselk.setJointType(cbody.Link.JointType.FixedJoint)
+        bitem.body.setRootLink(baselk)
+        ##
+        bitem.body.updateLinkTree()
+        bitem.body.calcForwardKinematics()
+        ##
+        self.world_item.insertChildItem(bitem, self.world_item.childItem)
+        ItemTreeView.instance.checkItem(bitem)
+        return bitem
+
+    def addPrimitive(self, info, fix=True):
+        model_ = _getDictValue(info, ('box', 'Box', 'BOX'))
+        if model_ is not None:
+            shape_ = mkshapes.makeBox(*model_, rawShape=True, **info)
+            self._addPrimitiveWithShape(shape_, info)
+            return
+        model_ = _getDictValue(info, ('cylinder', 'Cylinder', 'CYLINDER'))
+        if model_ is not None:
+            shape_ = mkshapes.makeCylinder(*model_, rawShape=True, **info)
+            self._addPrimitiveWithShape(shape_, info)
+            return
+        model_ = _getDictValue(info, ('sphere', 'Sphere', 'SPHERE'))
+        if model_ is not None:
+            shape_ = mkshapes.makeSphere(*model_, rawShape=True, **info)
+            self._addPrimitiveWithShape(shape_, info)
+            return
+        model_ = _getDictValue(info, ('cone', 'Cone', 'CONE'))
+        if model_ is not None:
+            shape_ = mkshapes.makeCone(*model_, rawShape=True, **info)
+            self._addPrimitiveWithShape(shape_, info)
+            return
+        model_ = _getDictValue(info, ('capsule', 'Capsule', 'CAPSULE'))
+        if model_ is not None:
+            shape_ = mkshapes.makeCapsule(*model_, rawShape=True, **info)
+            self._addPrimitiveWithShape(shape_, info)
+            return
+        model_ = _getDictValue(info, ('torus', 'Torus', 'TORUS'))
+        if model_ is not None:
+            shape_ = mkshapes.makeTorus(*model_, rawShape=True, **info)
+            self._addPrimitiveWithShape(shape_, info)
+            return
 
     def addBodyROSItem(self, parent, check=True, param=None):
         self.body_ros = BodyROSItem()
@@ -295,7 +352,7 @@ class SetupCnoid(object):
         if 'objects' in info_dict:
             for obj_info in info_dict['objects']:
                 self._addObject(obj_info, worldItem=worldItem, offset=offset)
-
+            # notify
     def createCnoid(self, info_dict, addDefaultSimulator=True, addDefaultWorld=True, noEnvironment=False):
         """
         Creating project from parameters
@@ -366,7 +423,7 @@ class SetupCnoid(object):
             if 'objects' in info_dict:
                 for obj_info in info_dict['objects']:
                     self._addObject(obj_info)
-
+            # notify
     def buildEnvironmentFromYaml(self, yamlFile, **kwargs):
         """
         Building environment from yaml-file
@@ -529,7 +586,7 @@ class SetupCnoid(object):
             bi = _BodyItemWrapper(worldItem, offset=offset)
         else:
             bi = _BodyItemWrapper(self.world_item, offset=offset)
-        bi.addRobot(info)
+        bi.addObject(info)
 
     def _addSimulator(self, check=True, param=None): ## name is overwritten by param
         if 'type' in param:
