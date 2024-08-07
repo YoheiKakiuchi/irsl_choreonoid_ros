@@ -935,7 +935,8 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
     Then, please refer methods of these classes.
     """
-    def __init__(self, file_name, node_name='robot_interface', anonymous=False, connection_wait=3.0, connection=True):
+    def __init__(self, file_name, node_name='robot_interface', anonymous=False, connection_wait=3.0, connection=True,
+                 MASTER=None, IP=None, HOSTNAME=None):
         """
 
         Args:
@@ -944,8 +945,20 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             anonymous (boolean, default = False) : If True, ROS node will start with this node-name.
             connection_wait (float, default=3.0) : Wait until ROS connection has established
             connection (boolean, default=True) : If false, create instace without ROS connection
+            MASTER (str, default = None) : Set environment variable, ROS_MASTER_URI
+            IP (str, default = None) : Set environment variable, ROS_IP
+            HOSTNAME (str, default = None) : Set environment variable, ROS_HOSTNAME
 
         """
+        if HOSTNAME is None and IP is not None:
+            HOSTNAME = IP
+        if MASTER is not None:
+            os.environ['ROS_MASTER_URI'] = MASTER
+        if IP is not None:
+            os.environ['ROS_IP']         = IP
+        if HOSTNAME is not None:
+            os.environ['ROS_HOSTNAME']   = HOSTNAME
+
         with open(parseURLROS(file_name)) as f:
             self.info = yaml.safe_load(f)
         self.__load_robot()
