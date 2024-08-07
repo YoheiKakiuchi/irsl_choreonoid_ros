@@ -610,6 +610,14 @@ class DeviceInterface(object):
         self.devices = {}
         if 'devices' in info:
             self.__device_init(info['devices'], robot)
+        elif type(info) is dict:
+            if not hasattr(self, 'robot'):
+                self.robot = None
+            self.__device_init([ info ], robot)
+        elif type(info) is list:
+            if not hasattr(self, 'robot'):
+                self.robot = None
+            self.__device_init(info, robot)
     def __device_init(self, device_list, robot):
         print('devices: {}'.format(device_list))
         if robot is not None:
@@ -781,6 +789,41 @@ class DeviceInterface(object):
             self.devices[name]._pre_wait_next(timeout)
         return [ self.devices[name]._fetch_data(clear) for name in names ]
 
+    def addDevice(self, dev, force=False):
+        """Adding device to
+
+        Args:
+            dev ( RosDeviceBase ) : Instance of device
+            force (boolean, default=False) : If True, overwrite when duplicate
+
+        Returns
+            boolean : Returns True if device was added successfully
+
+        """
+        if dev.name in self.devices and not force:
+            return False
+        self.devices[ dev.name ] = dev
+        return True
+
+    def removeDevice(self, devname, purge=True):
+        """Removing device from
+
+        Args:
+            devname ( str ) : Name of device
+            purge (boolean, default=True) : If True, destruct device object
+
+        Returns:
+            boolean : Returns True if device was removed successfully
+
+        """
+        dev = self.devices.pop(devname, None)
+        if dev is not None:
+            if purge:
+                dev.remove()
+            return True
+        else:
+            return False
+
 class RosDeviceBase(object):
     def __init__(self, dev_dict, robot=None):
         super().__init__()
@@ -806,16 +849,18 @@ class RosDeviceBase(object):
         return False
 
     def parseType(self, type_str):
-        tp = type_str.split('/')
-        exec('from {}.msg import {}'.format(tp[0], tp[1]), locals(), globals())
-        self.msg = eval('{}'.format(tp[1]))
+        if type(type_str) is str:
+            tp = type_str.split('/')
+            exec('from {}.msg import {}'.format(tp[0], tp[1]), locals(), globals())
+            self.msg = eval('{}'.format(tp[1]))
+        else:
+            self.msg = type_str
         ## exec('class {}Wrapped({}):\n  __slots__ = ("header")')
         ## self.msg_wrapped = eval('{}Wrapped'.format(tp[1]))
     def subscribe(self):
         self.sub = rospy.Subscriber(self.topic, self.msg, self.callback)
 
     def callback(self, msg):
-        #
         #if not hasattr(msg, 'header'):
         #    setattr(msg, 'header', std_msgs_header(stamp=rospy.get_rostime(), frame_id='add_by_ri'))
         #    ## msg.header = std_msgs_header(stamp=rospy.get_rostime(), frame_id='add_by_ri')
@@ -853,6 +898,18 @@ class RosDeviceBase(object):
                 return self.data(clear)
             else:
                 rospy.sleep(0.002)
+
+    def _unsubscribe(self):
+        ## unsubscribe
+        self.sub.unregister()
+        self.sub = None
+
+    def _remove(self):
+        self.msg_time    = None
+        self.timeout     = None
+        self.current_msg = None
+        self._unsubscribe() ## needed ??
+
     ##
     def waitData(self, timeout=None, clear=False):
         self._pre_wait(timeout)
