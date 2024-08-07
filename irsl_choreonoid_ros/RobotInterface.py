@@ -982,6 +982,54 @@ class JointTrajectoryStateCallback(JointTrajectoryState):
     def joint_callback(self, msg):
         #print('js: {} {}'.format(rtime, msg))
         self.joint_msg_to_robot(msg)
+
+class OneShotSubscriber(RosDeviceBase):
+    """
+    Subscribe just N messages
+
+    """
+    def __init__(self, topic, msg, size=1):
+        """"
+        Args:
+            topic ( str ) : Name of Topic
+            msg ( class ) : Class instance of message to subscribe
+            size (int, default = 1 ) : Size of messages to be subscribed
+
+        """
+        self.topic = topic
+        self.msg = msg
+        self.size = size
+        self.msg_time = None
+        self.current_msg = None
+        self.results = [] ## size
+        self.sub = rospy.Subscriber(self.topic, self.msg, self.callback)
+
+    def callback(self, msg):
+        self.msg_time = rospy.get_rostime()
+        self.current_msg = msg
+        self.results.append(msg) ##
+        if len(self.results) >= self.size:
+            self._unsubscribe()
+
+    def waitResults(self, timeout=None):
+        """"Waiting N results
+
+        Args:
+            topic ( str ) : Name of Topic
+            msg ( class ) : Class instance of message to subscribe
+            size (int, default = 1 ) : Size of messages to be subscribed
+
+        Returns:
+            list( ros_message ) : Subscribed messages. If timeout occurs, None is returned.
+
+        """
+        self._pre_wait(timeout)
+        while ( self.timeout is None ) or ( self.timeout >= rospy.get_rostime() ):
+            if len(self.results) >= self.size:
+                return self.results
+            else:
+                rospy.sleep(0.002)
+
 #
 # RobotInterface
 #
@@ -1228,6 +1276,45 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 #    @body.setter
 #    def body(self, in_body):
 #        self.instanceOfBody = in_body
+
+    def oneShotSubscriber(self, topic, msg, size=1):
+        """Return instance of OneShotSubscriber
+
+        Args:
+            topic (str) : Name of Topic
+            msg ( class ) : Class instance of message to subscribe
+            size (int, default = 1 ) : Size of messages to be subscribed
+
+        Returns:
+            OneShotSubscriber : Instance of OneShotSubscriber
+
+        Examples:
+            one = ri.oneShotSubscriber('topicname', sensor_msgs.msg.Image)
+            res = one.waitResults(5)
+
+        """
+        return OneShotSubscriber(topic, msg, size)
+
+    def getRosDevice(self, topic, msg, name=None):
+        """
+        Args:
+            topic (str) : Name of Topic
+            msg ( class ) : Class instance of message to subscribe
+            name ( str, default = 'rosdevice' ) : Name of device
+
+        Returns:
+            RosDevice : Instance of RosDevice
+
+        Examples:
+            dev = ri.getRosDeivce('topicname', sensor_msgs.msg.Image, name='Camera0')
+            res = dev.getNextData(5)
+
+        """
+        if name is None:
+            name = 'rosdevice'
+        return RosDevice({'name': name, 'topic': topic, 'type': msg})
+    ## getRosService
+    ## getRosAction
 
 ##
 ## sample usage
