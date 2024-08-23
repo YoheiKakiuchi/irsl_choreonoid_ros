@@ -610,24 +610,26 @@ class DeviceInterface(object):
         self.devices = {}
         if 'devices' in info:
             self.__device_init(info['devices'], robot)
-        elif type(info) is dict:
-            if not hasattr(self, 'robot'):
-                self.robot = None
-            self.__device_init([ info ], robot)
-        elif type(info) is list:
-            if not hasattr(self, 'robot'):
-                self.robot = None
-            self.__device_init(info, robot)
+        #elif type(info) is dict:
+        #    #if not hasattr(self, 'robot'):
+        #    #    self.robot = None
+        #    self.__device_init([ info ], robot)
+        #elif type(info) is list:
+        #    #if not hasattr(self, 'robot'):
+        #    #    self.robot = None
+        #    self.__device_init(info, robot)
     def __device_init(self, device_list, robot):
         print('devices: {}'.format(device_list))
         if robot is not None:
             self.instanceOfBody = robot
+        if not hasattr(self, 'instanceOfBody'):
+            self.instanceOfBody = None
         for dev in device_list:
             if 'class' in dev:
                 cls = eval('{}'.format(dev['class']))
-                self.devices[dev['name']] = cls(dev, robot=self.robot)
+                self.devices[dev['name']] = cls(dev, robot=self.instanceOfBody)
             else:
-                self.devices[dev['name']] = RosDevice(dev, robot=self.robot)
+                self.devices[dev['name']] = RosDevice(dev, robot=self.instanceOfBody)
 
     @property
     def device_initialized(self):
