@@ -4,6 +4,8 @@ import os
 
 # ROS
 import rospy
+import tf
+
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from control_msgs.msg import JointTrajectoryControllerState
 from std_msgs.msg import Header as std_msgs_header
@@ -17,6 +19,10 @@ from control_msgs.msg import GripperCommandGoal
 from control_msgs.msg import GripperCommandFeedback
 from control_msgs.msg import GripperCommandResult
 from control_msgs.msg import GripperCommand
+
+# move_base
+from move_base_msgs.msg import MoveBaseAction
+from move_base_msgs.msg import MoveBaseGoal
 
 # choreonoid
 import cnoid.Body
@@ -44,6 +50,12 @@ class MobileBaseInterface(object):
         self.pub = None
         if 'mobile_base' in info:
             self.__mobile_init(info['mobile_base'], robot)
+        ###
+        self._base_action = actionlib.SimpleActionClient('move_base',  MoveBaseAction) ## TODO 'move_base' is fixed value
+        ###
+        if not hasattr(self, '_tf_listener') or self._tf_listener is None:
+            self._tf_listener = tf.TransformListener()
+
     def __mobile_init(self, mobile_dict, robot):
         print('mobile: {}'.format(mobile_dict))
         if robot is not None:
@@ -58,10 +70,19 @@ class MobileBaseInterface(object):
 
         # self.msg
         self.pub = rospy.Publisher('{}'.format(mobile_dict['topic']), self.msg, queue_size=1)
-        self.baselink = None
+        self.baselink = None ##
         if 'baselink' in mobile_dict:
             self.baselink = mobile_dict['baselink']
             ## TODO check baselink in self.instanceOfBody
+        ##
+        if 'base_frame' in mobile_dict:
+            self.base_frame = mobile_dict['base_frame'] ## ROS tf-name
+        else:
+            self.base_frame = 'base_link' ## ROS tf-name
+        if 'map_frame' in mobile_dict:
+            self.map_frame = mobile_dict['map_frame'] ## ROS tf-name
+        else:
+            self.map_frame  = 'map'       ## ROS tf-name
 
     @property
     def mobile_initialized(self):
@@ -127,27 +148,46 @@ class MobileBaseInterface(object):
         msg.angular.z = vel_th
         self.pub.publish(msg)
 
-    @property
-    def currentMapCoords(self):
-        """Current robot's coordinate on the map
+    def _tf_solve(self, frame_from, frame_to, time=rospy.Time(0)):
+        trs, quat = self._tf_listener.lookupTransform(frame_from, frame_to, time)
+        return coordinates(trs, quat)
 
-        **Not implemented yet**
+    def _send_move_base_goal(self, coords, frame='map'):
+        if self._base_action:
+            mgl = MoveBaseGoal()
+            mgl.target_pose.header.frame_id = frame
+            pos = coords.pos
+            mgl.target_pose.pose.position.x = pos[0]
+            mgl.target_pose.pose.position.y = pos[1]
+            mgl.target_pose.pose.position.z = pos[2]
+            quat = coords.quaternion
+            mgl.target_pose.pose.orientation.x = quat[0]
+            mgl.target_pose.pose.orientation.y = quat[1]
+            mgl.target_pose.pose.orientation.z = quat[2]
+            mgl.target_pose.pose.orientation.w = quat[3]
+            self._base_action.send_goal(mgl)
+
+    @property
+    def currentCoordsOnMap(self):
+        """Current robot's coordinate on the map frame
 
         Returns:
             cnoid.IRSLCoords.coordinates : Current robot's coordinate on the map
 
 
         """
-        return coordinates()
+        return self._tf_solve(self.map_frame, self.base_frame)
 
-    def move_position(self, coords):
+    def move_position(self, coords, wrt=coordinates.wrt.local):
         """Set target position for MobileBase, target is reletive to current robot's coordinates
 
         Args:
             coords (cnoid.IRSLCoords.coordinates) : Target coordinates for moving (reletive to current robot's coordinates)
 
         """
-        pass
+        cds = self.currentCoordsOnMap
+        cds.transform(coords, wrt=wrt)
+        self.move_on_map(cds)
 
     def move_on_map(self, coords):
         """Set target position on map for MobileBase, target is relative to map coordinates
@@ -156,7 +196,8 @@ class MobileBaseInterface(object):
             coords (cnoid.IRSLCoords.coordinates) : Target coordinates for moving (map coordinates)
 
         """
-        pass
+        self._send_move_base_goal(coords, self.map_frame)
+
 
     def move_trajectory(self, traj, relative = False):
         """Set target trajectory for MobileBase
