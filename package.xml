@@ -22,4 +22,8 @@
   <exec_depend>smach_viewer</exec_depend>
   <exec_depend>qt_dotgraph</exec_depend>
   <exec_depend>python3-pygraphviz</exec_depend>
+
+  <exec_depend>tf</exec_depend>
+  <exec_depend>tf2</exec_depend>
+  <exec_depend>move_base_msgs</exec_depend>
 </package>
