@@ -110,3 +110,9 @@ if [ $GEN_TYPE -eq 2 ] ; then
     rosrun irsl_choreonoid_ros generate_world_config.py  $BODYFILE > $WORLDSETTINGFILE
     fi
 fi
+
+# generate real robot setting files
+rosrun irsl_choreonoid_ros generate_controller_config.py --use_wheel $USE_WHEEL > controller_config.yaml
+rosrun irsl_choreonoid_ros generate_dynamixel_config.py --bodyfile $BODYFILE --wheeljoints ${WHEEL_LIST[@]} > dynamixel_config.yaml
+rosrun irsl_choreonoid_ros generate_robot_sensor_config.py --bodyfile $BODYFILE > robot_sensor.yaml
+rosrun irsl_choreonoid_ros generate_ros_settings.py > ros_settings.yaml
