@@ -5,6 +5,7 @@ import os
 # ROS
 import rospy
 import tf
+import message_filters
 
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from control_msgs.msg import JointTrajectoryControllerState
@@ -1073,6 +1074,56 @@ class OneShotSubscriber(RosDeviceBase):
             else:
                 rospy.sleep(0.002)
 
+
+class OneShotSyncSubscriber(RosDeviceBase):
+    """
+    Subscribe just N sync messages
+
+    """
+    def __init__(self, topics, msgs, size=1, sync_message_queue_size=100, sync_slop=0.02):
+        """"
+        Args:
+            topics ( list of str ) : Name of Topic
+            msgs ( list of class ) : Class instance of message to subscribe
+            size (int, default = 1 ) : Size of messages to be subscribed
+            sync_message_queue_size ( int, default = 100 ) : Size of message queue
+            sync_slop ( float, default = 0.02 ) :  Delay with which messages can be synchronized in seconds).
+
+        """
+        self.topics = topics
+        self.msgs = msgs
+        self.size = size
+        self.msg_time = None
+        self.current_msg = None
+        self.results = [] ## size
+        self.filter_subs = [ message_filters.Subscriber(topic, msg) for topic, msg in zip(topics, msgs) ]
+        self.ts = message_filters.ApproximateTimeSynchronizer(self.filter_subs, sync_message_queue_size, sync_slop)
+        self.ts.registerCallback(self.callback)
+
+    def callback(self, *msgs):
+        self.msg_time = rospy.get_rostime()
+        self.current_msg = msgs
+        self.results.append(msgs) ##
+        if len(self.results) >= self.size:
+            _ = [sub.sub.unregister() for sub in self.filter_subs]
+
+    def waitResults(self, timeout=None):
+        """"Waiting N results
+
+        Args:
+            timeout ( float, default = None ) : Time for timeout
+
+        Returns:
+            None
+
+        """
+        self._pre_wait(timeout)
+        while ( self.timeout is None ) or ( self.timeout >= rospy.get_rostime() ):
+            if len(self.results) >= self.size:
+                return self.results
+            else:
+                rospy.sleep(0.002)
+
 #
 # RobotInterface
 #
@@ -1337,6 +1388,26 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
 
         """
         return OneShotSubscriber(topic, msg, size)
+    
+    def oneShotSyncSubscriber(self, topics, msgs, size=1, sync_message_queue_size=100, sync_slop=0.02):
+        """"
+        Args:
+            topic ( list of str ) : Name of Topic
+            msg ( list of class ) : Class instance of message to subscribe
+            size (int, default = 1 ) : Size of messages to be subscribed
+            sync_message_queue_size ( int, default = 100 ) : Size of message queue
+            sync_slop ( float, default = 0.02 ) :  Delay with which messages can be synchronized in seconds)
+
+        Returns:
+            OneShotSyncSubscriber : Instance of OneShotSyncSubscriber
+
+        Examples:
+            one = ri.oneShotSyncSubscriber(['topicname1', 'topicname2'], [sensor_msgs.msg.Image, sensor_msgs.msg.CameraInfo])
+            res = one.waitResults(5)
+
+
+        """
+        return OneShotSyncSubscriber(topics, msgs, size, sync_message_queue_size, sync_slop)
 
     def getRosDevice(self, topic, msg, name=None):
         """
