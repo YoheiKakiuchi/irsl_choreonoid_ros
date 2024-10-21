@@ -642,12 +642,12 @@ class SetupCnoid(object):
             if eye_ is not None and up_ is not None:
                 dir_ = _getDictValue(param, ('lookForDirection', 'lookDirection', 'Direction', 'direction'))
                 if dir_ is not None:
-                    cds = ib.cameraPositionLookingFor(eye_, dir_, up_)
+                    cds = ib.cameraPositionLookingFor(eye_, dir_, up_, opencv=False)
                     ib.setCameraCoords(cds, fov_, opencv=False)
                 else:
                     center_ = _getDictValue(param, ('lookAtCenter', 'lookAt', 'at', 'center'))
                     if center_ is not None:
-                        cds = ib.cameraPositionLookingAt(eye_, center_, up_)
+                        cds = ib.cameraPositionLookingAt(eye_, center_, up_, opencv=False)
                         ib.setCameraCoords(cds, fov_, opencv=False)
 
     def _execROSScript(self, param=None):
