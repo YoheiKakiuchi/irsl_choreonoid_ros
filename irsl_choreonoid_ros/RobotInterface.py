@@ -52,7 +52,8 @@ class MobileBaseInterface(object):
         if 'mobile_base' in info:
             self.__mobile_init(info['mobile_base'], robot)
         ###
-        self._base_action = actionlib.SimpleActionClient('move_base',  MoveBaseAction) ## TODO 'move_base' is fixed value
+        action_name = info['mobile_base']['action'] if 'mobile_base' in info and 'action' in info['mobile_base'] else 'move_base'
+        self._base_action = actionlib.SimpleActionClient(action_name,  MoveBaseAction)
         ###
         if not hasattr(self, '_tf_listener') or self._tf_listener is None:
             self._tf_listener = tf.TransformListener()
