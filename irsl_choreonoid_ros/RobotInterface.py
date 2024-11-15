@@ -39,7 +39,7 @@ if iu.isInChoreonoid():
     import irsl_choreonoid.cnoid_base as ib
     import cnoid.Base as cbase
 
-from numpy import array as npa
+import numpy as np
 
 #
 # MobileBaseInterface
@@ -54,6 +54,11 @@ class MobileBaseInterface(object):
         ###
         action_name = info['mobile_base']['move_base_action'] if 'mobile_base' in info and 'move_base_action' in info['mobile_base'] else 'move_base'
         self._base_action = actionlib.SimpleActionClient(action_name,  MoveBaseAction)
+        ###
+        self._odom_trajectory_action = None
+        if 'mobile_base' in info and 'odom_trajectory_action' in info['mobile_base']:
+            odom_act_name = info['mobile_base']['odom_trajectory_action']
+            self._odom_trajectory_action = actionlib.SimpleActionClient(odom_act_name, FollowJointTrajectoryAction)
         ###
         if not hasattr(self, '_tf_listener') or self._tf_listener is None:
             self._tf_listener = tf.TransformListener()
@@ -85,6 +90,10 @@ class MobileBaseInterface(object):
             self.map_frame = mobile_dict['map_frame'] ## ROS tf-name
         else:
             self.map_frame  = 'map'       ## ROS tf-name
+        if 'odom_frame' in mobile_dict:
+            self.odom_frame = mobile_dict['odom_frame'] ## ROS tf-name
+        else:
+            self.odom_frame  = 'odom'       ## ROS tf-name
 
     @property
     def mobile_initialized(self):
@@ -150,7 +159,9 @@ class MobileBaseInterface(object):
         msg.angular.z = vel_th
         self.pub.publish(msg)
 
-    def _tf_solve(self, frame_from, frame_to, time=rospy.Time(0)):
+    def _tf_solve(self, frame_from, frame_to, time=None):
+        if time is None:
+            time = rospy.Time(0)
         trs, quat = self._tf_listener.lookupTransform(frame_from, frame_to, time)
         return coordinates(trs, quat)
 
@@ -179,6 +190,40 @@ class MobileBaseInterface(object):
 
         """
         return self._tf_solve(self.map_frame, self.base_frame)
+    @property
+    def currentCoordsOnOdom(self):
+        """Current robot's coordinate on the odom frame
+
+        Returns:
+            cnoid.IRSLCoords.coordinates : Current robot's coordinate on the odom
+
+
+        """
+        return self._tf_solve(self.odom_frame, self.base_frame)
+    def coordsOnMap(self, time=None):
+        """Current robot's coordinate on the map frame
+
+        Args:
+            time (rospy.Time, optional)  : Time using to solve TF
+
+        Returns:
+            cnoid.IRSLCoords.coordinates : Current robot's coordinate on the map
+
+
+        """
+        return self._tf_solve(self.map_frame, self.base_frame, time=time)
+    def coordsOnOdom(self, time=None):
+        """Current robot's coordinate on the odom frame
+
+        Args:
+            time (rospy.Time, optional)  : Time using to solve TF
+
+        Returns:
+            cnoid.IRSLCoords.coordinates : Current robot's coordinate on the odom
+
+
+        """
+        return self._tf_solve(self.odom_frame, self.base_frame, time=time)
 
     def move_position(self, coords, wrt=coordinates.wrt.local):
         """Set target position for MobileBase, target is reletive to current robot's coordinates
@@ -191,27 +236,101 @@ class MobileBaseInterface(object):
         cds.transform(coords, wrt=wrt)
         self.move_on_map(cds)
 
-    def move_on_map(self, coords):
+    def move_on_map(self, coords, relative=False, time=None, wrt=coordinates.wrt.local):
         """Set target position on map for MobileBase, target is relative to map coordinates
 
         Args:
             coords (cnoid.IRSLCoords.coordinates) : Target coordinates for moving (map coordinates)
+            relative (boolean, default = False) : If True, trajectory is considered it is relative to robot's coordinates.
+            time (rospy.Time, optional) : If relative is True, use this time to solve tf
+            wrt () :
 
         """
-        self._send_move_base_goal(coords, self.map_frame)
+        if relative:
+            cds = self.coordsOnMap(time)
+            cds.transform(coords, wrt=wrt)
+        else:
+            cds = coords
+        self._send_move_base_goal(cds, self.map_frame)
 
-
-    def move_trajectory(self, traj, relative = False):
-        """Set target trajectory for MobileBase
-
-        **Not implemented yet**
+    def wait_move_on_map(self, timeout=None):
+        """Wait until move_on_map method finished
 
         Args:
-            traj (list[(cnoid.IRSLCoords.coordinates, float)]) : List of pair of coordinates and time
+            timeout (float, optional) : If set, maximum waiting time is set
+        """
+        if timeout is None:
+            timeout = rospy.Duration(1000000000.0)
+        else:
+            if timeout <= 0.0:
+                timeout = 0.001
+            timeout = rospy.Duration(timeout)
+        self._base_action.wait_for_result(timeout)
+
+    def move_trajectory(self, trajectory, relative=False, time=None, wrt=coordinates.wrt.local):
+        """Set target trajectory for MobileBase (odometry relative move)
+
+        Args:
+            trajectory (list[(cnoid.IRSLCoords.coordinates, float)]) : List of pair of coordinates and time
             relative (boolean, default = False) : If True, trajectory is considered it is relative to robot's coordinates.
+            time (rospy.Time, optional) : If relative is True, use this time to solve tf
+            wrt () :
 
         """
-        pass
+        if self._odom_trajectory_action is not None:
+            if relative:
+                origin = self.coordsOnOdom(time=time)
+            else:
+                origin = coordinates()
+            goal = FollowJointTrajectoryGoal()
+            ##
+            traj = JointTrajectory()
+            traj.joint_names = ["odom_x", "odom_y", "odom_t"]
+            ##
+            for tp, tm in trajectory:
+                p = JointTrajectoryPoint()
+                tgt = origin.get_transformed(tp, wrt=wrt)
+                x_ = tgt.pos[0]
+                y_ = tgt.pos[1]
+                t_ = tgt.RPY[2]
+                p.positions  = [x_, y_, t_]
+                #p.velocities = [0, 0, 0]
+                p.time_from_start = rospy.Duration(tm)
+                traj.points.append(p)
+            ## add average velocity
+            cur_time = 0.0
+            p_pos = np.array([ origin.pos[0], origin.pos[1], origin.RPY[2] ])
+            for idx in range(len(traj.points) - 1):
+                tms = traj.points[idx].time_from_start.to_sec()
+                c_tm  = tms - cur_time
+                n_tm  = traj.points[idx+1].time_from_start.to_sec() - tms
+                c_pos = np.array( traj.points[idx].positions )
+                n_pos = np.array( traj.points[idx+1].positions )
+                #
+                vel= 0.5*( (c_pos - p_pos)/c_tm + (n_pos - c_pos)/n_tm )
+                traj.points[idx].velocities = vel.tolist()
+                #
+                p_pos  = c_pos
+                cur_time = tms
+            traj.points[-1].velocities = [0., 0., 0.]
+            ##
+            goal.trajectory = traj
+            self._odom_trajectory_action.send_goal(goal)
+
+    def wait_move_trajectory(self, timeout=None):
+        """Wait until move_trajectory method finished
+
+        Args:
+            timeout (float, optional) : If set, maximum waiting time is set
+        """
+        if timeout is None:
+            timeout = rospy.Duration(1000000000.0)
+        else:
+            if timeout <= 0.0:
+                timeout = 0.001
+            timeout = rospy.Duration(timeout)
+        self._odom_trajectory_action.wait_for_result(timeout)
+
 #
 # JointInterface
 #
@@ -1319,7 +1438,7 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             numpy.array : 1 x N vector ( N is len(jointList) )
 
         """
-        return npa([ j.u for j in self.instanceOfBody.joints ])
+        return np.array([ j.u for j in self.instanceOfBody.joints ])
 
     @property
     def velocityVector(self):
@@ -1331,7 +1450,7 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             numpy.array : 1 x N vector ( N is len(jointList) )
 
         """
-        return npa([ j.dq for j in self.instanceOfBody.joints ])
+        return np.array([ j.dq for j in self.instanceOfBody.joints ])
 
     @property
     def actualAngleVector(self):
