@@ -1136,7 +1136,7 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
     Then, please refer methods of these classes.
     """
     def __init__(self, file_name, node_name='robot_interface', anonymous=False, connection_wait=3.0, connection=True,
-                 MASTER=None, IP=None, HOSTNAME=None):
+                 MASTER_URI=None, MASTER=None, MASTER_PORT=11311, IP=None, HOSTNAME=None):
         """
 
         Args:
@@ -1145,17 +1145,21 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             anonymous (boolean, default = False) : If True, ROS node will start with this node-name.
             connection_wait (float, default=3.0) : Wait until ROS connection has established
             connection (boolean, default=True) : If false, create instace without ROS connection
-            MASTER (str, default = None) : Set environment variable, ROS_MASTER_URI
-            IP (str, default = None) : Set environment variable, ROS_IP
-            HOSTNAME (str, default = None) : Set environment variable, ROS_HOSTNAME
+            MASTER_URI (str, optional) : Set environment variable, ROS_MASTER_URI if MASTER is not set
+            MASTER (str, optional) : Set environment variable, ROS_MASTER_URI = http://MASTER:MASTER_PORT
+            MASTER_PORT (int, default 11311) : Set environment variable, ROS_MASTER_URI = http://MASTER:MASTER_PORT
+            IP (str, optional) : Set environment variable, ROS_IP
+            HOSTNAME (str, optional) : Set environment variable, ROS_HOSTNAME
 
         """
-        if HOSTNAME is None and IP is not None:
-            HOSTNAME = IP
         if MASTER is not None:
-            os.environ['ROS_MASTER_URI'] = MASTER
+            os.environ['ROS_MASTER_URI'] = 'http://{}:{}'.format(MASTER, MASTER_PORT)
+        elif MASTER_URI is not None:
+            os.environ['ROS_MASTER_URI'] = MASTER_URI
         if IP is not None:
             os.environ['ROS_IP']         = IP
+            if HOSTNAME is None:
+                HOSTNAME = IP
         if HOSTNAME is not None:
             os.environ['ROS_HOSTNAME']   = HOSTNAME
 
