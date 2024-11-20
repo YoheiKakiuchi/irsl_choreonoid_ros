@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # See http://unix.stackexchange.com/questions/101080/realpath-command-not-found
 realpath ()
 {
@@ -16,9 +18,9 @@ realpath ()
 }
 
 
-BODYFILE=Robot.body
+BODYFILE=''
 ROSCONTROLFILE=roscontrol_config.yaml
-RICONFIGFILE=robotinterface.yaml
+RICONFIGFILE=robot_interface.yaml
 WHEELCONFIG=wheel.yaml
 WORLDSETTINGFILE=world.yaml
 
@@ -27,7 +29,7 @@ USE_WHEEL=False
 USE_ARM=True
 WHEEL_LIST=()
 CONTROLLERS=("joint_controller" "joint_state_controller")
-GEN_TYPE=2
+GEN_TYPE=2 ## generate world.yaml
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -36,7 +38,7 @@ while [[ $# -gt 0 ]]; do
             shift
             shift
             ;;
-        -c|--cnoid)
+        -c|--cnoid) ## generate .cnoid file
             GEN_TYPE=1
             shift
             ;;
@@ -53,9 +55,32 @@ while [[ $# -gt 0 ]]; do
                 shift
             done
             ;;
-        
+        --help)
+            echo "generator_settings.sh [ -b | --body <bodyfile.body> ] [ -c | --cnoid ] [ --wheel-joint <joint_0> <joint_1> .. <joint_n>]"
+            exit 0
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            POSITIONAL_ARGS+=("$1") # save positional arg
+            shift # past argument
+            ;;
     esac
 done
+
+if [ -z "$BODYFILE" ]; then
+    echo "Please input body file using -b/--body <bodyfile>"
+    exit
+fi
+
+if [ ! -e "$BODYFILE" ]; then
+    echo "BODYFILE ${BODYFILE} does not exist!"
+    exit
+fi
+
+set -x
 
 ROBOTNAME=`python3 -c "import cnoid.Body;import sys;print(cnoid.Body.BodyLoader().load('$BODYFILE').getModelName())"`
 
@@ -70,8 +95,6 @@ if [ $wheel_length -gt 0 ] ; then
     WHEELOPTION=--wheeljoints
 fi
 
-
-set -x
 choreonoid_body2urdf $BODYFILE > $URDFFILE 2>/dev/null
 
 if [ $GEN_TYPE -eq 1 ] ; then
@@ -94,10 +117,10 @@ else
 fi
 
 if [ $GEN_TYPE -eq 1 ] ; then
-    rosrun irsl_choreonoid_ros generate_roslaunch.py --gen_type 1 --bodyfile $BODYFILE  --urdffile $URDFFILE --cnoidfile $CNOIDFILE --roscontrolfile $ROSCONTROLFILE --use_wheel $USE_WHEEL --controllers "$CONTROLLERS_LIST" > run_sim_robot.launch 
+    rosrun irsl_choreonoid_ros generate_roslaunch.py --gen_type 1 --bodyfile $BODYFILE  --urdffile $URDFFILE --cnoidfile $CNOIDFILE --roscontrolfile $ROSCONTROLFILE --use_wheel $USE_WHEEL --controllers "$CONTROLLERS_LIST" > run_sim_robot.launch
 else
-    if [ $wheel_length -gt 0 ] ; then 
-        rosrun irsl_choreonoid_ros generate_roslaunch.py --gen_type 2 --bodyfile $BODYFILE --use_wheel True  --controllers "joint_controller wheel_controller joint_state_controller" --demo_base_dir `pwd` --urdffile $URDFFILE --worldsettings $WORLDSETTINGFILE > run_sim_robot.launch 
+    if [ $wheel_length -gt 0 ] ; then
+        rosrun irsl_choreonoid_ros generate_roslaunch.py --gen_type 2 --bodyfile $BODYFILE --use_wheel True  --controllers "joint_controller wheel_controller joint_state_controller" --demo_base_dir `pwd` --urdffile $URDFFILE --worldsettings $WORLDSETTINGFILE > run_sim_robot.launch
     else
         rosrun irsl_choreonoid_ros generate_roslaunch.py --gen_type 2 --bodyfile $BODYFILE --use_wheel False --controllers "joint_controller joint_state_controller" --demo_base_dir `pwd` --urdffile $URDFFILE --worldsettings $WORLDSETTINGFILE > run_sim_robot.launch
     fi
@@ -106,13 +129,13 @@ fi
 if [ $GEN_TYPE -eq 2 ] ; then
     if [ $wheel_length -gt 0 ] ; then
     rosrun irsl_choreonoid_ros generate_world_config.py  $BODYFILE --wheeljoints ${WHEEL_LIST[@]} > $WORLDSETTINGFILE
-    else 
+    else
     rosrun irsl_choreonoid_ros generate_world_config.py  $BODYFILE > $WORLDSETTINGFILE
     fi
 fi
 
 # generate real robot setting files
-rosrun irsl_choreonoid_ros generate_controller_config.py --use_wheel $USE_WHEEL > controller_config.yaml
-rosrun irsl_choreonoid_ros generate_dynamixel_config.py --bodyfile $BODYFILE --wheeljoints ${WHEEL_LIST[@]} > dynamixel_config.yaml
-rosrun irsl_choreonoid_ros generate_robot_sensor_config.py --bodyfile $BODYFILE > robot_sensor.yaml
-rosrun irsl_choreonoid_ros generate_ros_settings.py > ros_settings.yaml
+rosrun irsl_choreonoid_ros generate_controller_config.py --use_wheel $USE_WHEEL > dx_controller_config.yaml
+rosrun irsl_choreonoid_ros generate_dynamixel_config.py --bodyfile $BODYFILE --wheeljoints ${WHEEL_LIST[@]} > dx_servo_config.yaml
+rosrun irsl_choreonoid_ros generate_robot_sensor_config.py --bodyfile $BODYFILE > sensor_config.yaml
+# rosrun irsl_choreonoid_ros generate_ros_settings.py > ros_settings.yaml
