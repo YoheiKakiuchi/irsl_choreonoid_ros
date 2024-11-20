@@ -1201,7 +1201,44 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
         if 'robot_model' in self.info:
             mdl = self.info['robot_model']
             self.robot_name = mdl['name']
-            self.model_file = parseURLROS(mdl['url'])
+
+            ### model_cls ###
+            if 'class' in mdl:
+                if 'import' in mdl:
+                    import_ = mdl['import']
+                    if '://' in import_:
+                        import_ = parseURLROS(import_)
+                    if import_[-3:] == '.py':
+                        ## python file name
+                        ### exec version
+                        #exec(open(import_).read(), locals(), globals())
+                        #exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
+                        ### import version
+                        dname = os.path.dirname(import_)
+                        if not dname in sys.path:
+                            sys.path.append(dname)
+                        fname = os.path.basename(import_)
+                        modname = fname[:-3] ## remove '.py'
+                        exec('from {} import {}'.format(modname, mdl['class']), locals(), globals())
+                        exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
+                    else:
+                        ## directory name
+                        exec('from {} import {}'.format(import_, mdl['class']), locals(), globals())
+                        exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
+                else:
+                    exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())## class already imported
+            else:
+                self.model_cls = ru.RobotModelWrapped
+
+            ### model_file ###
+            if 'url' in mdl:
+                self.model_file = parseURLROS(mdl['url'])
+            elif hasattr(self.model_cls, 'model_file'):
+                print(self.model_cls.model_file)
+                self.model_file = self.model_cls.model_file
+            else:
+                ### error
+                pass
 
             ##rospy.loginfo('loading model from {}'.format(self.model_file))
             print('loading model from {}'.format(self.model_file))
@@ -1212,23 +1249,6 @@ class RobotInterface(JointInterface, DeviceInterface, MobileBaseInterface):
             if self.instanceOfBody is None:
                 raise Exception('body can not be loaded by file: {}'.format(self.model_file))
             self.instanceOfJointBody = self.copyRobot()
-
-            if 'class' in mdl:
-                if 'import' in mdl:
-                    import_ = mdl['import']
-                    import_[-2:]
-                    if '://' in import_ or import_[-3:] == '.py':
-                        fname = parseURLROS(import_)
-                        exec(open(fname).read(), locals(), globals())
-                        exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
-                    else:
-                        # print('from {} import {}'.format(mdl['import'], mdl['class']))
-                        exec('from {} import {}'.format(import_, mdl['class']), locals(), globals())
-                        exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
-                else:
-                    exec('self.model_cls = {}'.format(mdl['class']), locals(), globals())
-            else:
-                self.model_cls = ru.RobotModelWrapped
 
     def getRobotModel(self, asItem=True):
         """Return an instance of RobotModel (irsl_choreonoid.robot_util.RobotModelWrapped)
