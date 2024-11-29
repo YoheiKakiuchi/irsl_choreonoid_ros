@@ -1,14 +1,15 @@
 # from tf import transformations
 import std_msgs.msg
 import geometry_msgs.msg
-
+from std_msgs.msg import MultiArrayLayout, MultiArrayDimension
+from std_msgs.msg import  (ByteMultiArray,
+                           Float32MultiArray, Float64MultiArray,
+                            Int8MultiArray,  Int16MultiArray,  Int32MultiArray,  Int64MultiArray,
+                           UInt8MultiArray, UInt16MultiArray, UInt32MultiArray, UInt64MultiArray)
 import numpy
-
 from cnoid.IRSLCoords import coordinates
 
 ###
-____to_function_map__ = {}
-__from_function_map__ = {}
 
 def convertToROSMsg(pyexpr, class_rosmsg, **kwargs):
     """
@@ -153,7 +154,7 @@ def _from_wrench_stamped(rosmsg):
 # nav_msgs/Odom
 
 def checkLayout(MultiArrayLayout_msg):
-    dims = MultiArrayLayout_msg.dim
+    dims = MultiArrayLayout_msg.layout.dim
     ## MultiArrayLayout_msg.data_offset
     dim_size = len(dims)
     cur_stride = 1
@@ -163,7 +164,7 @@ def checkLayout(MultiArrayLayout_msg):
         cur_stride *= dim.size
         if dim.stride != cur_stride:
             raise Exception('dim[{}].stride == {} is not qeual to culculated {}', dim.label, dim.stride, cur_stride)
-    return cur_stride - MultiArrayLayout_msg.data_offset
+    return cur_stride - MultiArrayLayout_msg.layout.data_offset
 
 def makeLayout(nparray):
     _shape = nparray.shape
@@ -172,25 +173,60 @@ def makeLayout(nparray):
     cur_stride = 1
     dims = []
     for sz in _shape[::-1]: ## reverse iterator
-        dim = MultiArrayDimension
+        dim = MultiArrayDimension()
         dim.size   = sz
-        dim.stride = cur_stride * sz
+        cur_stride *= sz
+        dim.stride = cur_stride
         dim.label  = 'dim{}'.format(dim_size - cntr)
         dims.append(dim)
         cntr += 1
-    return MultiArrayLayout(dim = reversed(dims), data_stride = 0)
+    return MultiArrayLayout(dim = list(reversed(dims)), data_offset = 0)
 
-def convertToMultiArray(nparray, ary_cls):
+def convertToMultiArrayRaw(nparray, ary_cls):
     layout = makeLayout(nparray)
     res = ary_cls(data=nparray.reshape((1, -1))[0].tolist(), layout=layout)
     return res
 
-def convertFromMultiArray(rosmsg):
-    pass
-    #res = numpy.array(rosmsg.data)
-    #res = res.reshape()
-    #return res
+def convertFromMultiArrayRaw(rosmsg, dtype=None):
+    res = numpy.array(rosmsg.data, dtype=dtype)
+    return res.reshape([ d.size for d in rosmsg.layout.dim ])
 
+def convertToMultiArray(nparray):
+    cls = __NUMPY_to_Msg__[str(nparray.dtype)]
+    return convertToMultiArrayRaw(nparray, cls)
+
+def convertFromMultiArray(rosmsg):
+    dtype = __Msg_to_NUMPY__[rosmsg._md5sum]
+    return convertFromMultiArrayRaw(rosmsg, dtype)
+
+__Msg_to_NUMPY__ = {}
+__NUMPY_to_Msg__ = {}
+def generateMultiArrayMap():
+    __Msg_to_NUMPY__[ByteMultiArray._md5sum   ] = 'uint8'
+    __Msg_to_NUMPY__[Float32MultiArray._md5sum] = 'float32'
+    __Msg_to_NUMPY__[Float64MultiArray._md5sum] = 'float64'
+    __Msg_to_NUMPY__[Int8MultiArray._md5sum   ] = 'int8'
+    __Msg_to_NUMPY__[Int16MultiArray._md5sum  ] = 'int16'
+    __Msg_to_NUMPY__[Int32MultiArray._md5sum  ] = 'int32'
+    __Msg_to_NUMPY__[Int64MultiArray._md5sum  ] = 'int64'
+    __Msg_to_NUMPY__[UInt8MultiArray._md5sum  ] = 'uint8'
+    __Msg_to_NUMPY__[UInt16MultiArray._md5sum ] = 'uint16'
+    __Msg_to_NUMPY__[UInt32MultiArray._md5sum ] = 'uint32'
+    __Msg_to_NUMPY__[UInt64MultiArray._md5sum ] = 'uint64'
+
+    __NUMPY_to_Msg__['float32' ]  = Float32MultiArray
+    __NUMPY_to_Msg__['float64' ]  = Float64MultiArray
+    __NUMPY_to_Msg__['int8'    ]  = Int8MultiArray
+    __NUMPY_to_Msg__['int16'   ]  = Int16MultiArray
+    __NUMPY_to_Msg__['int32'   ]  = Int32MultiArray
+    __NUMPY_to_Msg__['int64'   ]  = Int64MultiArray
+    __NUMPY_to_Msg__['uint8'   ]  = UInt8MultiArray
+    __NUMPY_to_Msg__['uint16'  ]  = UInt16MultiArray
+    __NUMPY_to_Msg__['uint32'  ]  = UInt32MultiArray
+    __NUMPY_to_Msg__['uint64'  ]  = UInt64MultiArray
+
+____to_function_map__ = {}
+__from_function_map__ = {}
 def generateConversionMap():
     ____to_function_map__[ geometry_msgs.msg.Twist._md5sum ] = _to_twist
     __from_function_map__[ geometry_msgs.msg.Twist._md5sum ] = _from_twist
@@ -226,3 +262,4 @@ def generateConversionMap():
     __from_function_map__[ geometry_msgs.msg.TransformStamped._md5sum ] = _from_transform_stamped
 
 generateConversionMap()
+generateMultiArrayMap()
