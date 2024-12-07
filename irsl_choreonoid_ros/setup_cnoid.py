@@ -511,7 +511,36 @@ class SetupCnoid(object):
         cnoid = cls()
         cnoid.createCnoidFromYaml(yamlFile, **kwargs)
         return cnoid
+    @classmethod
+    def setupEnvironment(cls, info, **kwargs):
+        """
+        Building environment (setting objects) under the WorldItem (class method)
 
+        Args:
+            info_dict ( dict['key': value] ) : Dictionary for representing objects on environment
+            world (str, default='World') : Name of WorldItem, added objects under this item
+            craeteWorld (boolean, default=False) : If True, creating new WorldItem
+            setCamera (boolean, default=False) : If True, set camera position
+            offset (cnoid.IRSLCoords.coordinates) : Offset of objects
+        """
+        cnoid = cls()
+        cnoid.buildEnvironment(info, **kwargs)
+        return cnoid
+    @classmethod
+    def setupCnoid(cls, info, **kwargs):
+        """
+        Creating project from parameters (class method)
+
+        Args:
+            info_dict ( dict['key': value] ) : Dictionary for representing the project
+            addDefaultSimulator (boolean, default=True) : If True, adding new SimulatorItem if there is no instruction in info_dict
+            addDefaultWorld (boolean, default=True) : If True, adding new WorldItem if there is no instruction in info_dict
+            noEnvironment (boolean, default=False) : If True, not adding environment(objects). Use buildEnvironment method.
+
+        """
+        cnoid = cls()
+        cnoid.createCnoid(info, **kwargs)
+        return cnoid
     def startSimulator(self, realTime=None):
         """
         Starting simulation
