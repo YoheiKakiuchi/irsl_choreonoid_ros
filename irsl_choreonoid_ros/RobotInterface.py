@@ -267,6 +267,30 @@ class MobileBaseInterface(object):
             timeout = rospy.Duration(timeout)
         self._base_action.wait_for_result(timeout)
 
+    def move_trajectory_map(self, trajectory, relative=False, time=None, wrt=coordinates.wrt.local):
+        """Set target trajectory (based on tf of map) for MobileBase (odometry relative move)
+
+        Args:
+            trajectory (list[(cnoid.IRSLCoords.coordinates, float)]) : List of pair of coordinates and time
+            relative (boolean, default = False) : If True, trajectory is considered it is relative to robot's coordinates.
+            time (rospy.Time, optional) : If relative is True, use this time to solve tf
+            wrt () :
+
+        """
+        c_map = self.coordsOnMap(time=time)
+        c_odom = self.coordsOnOdom(time=time)
+        if relative:
+            origin = c_map
+        else:
+            origin = coordinates()
+        oTm = c_odom.get_transformed(c_map.inverse_transformation())
+        traj = []
+        for tp, tm in trajectory:
+            mtgt = origin.get_transformed(tp, wrt=wrt)
+            res = oTm.get_transformed(mtgt)
+            traj.append( (res, tm) )
+        self .move_trajectory(traj)
+
     def move_trajectory(self, trajectory, relative=False, time=None, wrt=coordinates.wrt.local):
         """Set target trajectory for MobileBase (odometry relative move)
 
