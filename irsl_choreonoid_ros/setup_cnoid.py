@@ -126,11 +126,15 @@ def _applyParameter(item, param):
             exec(eval_str, locals(), globals())
 
 def _getDictValue(in_dict, keys):
+    if in_dict is None:
+        return
     for k in keys:
         if k in in_dict:
             return in_dict[k]
 
 def _getDictValueExist(in_dict, keys):
+    if in_dict is None:
+        return (False, None)
     for k in keys:
         if k in in_dict:
             return (True, in_dict[k])
@@ -529,6 +533,7 @@ class SetupCnoid(object):
         if wd is None:
             if self.world_item is None:
                 self.world_item = WorldItem()
+                self.world_item.name = name
                 _applyParameter(self.world_item, param)
                 self.root_item.addChildItem(self.world_item)
         else:
