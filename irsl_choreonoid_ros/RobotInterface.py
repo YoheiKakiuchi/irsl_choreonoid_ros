@@ -287,6 +287,7 @@ class MobileBaseInterface(object):
             traj = JointTrajectory()
             traj.joint_names = ["odom_x", "odom_y", "odom_t"]
             ##
+            cur_time = 0.0
             for tp, tm in trajectory:
                 p = JointTrajectoryPoint()
                 tgt = origin.get_transformed(tp, wrt=wrt)
@@ -295,7 +296,8 @@ class MobileBaseInterface(object):
                 t_ = tgt.RPY[2]
                 p.positions  = [x_, y_, t_]
                 #p.velocities = [0, 0, 0]
-                p.time_from_start = rospy.Duration(tm)
+                cur_time += tm
+                p.time_from_start = rospy.Duration(cur_time)
                 traj.points.append(p)
             ## add average velocity
             cur_time = 0.0
